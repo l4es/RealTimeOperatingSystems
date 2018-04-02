@@ -7,3 +7,6 @@
 [submodule "ESP-Open-RTOS"]
 	path = ESP-Open-RTOS
 	url = git@github.com:SuperHouse/esp-open-rtos.git
+[submodule "FreeRTOS-Addons"]
+	path = FreeRTOS-Addons
+	url = https://github.com/michaelbecker/freertos-addons.git
