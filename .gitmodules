@@ -13,3 +13,6 @@
 [submodule "STM32-RTOS-Wizard"]
 	path = STM32-RTOS-Wizard
 	url = https://github.com/istarc/stm32.git
+[submodule "Zephyr"]
+	path = Zephyr
+	url = git@github.com:zephyrproject-rtos/zephyr.git
