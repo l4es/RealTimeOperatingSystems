@@ -10,3 +10,6 @@
 [submodule "FreeRTOS-Addons"]
 	path = FreeRTOS-Addons
 	url = https://github.com/michaelbecker/freertos-addons.git
+[submodule "STM32-RTOS-Wizard"]
+	path = STM32-RTOS-Wizard
+	url = https://github.com/istarc/stm32.git
