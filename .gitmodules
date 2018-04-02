@@ -1,0 +1,3 @@
+[submodule "42-RPi-FreeRTOS"]
+	path = 42-RPi-FreeRTOS
+	url = https://github.com/Forty-Tw0/RaspberryPi-FreeRTOS.git
