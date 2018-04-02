@@ -4,3 +4,6 @@
 [submodule "RPi-FreeRTOS"]
 	path = RPi-FreeRTOS
 	url = https://github.com/jameswalmsley/RaspberryPi-FreeRTOS.git
+[submodule "ESP-Open-RTOS"]
+	path = ESP-Open-RTOS
+	url = git@github.com:SuperHouse/esp-open-rtos.git
