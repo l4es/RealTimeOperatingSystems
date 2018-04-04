@@ -22,3 +22,9 @@
 [submodule "Miosix/gui"]
 	path = Miosix/gui
 	url = git@github.com:fedetft/mxgui.git
+[submodule "Miosix/usb"]
+	path = Miosix/usb
+	url = git@github.com:fedetft/mxusb.git
+[submodule "Miosix/serial-port"]
+	path = Miosix/serial-port
+	url = git@github.com:fedetft/serial-port.git
