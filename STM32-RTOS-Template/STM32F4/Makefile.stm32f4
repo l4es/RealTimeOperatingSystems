@@ -1,0 +1,259 @@
+
+##
+## Prefix of the GCC ARM Cross Compiler
+##
+PREFIX	?= arm-none-eabi
+
+##
+## Tools we use for building
+##
+CC	= $(PREFIX)-gcc
+LD	= $(PREFIX)-gcc
+ASM     = $(PREFIX)-as
+OBJCOPY	= $(PREFIX)-objcopy
+OBJDUMP	= $(PREFIX)-objdump
+AR	= $(PREFIX)-ar
+GDB	= $(PREFIX)-gdb
+FLASH	= $(shell which st-flash)
+MKDIR   = mkdir
+RM      = rm
+
+##
+## OpenOCD setup
+##
+OOCD		?= openocd
+OOCD_INTERFACE	?= stlink-v2
+OOCD_BOARD	?= stm32f4discovery
+
+##
+## Project Directories
+##
+SRC_DIR = src
+OBJ_DIR = objects
+INC_DIR = includes
+EXEC_DIR = executable
+LD_DIR = ../linker
+
+##
+## The files we are creating
+##
+ELF_FILE  = $(EXEC_DIR)/$(TARGET).elf
+LIST_FILE = $(EXEC_DIR)/$(TARGET).lst
+HEX_FILE  = $(EXEC_DIR)/$(TARGET).hex
+SREC_FILE = $(EXEC_DIR)/$(TARGET).srec
+BIN_FILE  = $(EXEC_DIR)/$(TARGET).bin
+
+##
+## Project sources converted to objects
+##
+SOURCES     = $(wildcard $(SRC_DIR)/*.c)
+OBJECTS     = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SOURCES))
+
+##
+## Files to link together
+##
+LINK_OBJECTS = $(OBJECTS) 
+
+BUILD_LIST = dirs $(ELF_FILE)
+
+##
+## If we are building an application, then LIBRARY is 0 and we need other files
+##
+ifeq ($(LIBRARY),0)
+COMMON_DIR = ../common
+COMMON_SRC = $(COMMON_DIR)/src
+COMMON_INC = $(COMMON_DIR)/includes
+COMMON_SOURCES     = $(wildcard $(COMMON_SRC)/*.c)
+COMMON_OBJECTS     = $(patsubst $(COMMON_SRC)/%.c,$(OBJ_DIR)/%.o,$(COMMON_SOURCES))
+CINCLUDES += -I$(COMMON_INC)
+TAG_FILES += $(COMMON_INC)/*.h $(COMMON_SRC)/*.c
+
+CINCLUDES += -I$(STD_PERIPHERAL_INCLUDE)
+CINCLUDES += -I$(INC_DIR)
+
+LINK_OBJECTS += $(COMMON_OBJECTS)
+
+BUILD_LIST += $(LIST_FILE) $(HEX_FILE) $(SREC_FILE) $(BIN_FILE)
+VPATH += $(COMMON_SRC)
+#CFLAGS += -Werror
+
+##
+## We are building a LIBRARY
+##
+else
+
+CINCLUDES += -Iinc
+CFLAGS += -DUSE_STDPERIPH_DRIVER
+
+endif
+
+CINCLUDES += -I$(CMSIS_INCLUDES)
+CINCLUDES += -I$(DEVICE_INCLUDES)
+
+##
+## Paths to the various parts of the STM32 libraries
+##
+STD_PERIPHERAL_DIR = ../STM32F4xx_StdPeriph_Driver/
+CMSIS_DIR = ../CMSIS/
+
+STD_PERIPHERAL_INCLUDE = $(STD_PERIPHERAL_DIR)/inc
+CMSIS_INCLUDES = $(CMSIS_DIR)/Include
+DEVICE_INCLUDES = $(CMSIS_DIR)/ST/STM32F4xx/Include/
+
+STD_PERIPHERAL_LIB_DIR = ../STM32F4xx_StdPeriph_Driver/lib
+STD_PERIPHERAL_LIBRARY = stm32f4xx
+
+##
+## Assembly startup code
+##
+#STARTUP_FILE =  startup_stm32f4xx
+
+ifeq ($(LIBRARY),0)
+
+ifndef STARTUP_FILE
+COMMON_ASM_SOURCES += $(COMMON_SRC)/startup_stm32f4xx.s
+COMMON_OBJECTS += $(patsubst $(COMMON_SRC)/%.s,$(OBJ_DIR)/%.o,$(COMMON_ASM_SOURCES))
+#LINK_OBJECTS   += $(OBJ_DIR)/startup_stm32f4xx.o
+else
+ASM_SOURCES += $(STARTUP_FILE).s
+ASM_OBJECTS += $(patsubst %.s,%.o, $(ASM_SOURCES))
+OBJECTS   += $(OBJ_DIR)/$(STARTUP_FILE).o
+endif
+
+endif
+
+##
+## ELF Target
+##
+ELF_REQUIREMENTS = $(OBJECTS) $(COMMON_OBJECTS)
+
+##
+## Tag files
+##
+TAG_FILES += $(SRC_DIR)/*.c $(INC_DIR)/*.h $(STD_PERIPHERAL_INCLUDE)/*.h $(STD_PERIPHERAL_DIR)/src/*.c $(CMSIS_INCLUDES)/*.h
+
+ifeq ($(FREE_RTOS_USE),1)
+include ../Makefile.freertos
+endif 
+
+ifeq ($(UCOS_II_RTOS_USE),1)
+include ../Makefile.ucosii
+endif 
+
+ifeq ($(CHIBIOS_RTOS_USE),1)
+include ../Makefile.chibios
+endif 
+
+##
+## Options passed to the C compiler
+##
+CFLAGS	+= -Os -g -Wall -Wextra  $(CINCLUDES)\
+	   -fno-common -mcpu=cortex-m4 -mthumb \
+	   -mfloat-abi=hard -mfpu=fpv4-sp-d16 -MD -DSTM32F4
+
+ASMFLAGS += -mcpu=cortex-m4 -mthumb 
+
+##
+## Linker configuration
+##
+ifndef LDSCRIPT
+LDSCRIPT = $(LD_DIR)/stm32f4.ld
+endif
+
+#LDSCRIPT = ../ldscripts/gcc.ld
+LDFLAGS		+= --static -lc -L$(STD_PERIPHERAL_LIB_DIR) -l$(STD_PERIPHERAL_LIBRARY) \
+		   -T$(LDSCRIPT) -nostartfiles -Wl,--gc-sections \
+		   -mthumb -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
+
+
+##
+## Look in $(SRC_DIR) for code to build
+##
+VPATH += $(SRC_DIR)
+VPATH += $(STD_PERIPHERAL_DIR)/src/
+
+##
+## The directories to make for this build.
+##
+MAKE_DIRS += $(OBJ_DIR) $(TARGET_DIR)
+
+##
+## These are other directories that must be build for this application
+##
+BUILD_DIRS += ../STM32F4xx_StdPeriph_Driver/
+
+all: $(BUILD_LIST) 
+
+dirs:	
+	@echo "Making directories $(MAKE_DIRS)"
+	@$(MKDIR) -p $(MAKE_DIRS)
+
+$(HEX_FILE) :$(ELF_FILE)
+	$(OBJCOPY) -Oihex $(ELF_FILE) $(HEX_FILE)
+
+$(SREC_FILE):$(ELF_FILE)
+	$(OBJCOPY) -Osrec $(ELF_FILE)  $(SREC_FILE)
+
+$(BIN_FILE):$(ELF_FILE)
+	$(OBJCOPY) -Obinary $(ELF_FILE) $(BIN_FILE)
+
+$(LIST_FILE):$(ELF_FILE)
+	$(OBJDUMP) -S $(ELF_FILE) >  $(LIST_FILE)
+
+$(ELF_FILE): $(ELF_REQUIREMENTS)
+
+ifeq ($(LIBRARY),1)
+	@echo "Building Library $(TARGET_DIR)/$(TARGET)"
+	@$(AR) rcs $(TARGET_DIR)/$(TARGET) $(OBJECTS)
+else
+	@echo "Build Libraries"
+	$(foreach c,$(BUILD_DIRS),$(MAKE) -C $(c)  ) 
+
+	@echo "Linking $(ELF_FILE)"
+	$(LD) -o $(ELF_FILE) $(LINK_OBJECTS) $(LDFLAGS)
+endif
+
+##
+## Turn out C code into objects in our $(OBJ_DIR)
+##
+$(OBJ_DIR)/%.o:%.c
+	@echo "Building $<"
+	@$(CC) $(CFLAGS) -o $@ -c $< 
+
+##
+## Turn out C code into objects in our $(OBJ_DIR)
+##
+$(OBJ_DIR)/%.o:%.asm
+	@echo "Assembling $<"
+	@$(ASM) $(ASMFLAGS)  -o $@ -c $< 
+
+##
+## Turn out C code into objects in our $(OBJ_DIR)
+##
+$(OBJ_DIR)/%.o:%.s
+	@echo "Assembling $<"
+	@$(ASM) $(ASMFLAGS)  -o $@ -c $< 
+
+tags:
+	etags $(TAG_FILES)
+
+program: dirs $(BIN_FILE)
+	$(FLASH) write $(BIN_FILE) 0x8000000
+
+debug: $(ELF_FILE)
+	$(GDB) --tui -x ../debugger/gdb_cmds $(ELF_FILE)
+
+clean:
+	rm -rf $(MAKE_DIRS)
+	rm -rf $(COMMON_SRC)/*~
+	rm -rf $(COMMON_INC)/*~
+	find . -name "*~" | xargs rm -f 
+	rm -f TAGS
+
+all_clean: clean
+	$(foreach c,$(BUILD_DIRS),$(MAKE) -C $(c) clean  ) #true
+
+.PHONY: images clean
+
+-include $(OBJS:.o=.d)
+
