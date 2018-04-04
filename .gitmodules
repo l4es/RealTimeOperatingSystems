@@ -16,3 +16,9 @@
 [submodule "Zephyr"]
 	path = Zephyr
 	url = git@github.com:zephyrproject-rtos/zephyr.git
+[submodule "Miosix/kernel"]
+	path = Miosix/kernel
+	url = git@github.com:fedetft/miosix-kernel.git
+[submodule "Miosix/gui"]
+	path = Miosix/gui
+	url = git@github.com:fedetft/mxgui.git
