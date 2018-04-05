@@ -28,3 +28,9 @@
 [submodule "Miosix/serial-port"]
 	path = Miosix/serial-port
 	url = git@github.com:fedetft/serial-port.git
+[submodule "OSJ5"]
+	path = OSJ5
+	url = git@github.com:jaw0/osj5.git
+[submodule "nOS"]
+	path = nOS
+	url = git@github.com:jimtremblay/nOS.git
