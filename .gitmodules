@@ -40,3 +40,6 @@
 [submodule "DistoRTOS"]
 	path = DistoRTOS
 	url = git@github.com:DISTORTEC/distortos.git
+[submodule "F4OS"]
+	path = F4OS
+	url = git@github.com:prattmic/F4OS.git
