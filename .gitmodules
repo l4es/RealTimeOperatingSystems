@@ -34,3 +34,9 @@
 [submodule "nOS"]
 	path = nOS
 	url = git@github.com:jimtremblay/nOS.git
+[submodule "amazon-freertos"]
+	path = Amazon-FreeRTOS
+	url = git@github.com:aws/amazon-freertos.git
+[submodule "DistoRTOS"]
+	path = DistoRTOS
+	url = git@github.com:DISTORTEC/distortos.git
