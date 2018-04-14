@@ -1,0 +1,490 @@
+Archive member included because of file (symbol)
+
+../lib/\libusmartx.a(usmartx.o)
+                              test.o (uSMARTX_Tick)
+../lib/\libusmartx.a(queue.o)
+                              ../lib/\libusmartx.a(usmartx.o) (enqueue_top_object)
+../lib/\libusmartx.a(mballoc.o)
+                              test.o (MEM_Alloc)
+../lib/\libusmartx.a(hal.o)   ../lib/\libusmartx.a(usmartx.o) (INT_Disable)
+d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+                              test.o (__do_copy_data)
+d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_clear_bss.o)
+                              test.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+g_timerq            0x4               ../lib/\libusmartx.a(usmartx.o)
+g_taskq             0x4               ../lib/\libusmartx.a(usmartx.o)
+TMR1                0x10              test.o
+TSK2_tcb            0x1e              test.o
+TSK1_tcb            0x1e              test.o
+mem_buff_sys_mem    0xa0              test.o
+mbd_sys_mem         0xa               test.o
+g_ticks             0x4               ../lib/\libusmartx.a(usmartx.o)
+pcurr_ctx           0x2               ../lib/\libusmartx.a(usmartx.o)
+TSK3_tcb            0x1e              test.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00020000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+LOAD test.o
+LOAD ../lib/\libusmartx.a
+LOAD d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a
+LOAD d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5\libc.a
+LOAD d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0x828
+ *(.vectors)
+ .vectors       0x00000000       0x8c d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+                0x0000008c                __ctors_start = .
+ *(.ctors)
+                0x0000008c                __ctors_end = .
+                0x0000008c                __dtors_start = .
+ *(.dtors)
+                0x0000008c                __dtors_end = .
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x0000008c                . = ALIGN (0x2)
+ *(.init0)
+ *(.init1)
+ *(.init2)
+ .init2         0x0000008c        0xc d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+ *(.init3)
+ *(.init4)
+ .init4         0x00000098       0x16 d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+                0x00000098                __do_copy_data
+ .init4         0x000000ae       0x10 d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_clear_bss.o)
+                0x000000ae                __do_clear_bss
+ *(.init5)
+ *(.init6)
+ *(.init7)
+ *(.init8)
+ *(.init9)
+ .init9         0x000000be        0x4 d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+ *(.text)
+ .text          0x000000c2        0x4 d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+                0x000000c2                __vector_22
+                0x000000c2                __vector_28
+                0x000000c2                __vector_1
+                0x000000c2                __vector_32
+                0x000000c2                __vector_34
+                0x000000c2                __vector_24
+                0x000000c2                __vector_12
+                0x000000c2                __bad_interrupt
+                0x000000c2                __vector_6
+                0x000000c2                __vector_31
+                0x000000c2                __vector_3
+                0x000000c2                __vector_23
+                0x000000c2                __vector_30
+                0x000000c2                __vector_25
+                0x000000c2                __vector_11
+                0x000000c2                __vector_13
+                0x000000c2                __vector_17
+                0x000000c2                __vector_19
+                0x000000c2                __vector_7
+                0x000000c2                __vector_27
+                0x000000c2                __vector_5
+                0x000000c2                __vector_33
+                0x000000c2                __vector_4
+                0x000000c2                __vector_9
+                0x000000c2                __vector_2
+                0x000000c2                __vector_21
+                0x000000c2                __vector_15
+                0x000000c2                __vector_29
+                0x000000c2                __vector_8
+                0x000000c2                __vector_26
+                0x000000c2                __vector_14
+                0x000000c2                __vector_10
+                0x000000c2                __vector_16
+                0x000000c2                __vector_18
+                0x000000c2                __vector_20
+ .text          0x000000c6       0xfc test.o
+                0x000000c6                TSK1
+                0x00000150                main
+                0x0000011e                TSK3
+                0x00000118                TSK2
+ .text          0x000001c2      0x41a ../lib/\libusmartx.a(usmartx.o)
+                0x000005d2                get_curr_tsk
+                0x00000400                uSMARTX_Init
+                0x00000452                timer_enqueue
+                0x000001c2                uSMARTX_Tick
+                0x000004de                TMR_Start
+                0x0000035e                TSK_Resume
+                0x00000282                remove_timeout
+                0x0000038a                uSMARTX_Scheduler
+                0x000005ba                tsk_delay_clb
+                0x00000312                priority_enqueue_tsk
+                0x000002fc                TMR_GetTicks
+                0x0000058c                append_timeout
+                0x00000242                TSK_Self
+                0x000002d0                TMR_Stop
+                0x0000024c                timer_dequeue
+                0x00000296                TSK_Suspend
+                0x00000558                TSK_Sleep
+ .text          0x000005dc      0x11e ../lib/\libusmartx.a(queue.o)
+                0x000005dc                enqueue_top_object
+                0x00000616                enqueue_middle_object
+                0x0000063c                enqueue_bottom_object
+                0x000006b0                dequeue_object
+                0x00000678                dequeue_top_object
+ .text          0x000006fa      0x120 ../lib/\libusmartx.a(mballoc.o)
+                0x000007c8                MEM_Free
+                0x000006fa                MEM_Alloc
+ .text          0x0000081a        0xe ../lib/\libusmartx.a(hal.o)
+                0x00000822                INT_Restore
+                0x00000820                INT_Enable
+                0x0000081a                INT_Disable
+                0x00000828                . = ALIGN (0x2)
+ *(.text.*)
+                0x00000828                . = ALIGN (0x2)
+ *(.fini9)
+ *(.fini8)
+ *(.fini7)
+ *(.fini6)
+ *(.fini5)
+ *(.fini4)
+ *(.fini3)
+ *(.fini2)
+ *(.fini1)
+ *(.fini0)
+                0x00000828                _etext = .
+
+.data           0x00800100       0x26 load address 0x00000828
+                0x00800100                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800100       0x25 test.o
+                0x00800114                sys_mem
+                0x00800100                tsk_tbl
+ *(.gnu.linkonce.d*)
+                0x00800126                . = ALIGN (0x2)
+ *fill*         0x00800125        0x1 00
+                0x00800126                _edata = .
+                0x00800126                PROVIDE (__data_end, .)
+
+.bss            0x00800126      0x124
+                0x00800126                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00800126        0x2 test.o
+ *(COMMON)
+ COMMON         0x00800128      0x114 test.o
+                                  0x0 (size before relaxing)
+                0x00800128                TMR1
+                0x00800138                TSK2_tcb
+                0x00800156                TSK1_tcb
+                0x00800174                mem_buff_sys_mem
+                0x00800214                mbd_sys_mem
+                0x0080021e                TSK3_tcb
+ COMMON         0x0080023c        0xe ../lib/\libusmartx.a(usmartx.o)
+                                  0x0 (size before relaxing)
+                0x0080023c                g_timerq
+                0x00800240                g_taskq
+                0x00800244                g_ticks
+                0x00800248                pcurr_ctx
+                0x0080024a                PROVIDE (__bss_end, .)
+                0x00000828                __data_load_start = LOADADDR (.data)
+                0x0000084e                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x0080024a        0x0
+                0x0080024a                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x0080024a                PROVIDE (__noinit_end, .)
+                0x0080024a                _end = .
+                0x0080024a                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0 load address 0x0000084e
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0x14
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x14 test.o
+
+.debug_pubnames
+                0x00000000       0xa3
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0xa3 test.o
+
+.debug_info     0x00000000      0x56c
+ *(.debug_info)
+ .debug_info    0x00000000      0x56c test.o
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0x11f
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x11f test.o
+
+.debug_line     0x00000000      0x124
+ *(.debug_line)
+ .debug_line    0x00000000      0x124 test.o
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str      0x00000000      0x201
+ *(.debug_str)
+ .debug_str     0x00000000      0x201 test.o
+                                0x222 (size before relaxing)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(test.elf elf32-avr)
+
+Cross Reference Table
+
+Symbol                                            File
+INT_Disable                                       ../lib/\libusmartx.a(hal.o)
+                                                  ../lib/\libusmartx.a(mballoc.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+INT_Enable                                        ../lib/\libusmartx.a(hal.o)
+INT_Restore                                       ../lib/\libusmartx.a(hal.o)
+                                                  ../lib/\libusmartx.a(mballoc.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+MEM_Alloc                                         ../lib/\libusmartx.a(mballoc.o)
+                                                  test.o
+MEM_Free                                          ../lib/\libusmartx.a(mballoc.o)
+                                                  test.o
+TMR1                                              test.o
+TMR_GetTicks                                      ../lib/\libusmartx.a(usmartx.o)
+TMR_Start                                         ../lib/\libusmartx.a(usmartx.o)
+TMR_Stop                                          ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o
+TSK1                                              test.o
+TSK1_tcb                                          test.o
+TSK2                                              test.o
+TSK2_tcb                                          test.o
+TSK3                                              test.o
+TSK3_tcb                                          test.o
+TSK_Resume                                        ../lib/\libusmartx.a(usmartx.o)
+TSK_Self                                          ../lib/\libusmartx.a(usmartx.o)
+TSK_Sleep                                         ../lib/\libusmartx.a(usmartx.o)
+TSK_Suspend                                       ../lib/\libusmartx.a(usmartx.o)
+__bad_interrupt                                   d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__bss_end                                         d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_clear_bss.o)
+__bss_start                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_clear_bss.o)
+__data_end                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+__data_load_start                                 d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+__data_start                                      d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+__do_clear_bss                                    d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_clear_bss.o)
+                                                  ../lib/\libusmartx.a(mballoc.o)
+                                                  ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o
+__do_copy_data                                    d:/WinAVR/bin/../lib/gcc/avr/3.4.1/avr5\libgcc.a(_copy_data.o)
+                                                  ../lib/\libusmartx.a(mballoc.o)
+                                                  ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o
+__heap_end                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__init                                            d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__stack                                           d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+                                                  test.o
+__vector_1                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_10                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_11                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_12                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_13                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_14                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_15                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_16                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_17                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_18                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_19                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_2                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_20                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_21                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_22                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_23                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_24                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_25                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_26                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_27                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_28                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_29                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_3                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_30                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_31                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_32                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_33                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_34                                       d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_4                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_5                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_6                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_7                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_8                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_9                                        d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vector_default                                  d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+__vectors                                         d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+append_timeout                                    ../lib/\libusmartx.a(usmartx.o)
+dequeue_object                                    ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+dequeue_top_object                                ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+enqueue_bottom_object                             ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+enqueue_middle_object                             ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+enqueue_top_object                                ../lib/\libusmartx.a(queue.o)
+                                                  ../lib/\libusmartx.a(usmartx.o)
+g_taskq                                           ../lib/\libusmartx.a(usmartx.o)
+g_ticks                                           ../lib/\libusmartx.a(usmartx.o)
+g_timerq                                          ../lib/\libusmartx.a(usmartx.o)
+get_curr_tsk                                      ../lib/\libusmartx.a(usmartx.o)
+main                                              test.o
+                                                  d:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/lib/avr5/crtm64.o
+mbd_sys_mem                                       test.o
+mem_buff_sys_mem                                  test.o
+pcurr_ctx                                         ../lib/\libusmartx.a(usmartx.o)
+priority_enqueue_tsk                              ../lib/\libusmartx.a(usmartx.o)
+remove_timeout                                    ../lib/\libusmartx.a(usmartx.o)
+sys_mem                                           test.o
+timer_dequeue                                     ../lib/\libusmartx.a(usmartx.o)
+timer_enqueue                                     ../lib/\libusmartx.a(usmartx.o)
+tsk_delay_clb                                     ../lib/\libusmartx.a(usmartx.o)
+tsk_tbl                                           test.o
+uSMARTX_Init                                      ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o
+uSMARTX_Scheduler                                 ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o
+uSMARTX_Tick                                      ../lib/\libusmartx.a(usmartx.o)
+                                                  test.o

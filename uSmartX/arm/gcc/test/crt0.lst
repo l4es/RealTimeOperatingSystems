@@ -1,0 +1,269 @@
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccg8olBZ.s 			page 1
+
+
+   1              	# 1 "crt0.s"
+   2              	# 1 "<built-in>"
+   1              	        .global main                    // int main(void)
+   0              	
+   0              	
+   2              	
+   3              	        .global _etext                  // -> .data initial values in ROM
+   4              	        .global _data                   // -> .data area in RAM
+   5              	        .global _edata                  // end of .data area
+   6              	        .global __bss_start             // -> .bss area in RAM
+   7              	        .global __bss_end__             // end of .bss area
+   8              	        .global _stack                  // top of stack
+   9              	        .global _tmr0_irq_handler
+  10              	
+  11              	// Stack Sizes
+  12              	        .set  UND_STACK_SIZE, 0x00000004
+  13              	        .set  ABT_STACK_SIZE, 0x00000004
+  14              	        .set  FIQ_STACK_SIZE, 0x00000004
+  15              	        .set  IRQ_STACK_SIZE, 0X00000080
+  16              	        .set  SVC_STACK_SIZE, 0x00000004
+  17              	
+  18              	// Standard definitions of Mode bits and Interrupt (I & F) flags in PSRs
+  19              	        .set  MODE_USR, 0x10            // User Mode
+  20              	        .set  MODE_FIQ, 0x11            // FIQ Mode
+  21              	        .set  MODE_IRQ, 0x12            // IRQ Mode
+  22              	        .set  MODE_SVC, 0x13            // Supervisor Mode
+  23              	        .set  MODE_ABT, 0x17            // Abort Mode
+  24              	        .set  MODE_UND, 0x1B            // Undefined Mode
+  25              	        .set  MODE_SYS, 0x1F            // System Mode
+  26              	
+  27              	        .equ  I_BIT, 0x80               // when I bit is set, IRQ is disabled
+  28              	        .equ  F_BIT, 0x40               // when F bit is set, FIQ is disabled
+  29              	
+  30              	        .text        
+  31              	        .align 4
+  32              			.arm
+  33              	
+  34              	        .global _boot
+  35              	        .func   _boot
+  36              	_boot:
+  37              	
+  38              	// Runtime Interrupt Vectors
+  39              	// -------------------------
+  40              	_vectors:
+  41:crt0.s        ****         b     _start                    // reset - _start
+  42:crt0.s        ****         ldr   pc,_undf                  // undefined - _undf
+  43:crt0.s        ****         ldr   pc,_swi                   // SWI - _swi
+  44:crt0.s        ****         ldr   pc,_pabt                  // program abort - _pabt
+  45:crt0.s        ****         ldr   pc,_dabt                  // data abort - _dabt
+  46:crt0.s        ****         nop                             // reserved
+  47:crt0.s        ****         ldr   pc,[pc,#-0xf20]           // IRQ - read the VIC		
+  48:crt0.s        ****         ldr   pc,_fiq                   // FIQ - _fiq
+  49              	
+  50              	#if 0
+  51              	// Use this group for production
+  52              	_undf:  .word _reset                    // undefined - _reset
+  53              	_swi:   .word _reset                    // SWI - _reset
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccg8olBZ.s 			page 2
+
+
+  54              	_pabt:  .word _reset                    // program abort - _reset
+  55              	_dabt:  .word _reset                    // data abort - _reset
+  56              	_irq:   .word _reset                    // IRQ - _reset
+  57              	_fiq:   .word _reset                    // FIQ - _reset
+  58              	
+  59              	#else
+  60              	// Use this group for development
+  61 0020 38000000 	_undf:  .word __undf                    // undefined
+  62 0024 3C000000 	_swi:   .word __swi                     // SWI
+  63 0028 40000000 	_pabt:  .word __pabt                    // program abort
+  64 002c 44000000 	_dabt:  .word __dabt                    // data abort
+  65 0030 48000000 	_irq:   .word __irq                     // IRQ
+  66 0034 4C000000 	_fiq:   .word __fiq                     // FIQ
+  67              	
+  68:crt0.s        **** __undf: b     .                         // undefined
+  69:crt0.s        **** __swi:  b     .                         // SWI
+  70:crt0.s        **** __pabt: b     .                         // program abort
+  71:crt0.s        **** __dabt: b     .                         // data abort
+  72:crt0.s        **** __irq:  b     .					         // IRQ
+  73:crt0.s        **** __fiq:  b     .                         // FIQ
+  74              	#endif
+  75              	        .size _boot, . - _boot
+  76              	        .endfunc
+  77              	
+  78              	
+  79              	// Setup the operating mode & stack.
+  80              	// ---------------------------------
+  81              	        .global _start, start, _mainCRTStartup
+  82              	        .func   _start
+  83              	
+  84              	_start:
+  85              	start:
+  86              	_mainCRTStartup:
+  87              	
+  88              	// Initialize Interrupt System
+  89              	// - Set stack location for each mode
+  90              	// - Leave in System Mode with Interrupts Disabled
+  91              	// -----------------------------------------------
+  92:crt0.s        ****         ldr   r0,=_stack
+  93:crt0.s        ****         msr   CPSR_c,#MODE_UND|I_BIT|F_BIT // Undefined Instruction Mode
+  94:crt0.s        ****         mov   sp,r0
+  95:crt0.s        ****         sub   r0,r0,#UND_STACK_SIZE
+  96:crt0.s        ****         msr   CPSR_c,#MODE_ABT|I_BIT|F_BIT // Abort Mode
+  97:crt0.s        ****         mov   sp,r0
+  98:crt0.s        ****         sub   r0,r0,#ABT_STACK_SIZE
+  99:crt0.s        ****         msr   CPSR_c,#MODE_FIQ|I_BIT|F_BIT // FIQ Mode
+ 100:crt0.s        ****         mov   sp,r0
+ 101:crt0.s        ****         sub   r0,r0,#FIQ_STACK_SIZE
+ 102:crt0.s        ****         msr   CPSR_c,#MODE_IRQ|I_BIT|F_BIT // IRQ Mode
+ 103:crt0.s        ****         mov   sp,r0
+ 104:crt0.s        ****         sub   r0,r0,#IRQ_STACK_SIZE
+ 105:crt0.s        ****         msr   CPSR_c,#MODE_SVC|I_BIT|F_BIT // Supervisor Mode
+ 106:crt0.s        ****         mov   sp,r0
+ 107:crt0.s        ****         sub   r0,r0,#SVC_STACK_SIZE
+ 108:crt0.s        ****         msr   CPSR_c,#MODE_SYS|I_BIT|F_BIT // System Mode
+ 109:crt0.s        ****         mov   sp,r0
+ 110              	
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccg8olBZ.s 			page 3
+
+
+ 111:crt0.s        **** // Copy initialized data to its execution address in RAM
+ 112:crt0.s        **** // -----------------------------------------------------
+ 113:crt0.s        **** #ifdef ROM_RUN
+ 114:crt0.s        ****         ldr   r1,=_etext                // -> ROM data start
+ 115:crt0.s        ****         ldr   r2,=_data                 // -> data start
+ 116:crt0.s        ****         ldr   r3,=_edata                // -> end of data
+ 117:crt0.s        **** 1:      cmp   r2,r3                     // check if data to move
+ 118:crt0.s        ****         ldrlo r0,[r1],#4                // copy it
+ 119:crt0.s        ****         strlo r0,[r2],#4
+ 120:crt0.s        ****         blo   1b                        // loop until done
+ 121:crt0.s        **** #endif
+ 122:crt0.s        **** // Clear .bss
+ 123:crt0.s        **** // ----------
+ 124:crt0.s        ****         mov   r0,#0                     // get a zero
+ 125:crt0.s        ****         ldr   r1,=__bss_start           // -> bss start
+ 126:crt0.s        ****         ldr   r2,=__bss_end__           // -> bss end
+ 127:crt0.s        **** 2:      cmp   r1,r2                     // check if data to clear
+ 128:crt0.s        ****         strlo r0,[r1],#4                // clear 4 bytes
+ 129:crt0.s        ****         blo   2b                        // loop until done
+ 130              	
+ 131              	copy_vectors:
+ 132              	// Copy vectors to internal ram
+ 133:crt0.s        **** 		ldr		r10, =_vectors
+ 134:crt0.s        **** 		mov		r11, #0x00
+ 135:crt0.s        **** 		ldmia	r10!, {r0 - r7}
+ 136:crt0.s        **** 		stmia	r11!, {r0 - r7}
+ 137              			
+ 138              				
+ 139              			 
+ 140              			       
+ 141              	
+ 142              	// Call main program: main(0)
+ 143              	// --------------------------
+ 144:crt0.s        ****         mov   r0,#0                     // no arguments (argc = 0)
+ 145:crt0.s        ****         mov   r1,r0
+ 146:crt0.s        ****         mov   r2,r0
+ 147:crt0.s        ****         mov   fp,r0                     // null frame pointer
+ 148:crt0.s        ****         mov   r7,r0                     // null frame pointer for thumb
+ 149:crt0.s        ****         ldr   r10,=main
+ 150:crt0.s        ****         mov   lr,pc
+ 151:crt0.s        ****         bx    r10                       // enter main()
+ 152              	
+ 153              	        .size   _start, . - _start
+ 154              	        .endfunc
+ 155              	
+ 156              	        .global _reset, reset, exit, abort
+ 157              	        .func   _reset
+ 158              	_reset:
+ 159              	reset:
+ 160              	exit:
+ 161              	abort:
+ 162              	#if 0
+ 163:crt0.s        **** // Disable interrupts, then force a hardware reset by driving P23 low
+ 164:crt0.s        **** // -------------------------------------------------------------------
+ 165:crt0.s        ****         mrs   r0,cpsr                   // get PSR
+ 166:crt0.s        ****         orr   r0,r0,#I_BIT|F_BIT        // disable IRQ and FIQ
+ 167:crt0.s        ****         msr   cpsr,r0                   // set up status register
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccg8olBZ.s 			page 4
+
+
+ 168:crt0.s        **** 
+ 169:crt0.s        ****         ldr   r1,=(PS_BASE)             // PS Base Address
+ 170:crt0.s        ****         ldr   r0,=(PS_PIO)              // PIO Module
+ 171:crt0.s        ****         str   r0,[r1,#PS_PCER_OFF]      // enable its clock
+ 172:crt0.s        ****         ldr   r1,=(PIO_BASE)            // PIO Base Address
+ 173:crt0.s        ****         ldr   r0,=(1<<23)               // P23
+ 174:crt0.s        ****         str   r0,[r1,#PIO_PER_OFF]      // make sure pin is contolled by PIO
+ 175:crt0.s        ****         str   r0,[r1,#PIO_CODR_OFF]     // set the pin low
+ 176:crt0.s        ****         str   r0,[r1,#PIO_OER_OFF]      // make it an output
+ 177:crt0.s        **** #endif
+ 178:crt0.s        ****         b     .                         // loop until reset
+ 179              	
+ 180              	        .size _reset, . - _reset
+ 181              	        .endfunc
+ 182              	
+ 183              			.func _tmr0_irq_handler
+ 184              	_tmr0_irq_handler:
+ 185:crt0.s        **** 		nop
+ 186:crt0.s        **** 		nop
+ 187:crt0.s        **** 		nop
+ 188:crt0.s        **** 		nop        
+ 189              			.endfunc
+ 190              			
+ 191 00f4 00000000 	        .end
+ 191      00000000 
+ 191      00000000 
+ 191      00000000 
+ 191      00000000 
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccg8olBZ.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 crt0.s
+                            *ABS*:00000000 <command line>
+                            *ABS*:00000000 <built-in>
+                            *ABS*:00000000 crt0.s
+              crt0.s:184    .text:000000e4 _tmr0_irq_handler
+              crt0.s:12     *ABS*:00000004 UND_STACK_SIZE
+              crt0.s:13     *ABS*:00000004 ABT_STACK_SIZE
+              crt0.s:14     *ABS*:00000004 FIQ_STACK_SIZE
+              crt0.s:15     *ABS*:00000080 IRQ_STACK_SIZE
+              crt0.s:16     *ABS*:00000004 SVC_STACK_SIZE
+              crt0.s:19     *ABS*:00000010 MODE_USR
+              crt0.s:20     *ABS*:00000011 MODE_FIQ
+              crt0.s:21     *ABS*:00000012 MODE_IRQ
+              crt0.s:22     *ABS*:00000013 MODE_SVC
+              crt0.s:23     *ABS*:00000017 MODE_ABT
+              crt0.s:24     *ABS*:0000001b MODE_UND
+              crt0.s:25     *ABS*:0000001f MODE_SYS
+              crt0.s:27     *ABS*:00000080 I_BIT
+              crt0.s:28     *ABS*:00000040 F_BIT
+              crt0.s:32     .text:00000000 $a
+              crt0.s:36     .text:00000000 _boot
+              crt0.s:40     .text:00000000 _vectors
+              crt0.s:84     .text:00000050 _start
+              crt0.s:61     .text:00000020 _undf
+              crt0.s:62     .text:00000024 _swi
+              crt0.s:63     .text:00000028 _pabt
+              crt0.s:64     .text:0000002c _dabt
+              crt0.s:66     .text:00000034 _fiq
+              crt0.s:61     .text:00000020 $d
+              crt0.s:68     .text:00000038 __undf
+              crt0.s:69     .text:0000003c __swi
+              crt0.s:70     .text:00000040 __pabt
+              crt0.s:71     .text:00000044 __dabt
+              crt0.s:65     .text:00000030 _irq
+              crt0.s:72     .text:00000048 __irq
+              crt0.s:73     .text:0000004c __fiq
+              crt0.s:68     .text:00000038 $a
+              crt0.s:85     .text:00000050 start
+              crt0.s:86     .text:00000050 _mainCRTStartup
+              crt0.s:131    .text:000000b0 copy_vectors
+              crt0.s:158    .text:000000e0 _reset
+              crt0.s:159    .text:000000e0 reset
+              crt0.s:160    .text:000000e0 exit
+              crt0.s:161    .text:000000e0 abort
+              crt0.s:191    .text:000000f4 $d
+
+UNDEFINED SYMBOLS
+main
+_etext
+_data
+_edata
+__bss_start
+__bss_end__
+_stack

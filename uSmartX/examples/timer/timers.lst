@@ -1,0 +1,2808 @@
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 1
+
+
+   1               		.file	"timers.c"
+   2               		.arch atmega64
+   3               	__SREG__ = 0x3f
+   4               	__SP_H__ = 0x3e
+   5               	__SP_L__ = 0x3d
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  10               		.section	.debug_abbrev,"",@progbits
+  11               	.Ldebug_abbrev0:
+  12               		.section	.debug_info,"",@progbits
+  13               	.Ldebug_info0:
+  14               		.section	.debug_line,"",@progbits
+  15               	.Ldebug_line0:
+  16               		.text
+  17               	.Ltext0:
+  18               	.global	uSmartXTaskTable
+  19               		.data
+  20               		.type	uSmartXTaskTable, @object
+  21               		.size	uSmartXTaskTable, 60
+  22               	uSmartXTaskTable:
+  23 0000 0000      		.word	pm(TSK_LedHandler)
+  24 0002 0000      		.word	TSK_LED
+  25 0004 01        		.byte	1
+  26 0005 4C45 4400 		.string	"LED"
+  27 0009 0000 0000 		.skip 6,0
+  27      0000 
+  28 000f 0000      		.word	pm(TSK_KeyScan)
+  29 0011 0000      		.word	TSK_KESYSCAN
+  30 0013 01        		.byte	1
+  31 0014 4B45 5953 		.string	"KEYSCAN"
+  31      4341 4E00 
+  32 001c 0000      		.skip 2,0
+  33 001e 0000      		.word	pm(TSK_System)
+  34 0020 0000      		.word	TSK_SYSTEM
+  35 0022 01        		.byte	1
+  36 0023 5359 5354 		.string	"SYSTEM"
+  36      454D 00
+  37 002a 0000 00   		.skip 3,0
+  38 002d 0000      		.word	0
+  39 002f 0000      		.word	0
+  40 0031 00        		.byte	0
+  41 0032 00        		.string	""
+  42 0033 0000 0000 		.skip 9,0
+  42      0000 0000 
+  42      00
+  43               	.global	SYS_EVENT_MBX
+  44               		.type	SYS_EVENT_MBX, @object
+  45               		.size	SYS_EVENT_MBX, 22
+  46               	SYS_EVENT_MBX:
+  47 003c 0000      		.word	0
+  48 003e 0000      		.word	0
+  49 0040 0000      		.word	0
+  50 0042 0000      		.word	0
+  51 0044 0000      		.word	0
+  52 0046 0000      		.word	0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 2
+
+
+  53 0048 0000      		.word	0
+  54 004a 0000      		.word	0
+  55 004c 0000      		.word	mcb_buff_SYS_EVENT_MBX
+  56 004e 0000      		.word	mcb_msg_SYS_EVENT_MBX
+  57 0050 01        		.byte	1
+  58 0051 05        		.byte	5
+  59               		.text
+  60               	.global	__vector_15
+  61               		.type	__vector_15, @function
+  62               	__vector_15:
+  63               	.LFB3:
+  64               	.LM1:
+  65               	/* prologue: frame size=0 */
+  66 0000 1F92      		push __zero_reg__
+  67 0002 0F92      		push __tmp_reg__
+  68 0004 0FB6      		in __tmp_reg__,__SREG__
+  69 0006 0F92      		push __tmp_reg__
+  70 0008 1124      		clr __zero_reg__
+  71 000a 2F93      		push r18
+  72 000c 3F93      		push r19
+  73 000e 4F93      		push r20
+  74 0010 5F93      		push r21
+  75 0012 6F93      		push r22
+  76 0014 7F93      		push r23
+  77 0016 8F93      		push r24
+  78 0018 9F93      		push r25
+  79 001a AF93      		push r26
+  80 001c BF93      		push r27
+  81 001e EF93      		push r30
+  82 0020 FF93      		push r31
+  83               	/* prologue end (size=17) */
+  84               	.LM2:
+  85 0022 0E94 0000 		call uSMARTX_Tick
+  86               	/* epilogue: frame size=0 */
+  87 0026 FF91      		pop r31
+  88 0028 EF91      		pop r30
+  89 002a BF91      		pop r27
+  90 002c AF91      		pop r26
+  91 002e 9F91      		pop r25
+  92 0030 8F91      		pop r24
+  93 0032 7F91      		pop r23
+  94 0034 6F91      		pop r22
+  95 0036 5F91      		pop r21
+  96 0038 4F91      		pop r20
+  97 003a 3F91      		pop r19
+  98 003c 2F91      		pop r18
+  99 003e 0F90      		pop __tmp_reg__
+ 100 0040 0FBE      		out __SREG__,__tmp_reg__
+ 101 0042 0F90      		pop __tmp_reg__
+ 102 0044 1F90      		pop __zero_reg__
+ 103 0046 1895      		reti
+ 104               	/* epilogue end (size=17) */
+ 105               	/* function __vector_15 size 36 (2) */
+ 106               	.LFE3:
+ 107               		.size	__vector_15, .-__vector_15
+ 108               	.global	KeyFxn
+ 109               		.type	KeyFxn, @function
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 3
+
+
+ 110               	KeyFxn:
+ 111               	.LFB4:
+ 112               	.LM3:
+ 113               	/* prologue: frame size=1 */
+ 114 0048 CF93      		push r28
+ 115 004a DF93      		push r29
+ 116 004c CDB7      		in r28,__SP_L__
+ 117 004e DEB7      		in r29,__SP_H__
+ 118 0050 2197      		sbiw r28,1
+ 119 0052 0FB6      		in __tmp_reg__,__SREG__
+ 120 0054 F894      		cli
+ 121 0056 DEBF      		out __SP_H__,r29
+ 122 0058 0FBE      		out __SREG__,__tmp_reg__
+ 123 005a CDBF      		out __SP_L__,r28
+ 124               	/* prologue end (size=10) */
+ 125               	.LM4:
+ 126 005c 82E0      		ldi r24,lo8(2)
+ 127 005e 8983      		std Y+1,r24
+ 128               	.LM5:
+ 129 0060 40E0      		ldi r20,lo8(0)
+ 130 0062 50E0      		ldi r21,hi8(0)
+ 131 0064 BE01      		movw r22,r28
+ 132 0066 6F5F      		subi r22,lo8(-(1))
+ 133 0068 7F4F      		sbci r23,hi8(-(1))
+ 134 006a 80E0      		ldi r24,lo8(SYS_EVENT_MBX)
+ 135 006c 90E0      		ldi r25,hi8(SYS_EVENT_MBX)
+ 136 006e 0E94 0000 		call MBX_Post
+ 137               	.LM6:
+ 138 0072 80E0      		ldi r24,lo8(0)
+ 139 0074 90E0      		ldi r25,hi8(0)
+ 140               	/* epilogue: frame size=1 */
+ 141 0076 2196      		adiw r28,1
+ 142 0078 0FB6      		in __tmp_reg__,__SREG__
+ 143 007a F894      		cli
+ 144 007c DEBF      		out __SP_H__,r29
+ 145 007e 0FBE      		out __SREG__,__tmp_reg__
+ 146 0080 CDBF      		out __SP_L__,r28
+ 147 0082 DF91      		pop r29
+ 148 0084 CF91      		pop r28
+ 149 0086 0895      		ret
+ 150               	/* epilogue end (size=9) */
+ 151               	/* function KeyFxn size 32 (13) */
+ 152               	.LFE4:
+ 153               		.size	KeyFxn, .-KeyFxn
+ 154               		.data
+ 155               		.type	bBlink.3, @object
+ 156               		.size	bBlink.3, 1
+ 157               	bBlink.3:
+ 158 0052 01        		.byte	1
+ 159               		.text
+ 160               	.global	TSK_LedHandler
+ 161               		.type	TSK_LedHandler, @function
+ 162               	TSK_LedHandler:
+ 163               	.LFB5:
+ 164               	.LM7:
+ 165               	/* prologue: frame size=0 */
+ 166               	/* prologue end (size=0) */
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 4
+
+
+ 167               	.LM8:
+ 168 0088 9091 0000 		lds r25,bBlink.3
+ 169 008c 9923      		tst r25
+ 170 008e 11F0      		breq .L4
+ 171               	.LM9:
+ 172 0090 D89A      		sbi 59-0x20,0
+ 173 0092 01C0      		rjmp .L5
+ 174               	.L4:
+ 175               	.LM10:
+ 176 0094 D898      		cbi 59-0x20,0
+ 177               	.L5:
+ 178               	.LM11:
+ 179 0096 81E0      		ldi r24,lo8(1)
+ 180 0098 9827      		eor r25,r24
+ 181 009a 9093 0000 		sts bBlink.3,r25
+ 182               	.LM12:
+ 183 009e 0E94 0000 		call TSK_Self
+ 184 00a2 64EF      		ldi r22,lo8(500)
+ 185 00a4 71E0      		ldi r23,hi8(500)
+ 186 00a6 0E94 0000 		call TSK_Sleep
+ 187               	.LM13:
+ 188 00aa 80E0      		ldi r24,lo8(0)
+ 189 00ac 90E0      		ldi r25,hi8(0)
+ 190               	/* epilogue: frame size=0 */
+ 191 00ae 0895      		ret
+ 192               	/* epilogue end (size=1) */
+ 193               	/* function TSK_LedHandler size 20 (19) */
+ 194               	.LFE5:
+ 195               		.size	TSK_LedHandler, .-TSK_LedHandler
+ 196               		.lcomm ucKeyPressCount.1,1
+ 197               		.lcomm ucSysEvent.2,1
+ 198               	.global	TSK_KeyScan
+ 199               		.type	TSK_KeyScan, @function
+ 200               	TSK_KeyScan:
+ 201               	.LFB6:
+ 202               	.LM14:
+ 203               	/* prologue: frame size=0 */
+ 204 00b0 CF92      		push r12
+ 205 00b2 DF92      		push r13
+ 206 00b4 EF92      		push r14
+ 207 00b6 FF92      		push r15
+ 208 00b8 0F93      		push r16
+ 209 00ba 1F93      		push r17
+ 210               	/* prologue end (size=6) */
+ 211               	.LM15:
+ 212 00bc 8091 0000 		lds r24,ucKeyPressCount.1
+ 213 00c0 8530      		cpi r24,lo8(5)
+ 214 00c2 F1F4      		brne .L7
+ 215               	.LM16:
+ 216 00c4 8F5F      		subi r24,lo8(-(1))
+ 217 00c6 8093 0000 		sts ucKeyPressCount.1,r24
+ 218               	.LM17:
+ 219 00ca 91E0      		ldi r25,lo8(1)
+ 220 00cc D92E      		mov r13,r25
+ 221 00ce D092 0000 		sts ucSysEvent.2,r13
+ 222               	.LM18:
+ 223 00d2 40E0      		ldi r20,lo8(0)
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 5
+
+
+ 224 00d4 50E0      		ldi r21,hi8(0)
+ 225 00d6 60E0      		ldi r22,lo8(ucSysEvent.2)
+ 226 00d8 70E0      		ldi r23,hi8(ucSysEvent.2)
+ 227 00da 80E0      		ldi r24,lo8(SYS_EVENT_MBX)
+ 228 00dc 90E0      		ldi r25,hi8(SYS_EVENT_MBX)
+ 229 00de 0E94 0000 		call MBX_Post
+ 230               	.LM19:
+ 231 00e2 82E0      		ldi r24,lo8(2)
+ 232 00e4 C82E      		mov r12,r24
+ 233 00e6 EE24      		clr r14
+ 234 00e8 FF24      		clr r15
+ 235 00ea 8701      		movw r16,r14
+ 236 00ec 2D2D      		mov r18,r13
+ 237 00ee 40E0      		ldi r20,lo8(pm(KeyFxn))
+ 238 00f0 50E0      		ldi r21,hi8(pm(KeyFxn))
+ 239 00f2 68EE      		ldi r22,lo8(1000)
+ 240 00f4 73E0      		ldi r23,hi8(1000)
+ 241 00f6 80E0      		ldi r24,lo8(KEY_TIMER)
+ 242 00f8 90E0      		ldi r25,hi8(KEY_TIMER)
+ 243 00fa 0E94 0000 		call TMR_Start
+ 244 00fe 0CC0      		rjmp .L8
+ 245               	.L7:
+ 246               	.LM20:
+ 247 0100 039B      		sbis 32-0x20,3
+ 248 0102 03C0      		rjmp .L9
+ 249               	.LM21:
+ 250 0104 1092 0000 		sts ucKeyPressCount.1,__zero_reg__
+ 251 0108 07C0      		rjmp .L8
+ 252               	.L9:
+ 253               	.LM22:
+ 254 010a 0399      		sbic 32-0x20,3
+ 255 010c 05C0      		rjmp .L8
+ 256               	.LM23:
+ 257 010e 8530      		cpi r24,lo8(5)
+ 258 0110 18F4      		brsh .L8
+ 259               	.LM24:
+ 260 0112 8F5F      		subi r24,lo8(-(1))
+ 261 0114 8093 0000 		sts ucKeyPressCount.1,r24
+ 262               	.L8:
+ 263               	.LM25:
+ 264 0118 0E94 0000 		call TSK_Self
+ 265 011c 62E3      		ldi r22,lo8(50)
+ 266 011e 70E0      		ldi r23,hi8(50)
+ 267 0120 0E94 0000 		call TSK_Sleep
+ 268               	.LM26:
+ 269 0124 80E0      		ldi r24,lo8(0)
+ 270 0126 90E0      		ldi r25,hi8(0)
+ 271               	/* epilogue: frame size=0 */
+ 272 0128 1F91      		pop r17
+ 273 012a 0F91      		pop r16
+ 274 012c FF90      		pop r15
+ 275 012e EF90      		pop r14
+ 276 0130 DF90      		pop r13
+ 277 0132 CF90      		pop r12
+ 278 0134 0895      		ret
+ 279               	/* epilogue end (size=7) */
+ 280               	/* function TSK_KeyScan size 67 (54) */
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 6
+
+
+ 281               	.LFE6:
+ 282               		.size	TSK_KeyScan, .-TSK_KeyScan
+ 283               		.lcomm ulPeriodicAnchor.0,4
+ 284               	.global	TSK_System
+ 285               		.type	TSK_System, @function
+ 286               	TSK_System:
+ 287               	.LFB7:
+ 288               	.LM27:
+ 289               	/* prologue: frame size=1 */
+ 290 0136 CF93      		push r28
+ 291 0138 DF93      		push r29
+ 292 013a CDB7      		in r28,__SP_L__
+ 293 013c DEB7      		in r29,__SP_H__
+ 294 013e 2197      		sbiw r28,1
+ 295 0140 0FB6      		in __tmp_reg__,__SREG__
+ 296 0142 F894      		cli
+ 297 0144 DEBF      		out __SP_H__,r29
+ 298 0146 0FBE      		out __SREG__,__tmp_reg__
+ 299 0148 CDBF      		out __SP_L__,r28
+ 300               	/* prologue end (size=10) */
+ 301               	.LM28:
+ 302 014a 44E6      		ldi r20,lo8(100)
+ 303 014c 50E0      		ldi r21,hi8(100)
+ 304 014e BE01      		movw r22,r28
+ 305 0150 6F5F      		subi r22,lo8(-(1))
+ 306 0152 7F4F      		sbci r23,hi8(-(1))
+ 307 0154 80E0      		ldi r24,lo8(SYS_EVENT_MBX)
+ 308 0156 90E0      		ldi r25,hi8(SYS_EVENT_MBX)
+ 309 0158 0E94 0000 		call MBX_Pend
+ 310               	.LM29:
+ 311 015c 0E94 0000 		call TMR_GetTicks
+ 312 0160 DC01      		movw r26,r24
+ 313 0162 CB01      		movw r24,r22
+ 314 0164 2091 0000 		lds r18,ulPeriodicAnchor.0
+ 315 0168 3091 0000 		lds r19,(ulPeriodicAnchor.0)+1
+ 316 016c 4091 0000 		lds r20,(ulPeriodicAnchor.0)+2
+ 317 0170 5091 0000 		lds r21,(ulPeriodicAnchor.0)+3
+ 318 0174 821B      		sub r24,r18
+ 319 0176 930B      		sbc r25,r19
+ 320 0178 A40B      		sbc r26,r20
+ 321 017a B50B      		sbc r27,r21
+ 322 017c 8958      		subi r24,lo8(5001)
+ 323 017e 9341      		sbci r25,hi8(5001)
+ 324 0180 A040      		sbci r26,hlo8(5001)
+ 325 0182 B040      		sbci r27,hhi8(5001)
+ 326 0184 60F0      		brlo .L19
+ 327               	.LM30:
+ 328 0186 0E94 0000 		call TMR_GetTicks
+ 329 018a DC01      		movw r26,r24
+ 330 018c CB01      		movw r24,r22
+ 331 018e 8093 0000 		sts ulPeriodicAnchor.0,r24
+ 332 0192 9093 0000 		sts (ulPeriodicAnchor.0)+1,r25
+ 333 0196 A093 0000 		sts (ulPeriodicAnchor.0)+2,r26
+ 334 019a B093 0000 		sts (ulPeriodicAnchor.0)+3,r27
+ 335               	.L19:
+ 336               	.LM31:
+ 337 019e 80E0      		ldi r24,lo8(0)
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 7
+
+
+ 338 01a0 90E0      		ldi r25,hi8(0)
+ 339               	/* epilogue: frame size=1 */
+ 340 01a2 2196      		adiw r28,1
+ 341 01a4 0FB6      		in __tmp_reg__,__SREG__
+ 342 01a6 F894      		cli
+ 343 01a8 DEBF      		out __SP_H__,r29
+ 344 01aa 0FBE      		out __SREG__,__tmp_reg__
+ 345 01ac CDBF      		out __SP_L__,r28
+ 346 01ae DF91      		pop r29
+ 347 01b0 CF91      		pop r28
+ 348 01b2 0895      		ret
+ 349               	/* epilogue end (size=9) */
+ 350               	/* function TSK_System size 66 (47) */
+ 351               	.LFE7:
+ 352               		.size	TSK_System, .-TSK_System
+ 353               	.global	main
+ 354               		.type	main, @function
+ 355               	main:
+ 356               	.LFB8:
+ 357               	.LM32:
+ 358               	/* prologue: frame size=0 */
+ 359 01b4 C0E0      		ldi r28,lo8(__stack - 0)
+ 360 01b6 D0E0      		ldi r29,hi8(__stack - 0)
+ 361 01b8 DEBF      		out __SP_H__,r29
+ 362 01ba CDBF      		out __SP_L__,r28
+ 363               	/* prologue end (size=4) */
+ 364               	.LM33:
+ 365 01bc 8DE7      		ldi r24,lo8(125)
+ 366 01be 81BF      		out 81-0x20,r24
+ 367               	.LM34:
+ 368 01c0 8DE0      		ldi r24,lo8(13)
+ 369 01c2 83BF      		out 83-0x20,r24
+ 370               	.LM35:
+ 371 01c4 87B7      		in r24,87-0x20
+ 372 01c6 8260      		ori r24,lo8(2)
+ 373 01c8 87BF      		out 87-0x20,r24
+ 374               	.LM36:
+ 375 01ca 12BE      		out 82-0x20,__zero_reg__
+ 376               	.LM37:
+ 377 01cc 80E0      		ldi r24,lo8(SYS_EVENT_MBX)
+ 378 01ce 90E0      		ldi r25,hi8(SYS_EVENT_MBX)
+ 379 01d0 0E94 0000 		call MBX_Init
+ 380               	.LM38:
+ 381 01d4 80E0      		ldi r24,lo8(uSmartXTaskTable)
+ 382 01d6 90E0      		ldi r25,hi8(uSmartXTaskTable)
+ 383 01d8 0E94 0000 		call uSMARTX_Init
+ 384               	.LM39:
+ 385 01dc 0E94 0000 		call INT_Enable
+ 386               	.L21:
+ 387               	.LM40:
+ 388 01e0 0E94 0000 		call uSMARTX_Scheduler
+ 389 01e4 0197      		sbiw r24,1
+ 390 01e6 E1F7      		brne .L21
+ 391               	.LM41:
+ 392 01e8 80E0      		ldi r24,lo8(0)
+ 393 01ea 90E0      		ldi r25,hi8(0)
+ 394               	/* epilogue: frame size=0 */
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 8
+
+
+ 395 01ec 0C94 0000 		jmp exit
+ 396               	/* epilogue end (size=2) */
+ 397               	/* function main size 31 (25) */
+ 398               	.LFE8:
+ 399               		.size	main, .-main
+ 400               		.comm TSK_LED,36,1
+ 401               		.comm TSK_KESYSCAN,36,1
+ 402               		.comm TSK_SYSTEM,36,1
+ 403               		.comm mcb_msg_SYS_EVENT_MBX,30,1
+ 404               		.comm mcb_buff_SYS_EVENT_MBX,5,1
+ 405               		.comm KEY_TIMER,16,1
+ 406               	.Letext0:
+ 407               		.section	.debug_line
+ 408 0000 B901 0000 		.long	.LELT0-.LSLT0
+ 409               	
+ 410               	.LSLT0:
+ 411 0004 0200      		.word	2
+ 412               	
+ 413 0006 B300 0000 		.long	.LELTP0-.LASLTP0
+ 414               	
+ 415               	.LASLTP0:
+ 416 000a 01        		.byte	0x1
+ 417 000b 01        		.byte	0x1
+ 418 000c F6        		.byte	0xf6
+ 419 000d F5        		.byte	0xf5
+ 420 000e 0A        		.byte	0xa
+ 421 000f 00        		.byte	0x0
+ 422 0010 01        		.byte	0x1
+ 423 0011 01        		.byte	0x1
+ 424 0012 01        		.byte	0x1
+ 425 0013 01        		.byte	0x1
+ 426 0014 00        		.byte	0x0
+ 427 0015 00        		.byte	0x0
+ 428 0016 00        		.byte	0x0
+ 429 0017 01        		.byte	0x1
+ 430 0018 2E2E 2F2E 		.ascii	"../../inc"
+ 430      2E2F 696E 
+ 430      63
+ 431 0021 00        		.byte	0
+ 432 0022 673A 2F57 		.ascii	"g:/WinAVR/bin/../lib/gcc/avr/3.4.1/../../../../avr/include"
+ 432      696E 4156 
+ 432      522F 6269 
+ 432      6E2F 2E2E 
+ 432      2F6C 6962 
+ 433 005c 00        		.byte	0
+ 434 005d 673A 2F57 		.ascii	"g:/WinAVR/bin/../lib/gcc/avr/3.4.1/include"
+ 434      696E 4156 
+ 434      522F 6269 
+ 434      6E2F 2E2E 
+ 434      2F6C 6962 
+ 435 0087 00        		.byte	0
+ 436 0088 00        		.byte	0x0
+ 437 0089 696E 7474 		.string	"inttypes.h"
+ 437      7970 6573 
+ 437      2E68 00
+ 438 0094 02        		.uleb128 0x2
+ 439 0095 00        		.uleb128 0x0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 9
+
+
+ 440 0096 00        		.uleb128 0x0
+ 441 0097 7374 6464 		.string	"stddef.h"
+ 441      6566 2E68 
+ 441      00
+ 442 00a0 03        		.uleb128 0x3
+ 443 00a1 00        		.uleb128 0x0
+ 444 00a2 00        		.uleb128 0x0
+ 445 00a3 7573 6D61 		.string	"usmartx.h"
+ 445      7274 782E 
+ 445      6800 
+ 446 00ad 01        		.uleb128 0x1
+ 447 00ae 00        		.uleb128 0x0
+ 448 00af 00        		.uleb128 0x0
+ 449 00b0 7469 6D65 		.string	"timers.c"
+ 449      7273 2E63 
+ 449      00
+ 450 00b9 00        		.uleb128 0x0
+ 451 00ba 00        		.uleb128 0x0
+ 452 00bb 00        		.uleb128 0x0
+ 453 00bc 00        		.byte	0x0
+ 454               	.LELTP0:
+ 455 00bd 00        		.byte	0x0
+ 456 00be 03        		.uleb128 0x3
+ 457 00bf 02        		.byte	0x2
+ 458 00c0 0000      		.word	.LM1
+ 459               	
+ 460 00c2 04        		.byte	0x4
+ 461 00c3 04        		.uleb128 0x4
+ 462 00c4 2C        		.byte	0x2c
+ 463 00c5 00        		.byte	0x0
+ 464 00c6 03        		.uleb128 0x3
+ 465 00c7 02        		.byte	0x2
+ 466 00c8 0000      		.word	.LM2
+ 467               	
+ 468 00ca 15        		.byte	0x15
+ 469 00cb 00        		.byte	0x0
+ 470 00cc 03        		.uleb128 0x3
+ 471 00cd 02        		.byte	0x2
+ 472 00ce 0000      		.word	.LM3
+ 473               	
+ 474 00d0 22        		.byte	0x22
+ 475 00d1 00        		.byte	0x0
+ 476 00d2 03        		.uleb128 0x3
+ 477 00d3 02        		.byte	0x2
+ 478 00d4 0000      		.word	.LM4
+ 479               	
+ 480 00d6 15        		.byte	0x15
+ 481 00d7 00        		.byte	0x0
+ 482 00d8 03        		.uleb128 0x3
+ 483 00d9 02        		.byte	0x2
+ 484 00da 0000      		.word	.LM5
+ 485               	
+ 486 00dc 1A        		.byte	0x1a
+ 487 00dd 00        		.byte	0x0
+ 488 00de 03        		.uleb128 0x3
+ 489 00df 02        		.byte	0x2
+ 490 00e0 0000      		.word	.LM6
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 10
+
+
+ 491               	
+ 492 00e2 16        		.byte	0x16
+ 493 00e3 00        		.byte	0x0
+ 494 00e4 03        		.uleb128 0x3
+ 495 00e5 02        		.byte	0x2
+ 496 00e6 0000      		.word	.LM7
+ 497               	
+ 498 00e8 19        		.byte	0x19
+ 499 00e9 00        		.byte	0x0
+ 500 00ea 03        		.uleb128 0x3
+ 501 00eb 02        		.byte	0x2
+ 502 00ec 0000      		.word	.LM8
+ 503               	
+ 504 00ee 17        		.byte	0x17
+ 505 00ef 00        		.byte	0x0
+ 506 00f0 03        		.uleb128 0x3
+ 507 00f1 02        		.byte	0x2
+ 508 00f2 0000      		.word	.LM9
+ 509               	
+ 510 00f4 15        		.byte	0x15
+ 511 00f5 00        		.byte	0x0
+ 512 00f6 03        		.uleb128 0x3
+ 513 00f7 02        		.byte	0x2
+ 514 00f8 0000      		.word	.LM10
+ 515               	
+ 516 00fa 16        		.byte	0x16
+ 517 00fb 00        		.byte	0x0
+ 518 00fc 03        		.uleb128 0x3
+ 519 00fd 02        		.byte	0x2
+ 520 00fe 0000      		.word	.LM11
+ 521               	
+ 522 0100 16        		.byte	0x16
+ 523 0101 00        		.byte	0x0
+ 524 0102 03        		.uleb128 0x3
+ 525 0103 02        		.byte	0x2
+ 526 0104 0000      		.word	.LM12
+ 527               	
+ 528 0106 19        		.byte	0x19
+ 529 0107 00        		.byte	0x0
+ 530 0108 03        		.uleb128 0x3
+ 531 0109 02        		.byte	0x2
+ 532 010a 0000      		.word	.LM13
+ 533               	
+ 534 010c 16        		.byte	0x16
+ 535 010d 00        		.byte	0x0
+ 536 010e 03        		.uleb128 0x3
+ 537 010f 02        		.byte	0x2
+ 538 0110 0000      		.word	.LM14
+ 539               	
+ 540 0112 17        		.byte	0x17
+ 541 0113 00        		.byte	0x0
+ 542 0114 03        		.uleb128 0x3
+ 543 0115 02        		.byte	0x2
+ 544 0116 0000      		.word	.LM15
+ 545               	
+ 546 0118 18        		.byte	0x18
+ 547 0119 00        		.byte	0x0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 11
+
+
+ 548 011a 03        		.uleb128 0x3
+ 549 011b 02        		.byte	0x2
+ 550 011c 0000      		.word	.LM16
+ 551               	
+ 552 011e 15        		.byte	0x15
+ 553 011f 00        		.byte	0x0
+ 554 0120 03        		.uleb128 0x3
+ 555 0121 02        		.byte	0x2
+ 556 0122 0000      		.word	.LM17
+ 557               	
+ 558 0124 15        		.byte	0x15
+ 559 0125 00        		.byte	0x0
+ 560 0126 03        		.uleb128 0x3
+ 561 0127 02        		.byte	0x2
+ 562 0128 0000      		.word	.LM18
+ 563               	
+ 564 012a 1A        		.byte	0x1a
+ 565 012b 00        		.byte	0x0
+ 566 012c 03        		.uleb128 0x3
+ 567 012d 02        		.byte	0x2
+ 568 012e 0000      		.word	.LM19
+ 569               	
+ 570 0130 19        		.byte	0x19
+ 571 0131 00        		.byte	0x0
+ 572 0132 03        		.uleb128 0x3
+ 573 0133 02        		.byte	0x2
+ 574 0134 0000      		.word	.LM20
+ 575               	
+ 576 0136 16        		.byte	0x16
+ 577 0137 00        		.byte	0x0
+ 578 0138 03        		.uleb128 0x3
+ 579 0139 02        		.byte	0x2
+ 580 013a 0000      		.word	.LM21
+ 581               	
+ 582 013c 15        		.byte	0x15
+ 583 013d 00        		.byte	0x0
+ 584 013e 03        		.uleb128 0x3
+ 585 013f 02        		.byte	0x2
+ 586 0140 0000      		.word	.LM22
+ 587               	
+ 588 0142 16        		.byte	0x16
+ 589 0143 00        		.byte	0x0
+ 590 0144 03        		.uleb128 0x3
+ 591 0145 02        		.byte	0x2
+ 592 0146 0000      		.word	.LM23
+ 593               	
+ 594 0148 15        		.byte	0x15
+ 595 0149 00        		.byte	0x0
+ 596 014a 03        		.uleb128 0x3
+ 597 014b 02        		.byte	0x2
+ 598 014c 0000      		.word	.LM24
+ 599               	
+ 600 014e 15        		.byte	0x15
+ 601 014f 00        		.byte	0x0
+ 602 0150 03        		.uleb128 0x3
+ 603 0151 02        		.byte	0x2
+ 604 0152 0000      		.word	.LM25
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 12
+
+
+ 605               	
+ 606 0154 19        		.byte	0x19
+ 607 0155 00        		.byte	0x0
+ 608 0156 03        		.uleb128 0x3
+ 609 0157 02        		.byte	0x2
+ 610 0158 0000      		.word	.LM26
+ 611               	
+ 612 015a 16        		.byte	0x16
+ 613 015b 00        		.byte	0x0
+ 614 015c 03        		.uleb128 0x3
+ 615 015d 02        		.byte	0x2
+ 616 015e 0000      		.word	.LM27
+ 617               	
+ 618 0160 19        		.byte	0x19
+ 619 0161 00        		.byte	0x0
+ 620 0162 03        		.uleb128 0x3
+ 621 0163 02        		.byte	0x2
+ 622 0164 0000      		.word	.LM28
+ 623               	
+ 624 0166 18        		.byte	0x18
+ 625 0167 00        		.byte	0x0
+ 626 0168 03        		.uleb128 0x3
+ 627 0169 02        		.byte	0x2
+ 628 016a 0000      		.word	.LM29
+ 629               	
+ 630 016c 27        		.byte	0x27
+ 631 016d 00        		.byte	0x0
+ 632 016e 03        		.uleb128 0x3
+ 633 016f 02        		.byte	0x2
+ 634 0170 0000      		.word	.LM30
+ 635               	
+ 636 0172 19        		.byte	0x19
+ 637 0173 00        		.byte	0x0
+ 638 0174 03        		.uleb128 0x3
+ 639 0175 02        		.byte	0x2
+ 640 0176 0000      		.word	.LM31
+ 641               	
+ 642 0178 17        		.byte	0x17
+ 643 0179 00        		.byte	0x0
+ 644 017a 03        		.uleb128 0x3
+ 645 017b 02        		.byte	0x2
+ 646 017c 0000      		.word	.LM32
+ 647               	
+ 648 017e 20        		.byte	0x20
+ 649 017f 00        		.byte	0x0
+ 650 0180 03        		.uleb128 0x3
+ 651 0181 02        		.byte	0x2
+ 652 0182 0000      		.word	.LM33
+ 653               	
+ 654 0184 18        		.byte	0x18
+ 655 0185 00        		.byte	0x0
+ 656 0186 03        		.uleb128 0x3
+ 657 0187 02        		.byte	0x2
+ 658 0188 0000      		.word	.LM34
+ 659               	
+ 660 018a 15        		.byte	0x15
+ 661 018b 00        		.byte	0x0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 13
+
+
+ 662 018c 03        		.uleb128 0x3
+ 663 018d 02        		.byte	0x2
+ 664 018e 0000      		.word	.LM35
+ 665               	
+ 666 0190 15        		.byte	0x15
+ 667 0191 00        		.byte	0x0
+ 668 0192 03        		.uleb128 0x3
+ 669 0193 02        		.byte	0x2
+ 670 0194 0000      		.word	.LM36
+ 671               	
+ 672 0196 15        		.byte	0x15
+ 673 0197 00        		.byte	0x0
+ 674 0198 03        		.uleb128 0x3
+ 675 0199 02        		.byte	0x2
+ 676 019a 0000      		.word	.LM37
+ 677               	
+ 678 019c 16        		.byte	0x16
+ 679 019d 00        		.byte	0x0
+ 680 019e 03        		.uleb128 0x3
+ 681 019f 02        		.byte	0x2
+ 682 01a0 0000      		.word	.LM38
+ 683               	
+ 684 01a2 16        		.byte	0x16
+ 685 01a3 00        		.byte	0x0
+ 686 01a4 03        		.uleb128 0x3
+ 687 01a5 02        		.byte	0x2
+ 688 01a6 0000      		.word	.LM39
+ 689               	
+ 690 01a8 17        		.byte	0x17
+ 691 01a9 00        		.byte	0x0
+ 692 01aa 03        		.uleb128 0x3
+ 693 01ab 02        		.byte	0x2
+ 694 01ac 0000      		.word	.LM40
+ 695               	
+ 696 01ae 17        		.byte	0x17
+ 697 01af 00        		.byte	0x0
+ 698 01b0 03        		.uleb128 0x3
+ 699 01b1 02        		.byte	0x2
+ 700 01b2 0000      		.word	.LM41
+ 701               	
+ 702 01b4 1B        		.byte	0x1b
+ 703 01b5 00        		.byte	0x0
+ 704 01b6 03        		.uleb128 0x3
+ 705 01b7 02        		.byte	0x2
+ 706 01b8 0000      		.word	.Letext0
+ 707               	
+ 708 01ba 00        		.byte	0x0
+ 709 01bb 01        		.uleb128 0x1
+ 710 01bc 01        		.byte	0x1
+ 711               	.LELT0:
+ 712 01bd 1600 0000 		.section	.debug_info
+ 712      0200 1000 
+ 712      0000 0101 
+ 712      FB0E 0A00 
+ 712      0101 0101 
+ 713 0000 4906 0000 		.long	1609
+ 714               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 14
+
+
+ 715 0004 0200      		.word	2
+ 716               	
+ 717 0006 0000 0000 		.long	.Ldebug_abbrev0
+ 718               	
+ 719 000a 02        		.byte	0x2
+ 720 000b 01        		.uleb128 0x1
+ 721 000c 0000 0000 		.long	.Ldebug_line0
+ 722               	
+ 723 0010 0000      		.word	.Letext0
+ 724               	
+ 725 0012 0000      		.word	.Ltext0
+ 726               	
+ 727 0014 0000 0000 		.long	.LASF80
+ 728               	
+ 729 0018 01        		.byte	0x1
+ 730 0019 0000 0000 		.long	.LASF81
+ 731               	
+ 732 001d 0000 0000 		.long	.LASF82
+ 733               	
+ 734 0021 02        		.uleb128 0x2
+ 735 0022 0000 0000 		.long	.LASF0
+ 736               	
+ 737 0026 01        		.byte	0x1
+ 738 0027 06        		.byte	0x6
+ 739 0028 02        		.uleb128 0x2
+ 740 0029 0000 0000 		.long	.LASF1
+ 741               	
+ 742 002d 01        		.byte	0x1
+ 743 002e 08        		.byte	0x8
+ 744 002f 03        		.uleb128 0x3
+ 745 0030 696E 7400 		.string	"int"
+ 746 0034 02        		.byte	0x2
+ 747 0035 05        		.byte	0x5
+ 748 0036 02        		.uleb128 0x2
+ 749 0037 0000 0000 		.long	.LASF2
+ 750               	
+ 751 003b 02        		.byte	0x2
+ 752 003c 07        		.byte	0x7
+ 753 003d 02        		.uleb128 0x2
+ 754 003e 0000 0000 		.long	.LASF3
+ 755               	
+ 756 0042 04        		.byte	0x4
+ 757 0043 05        		.byte	0x5
+ 758 0044 02        		.uleb128 0x2
+ 759 0045 0000 0000 		.long	.LASF4
+ 760               	
+ 761 0049 04        		.byte	0x4
+ 762 004a 07        		.byte	0x7
+ 763 004b 02        		.uleb128 0x2
+ 764 004c 0000 0000 		.long	.LASF5
+ 765               	
+ 766 0050 08        		.byte	0x8
+ 767 0051 05        		.byte	0x5
+ 768 0052 02        		.uleb128 0x2
+ 769 0053 0000 0000 		.long	.LASF6
+ 770               	
+ 771 0057 08        		.byte	0x8
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 15
+
+
+ 772 0058 07        		.byte	0x7
+ 773 0059 04        		.uleb128 0x4
+ 774 005a 0000 0000 		.long	.LASF8
+ 775               	
+ 776 005e 03        		.byte	0x3
+ 777 005f 2B        		.byte	0x2b
+ 778 0060 2800 0000 		.long	40
+ 779               	
+ 780 0064 02        		.uleb128 0x2
+ 781 0065 0000 0000 		.long	.LASF7
+ 782               	
+ 783 0069 02        		.byte	0x2
+ 784 006a 05        		.byte	0x5
+ 785 006b 04        		.uleb128 0x4
+ 786 006c 0000 0000 		.long	.LASF9
+ 787               	
+ 788 0070 03        		.byte	0x3
+ 789 0071 2D        		.byte	0x2d
+ 790 0072 7600 0000 		.long	118
+ 791               	
+ 792 0076 02        		.uleb128 0x2
+ 793 0077 0000 0000 		.long	.LASF10
+ 794               	
+ 795 007b 02        		.byte	0x2
+ 796 007c 07        		.byte	0x7
+ 797 007d 04        		.uleb128 0x4
+ 798 007e 0000 0000 		.long	.LASF11
+ 799               	
+ 800 0082 03        		.byte	0x3
+ 801 0083 2F        		.byte	0x2f
+ 802 0084 4400 0000 		.long	68
+ 803               	
+ 804 0088 05        		.uleb128 0x5
+ 805 0089 C700 0000 		.long	199
+ 806               	
+ 807 008d 02        		.byte	0x2
+ 808 008e 03        		.byte	0x3
+ 809 008f 34        		.byte	0x34
+ 810 0090 06        		.uleb128 0x6
+ 811 0091 0000 0000 		.long	.LASF12
+ 812               	
+ 813 0095 00        		.sleb128 0
+ 814 0096 06        		.uleb128 0x6
+ 815 0097 0000 0000 		.long	.LASF13
+ 816               	
+ 817 009b 01        		.sleb128 1
+ 818 009c 06        		.uleb128 0x6
+ 819 009d 0000 0000 		.long	.LASF14
+ 820               	
+ 821 00a1 02        		.sleb128 2
+ 822 00a2 06        		.uleb128 0x6
+ 823 00a3 0000 0000 		.long	.LASF15
+ 824               	
+ 825 00a7 03        		.sleb128 3
+ 826 00a8 06        		.uleb128 0x6
+ 827 00a9 0000 0000 		.long	.LASF16
+ 828               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 16
+
+
+ 829 00ad 04        		.sleb128 4
+ 830 00ae 06        		.uleb128 0x6
+ 831 00af 0000 0000 		.long	.LASF17
+ 832               	
+ 833 00b3 05        		.sleb128 5
+ 834 00b4 06        		.uleb128 0x6
+ 835 00b5 0000 0000 		.long	.LASF18
+ 836               	
+ 837 00b9 06        		.sleb128 6
+ 838 00ba 06        		.uleb128 0x6
+ 839 00bb 0000 0000 		.long	.LASF19
+ 840               	
+ 841 00bf 07        		.sleb128 7
+ 842 00c0 06        		.uleb128 0x6
+ 843 00c1 0000 0000 		.long	.LASF20
+ 844               	
+ 845 00c5 08        		.sleb128 8
+ 846 00c6 00        		.byte	0x0
+ 847 00c7 04        		.uleb128 0x4
+ 848 00c8 0000 0000 		.long	.LASF21
+ 849               	
+ 850 00cc 03        		.byte	0x3
+ 851 00cd 40        		.byte	0x40
+ 852 00ce 8800 0000 		.long	136
+ 853               	
+ 854 00d2 07        		.uleb128 0x7
+ 855 00d3 1201 0000 		.long	274
+ 856               	
+ 857 00d7 0F        		.byte	0xf
+ 858 00d8 03        		.byte	0x3
+ 859 00d9 52        		.byte	0x52
+ 860 00da 08        		.uleb128 0x8
+ 861 00db 0000 0000 		.long	.LASF22
+ 862               	
+ 863 00df 03        		.byte	0x3
+ 864 00e0 4D        		.byte	0x4d
+ 865 00e1 2201 0000 		.long	290
+ 866               	
+ 867 00e5 02        		.byte	0x2
+ 868 00e6 23        		.byte	0x23
+ 869 00e7 00        		.uleb128 0x0
+ 870 00e8 09        		.uleb128 0x9
+ 871 00e9 7068 00   		.string	"ph"
+ 872 00ec 03        		.byte	0x3
+ 873 00ed 4E        		.byte	0x4e
+ 874 00ee 2801 0000 		.long	296
+ 875               	
+ 876 00f2 02        		.byte	0x2
+ 877 00f3 23        		.byte	0x23
+ 878 00f4 02        		.uleb128 0x2
+ 879 00f5 09        		.uleb128 0x9
+ 880 00f6 7072 6900 		.string	"pri"
+ 881 00fa 03        		.byte	0x3
+ 882 00fb 4F        		.byte	0x4f
+ 883 00fc 5900 0000 		.long	89
+ 884               	
+ 885 0100 02        		.byte	0x2
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 17
+
+
+ 886 0101 23        		.byte	0x23
+ 887 0102 04        		.uleb128 0x4
+ 888 0103 08        		.uleb128 0x8
+ 889 0104 0000 0000 		.long	.LASF23
+ 890               	
+ 891 0108 03        		.byte	0x3
+ 892 0109 50        		.byte	0x50
+ 893 010a 2A01 0000 		.long	298
+ 894               	
+ 895 010e 02        		.byte	0x2
+ 896 010f 23        		.byte	0x23
+ 897 0110 05        		.uleb128 0x5
+ 898 0111 00        		.byte	0x0
+ 899 0112 0A        		.uleb128 0xa
+ 900 0113 2201 0000 		.long	290
+ 901               	
+ 902 0117 01        		.byte	0x1
+ 903 0118 C700 0000 		.long	199
+ 904               	
+ 905 011c 0B        		.uleb128 0xb
+ 906 011d C700 0000 		.long	199
+ 907               	
+ 908 0121 00        		.byte	0x0
+ 909 0122 0C        		.uleb128 0xc
+ 910 0123 02        		.byte	0x2
+ 911 0124 1201 0000 		.long	274
+ 912               	
+ 913 0128 0D        		.uleb128 0xd
+ 914 0129 02        		.byte	0x2
+ 915 012a 0E        		.uleb128 0xe
+ 916 012b 3A01 0000 		.long	314
+ 917               	
+ 918 012f 5900 0000 		.long	89
+ 919               	
+ 920 0133 0F        		.uleb128 0xf
+ 921 0134 3A01 0000 		.long	314
+ 922               	
+ 923 0138 09        		.byte	0x9
+ 924 0139 00        		.byte	0x0
+ 925 013a 02        		.uleb128 0x2
+ 926 013b 0000 0000 		.long	.LASF2
+ 927               	
+ 928 013f 02        		.byte	0x2
+ 929 0140 07        		.byte	0x7
+ 930 0141 04        		.uleb128 0x4
+ 931 0142 0000 0000 		.long	.LASF24
+ 932               	
+ 933 0146 03        		.byte	0x3
+ 934 0147 52        		.byte	0x52
+ 935 0148 D200 0000 		.long	210
+ 936               	
+ 937 014c 10        		.uleb128 0x10
+ 938 014d 7501 0000 		.long	373
+ 939               	
+ 940 0151 0000 0000 		.long	.LASF28
+ 941               	
+ 942 0155 04        		.byte	0x4
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 18
+
+
+ 943 0156 03        		.byte	0x3
+ 944 0157 56        		.byte	0x56
+ 945 0158 08        		.uleb128 0x8
+ 946 0159 0000 0000 		.long	.LASF25
+ 947               	
+ 948 015d 03        		.byte	0x3
+ 949 015e 58        		.byte	0x58
+ 950 015f 7501 0000 		.long	373
+ 951               	
+ 952 0163 02        		.byte	0x2
+ 953 0164 23        		.byte	0x23
+ 954 0165 00        		.uleb128 0x0
+ 955 0166 08        		.uleb128 0x8
+ 956 0167 0000 0000 		.long	.LASF26
+ 957               	
+ 958 016b 03        		.byte	0x3
+ 959 016c 59        		.byte	0x59
+ 960 016d 7501 0000 		.long	373
+ 961               	
+ 962 0171 02        		.byte	0x2
+ 963 0172 23        		.byte	0x23
+ 964 0173 02        		.uleb128 0x2
+ 965 0174 00        		.byte	0x0
+ 966 0175 0C        		.uleb128 0xc
+ 967 0176 02        		.byte	0x2
+ 968 0177 4C01 0000 		.long	332
+ 969               	
+ 970 017b 04        		.uleb128 0x4
+ 971 017c 0000 0000 		.long	.LASF27
+ 972               	
+ 973 0180 03        		.byte	0x3
+ 974 0181 5A        		.byte	0x5a
+ 975 0182 4C01 0000 		.long	332
+ 976               	
+ 977 0186 10        		.uleb128 0x10
+ 978 0187 AF01 0000 		.long	431
+ 979               	
+ 980 018b 0000 0000 		.long	.LASF29
+ 981               	
+ 982 018f 04        		.byte	0x4
+ 983 0190 03        		.byte	0x3
+ 984 0191 5C        		.byte	0x5c
+ 985 0192 08        		.uleb128 0x8
+ 986 0193 0000 0000 		.long	.LASF30
+ 987               	
+ 988 0197 03        		.byte	0x3
+ 989 0198 5D        		.byte	0x5d
+ 990 0199 AF01 0000 		.long	431
+ 991               	
+ 992 019d 02        		.byte	0x2
+ 993 019e 23        		.byte	0x23
+ 994 019f 00        		.uleb128 0x0
+ 995 01a0 08        		.uleb128 0x8
+ 996 01a1 0000 0000 		.long	.LASF31
+ 997               	
+ 998 01a5 03        		.byte	0x3
+ 999 01a6 5E        		.byte	0x5e
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 19
+
+
+ 1000 01a7 AF01 0000 		.long	431
+ 1001               	
+ 1002 01ab 02        		.byte	0x2
+ 1003 01ac 23        		.byte	0x23
+ 1004 01ad 02        		.uleb128 0x2
+ 1005 01ae 00        		.byte	0x0
+ 1006 01af 0C        		.uleb128 0xc
+ 1007 01b0 02        		.byte	0x2
+ 1008 01b1 7B01 0000 		.long	379
+ 1009               	
+ 1010 01b5 04        		.uleb128 0x4
+ 1011 01b6 0000 0000 		.long	.LASF32
+ 1012               	
+ 1013 01ba 03        		.byte	0x3
+ 1014 01bb 5F        		.byte	0x5f
+ 1015 01bc 8601 0000 		.long	390
+ 1016               	
+ 1017 01c0 10        		.uleb128 0x10
+ 1018 01c1 F701 0000 		.long	503
+ 1019               	
+ 1020 01c5 0000 0000 		.long	.LASF33
+ 1021               	
+ 1022 01c9 06        		.byte	0x6
+ 1023 01ca 03        		.byte	0x3
+ 1024 01cb 61        		.byte	0x61
+ 1025 01cc 08        		.uleb128 0x8
+ 1026 01cd 0000 0000 		.long	.LASF25
+ 1027               	
+ 1028 01d1 03        		.byte	0x3
+ 1029 01d2 62        		.byte	0x62
+ 1030 01d3 AF01 0000 		.long	431
+ 1031               	
+ 1032 01d7 02        		.byte	0x2
+ 1033 01d8 23        		.byte	0x23
+ 1034 01d9 00        		.uleb128 0x0
+ 1035 01da 08        		.uleb128 0x8
+ 1036 01db 0000 0000 		.long	.LASF26
+ 1037               	
+ 1038 01df 03        		.byte	0x3
+ 1039 01e0 63        		.byte	0x63
+ 1040 01e1 AF01 0000 		.long	431
+ 1041               	
+ 1042 01e5 02        		.byte	0x2
+ 1043 01e6 23        		.byte	0x23
+ 1044 01e7 02        		.uleb128 0x2
+ 1045 01e8 08        		.uleb128 0x8
+ 1046 01e9 0000 0000 		.long	.LASF34
+ 1047               	
+ 1048 01ed 03        		.byte	0x3
+ 1049 01ee 64        		.byte	0x64
+ 1050 01ef 2801 0000 		.long	296
+ 1051               	
+ 1052 01f3 02        		.byte	0x2
+ 1053 01f4 23        		.byte	0x23
+ 1054 01f5 04        		.uleb128 0x4
+ 1055 01f6 00        		.byte	0x0
+ 1056 01f7 04        		.uleb128 0x4
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 20
+
+
+ 1057 01f8 0000 0000 		.long	.LASF35
+ 1058               	
+ 1059 01fc 03        		.byte	0x3
+ 1060 01fd 65        		.byte	0x65
+ 1061 01fe C001 0000 		.long	448
+ 1062               	
+ 1063 0202 10        		.uleb128 0x10
+ 1064 0203 7F02 0000 		.long	639
+ 1065               	
+ 1066 0207 0000 0000 		.long	.LASF36
+ 1067               	
+ 1068 020b 16        		.byte	0x16
+ 1069 020c 03        		.byte	0x3
+ 1070 020d 67        		.byte	0x67
+ 1071 020e 08        		.uleb128 0x8
+ 1072 020f 0000 0000 		.long	.LASF37
+ 1073               	
+ 1074 0213 03        		.byte	0x3
+ 1075 0214 68        		.byte	0x68
+ 1076 0215 B501 0000 		.long	437
+ 1077               	
+ 1078 0219 02        		.byte	0x2
+ 1079 021a 23        		.byte	0x23
+ 1080 021b 00        		.uleb128 0x0
+ 1081 021c 08        		.uleb128 0x8
+ 1082 021d 0000 0000 		.long	.LASF38
+ 1083               	
+ 1084 0221 03        		.byte	0x3
+ 1085 0222 69        		.byte	0x69
+ 1086 0223 B501 0000 		.long	437
+ 1087               	
+ 1088 0227 02        		.byte	0x2
+ 1089 0228 23        		.byte	0x23
+ 1090 0229 04        		.uleb128 0x4
+ 1091 022a 08        		.uleb128 0x8
+ 1092 022b 0000 0000 		.long	.LASF39
+ 1093               	
+ 1094 022f 03        		.byte	0x3
+ 1095 0230 6A        		.byte	0x6a
+ 1096 0231 B501 0000 		.long	437
+ 1097               	
+ 1098 0235 02        		.byte	0x2
+ 1099 0236 23        		.byte	0x23
+ 1100 0237 08        		.uleb128 0x8
+ 1101 0238 08        		.uleb128 0x8
+ 1102 0239 0000 0000 		.long	.LASF40
+ 1103               	
+ 1104 023d 03        		.byte	0x3
+ 1105 023e 6B        		.byte	0x6b
+ 1106 023f B501 0000 		.long	437
+ 1107               	
+ 1108 0243 02        		.byte	0x2
+ 1109 0244 23        		.byte	0x23
+ 1110 0245 0C        		.uleb128 0xc
+ 1111 0246 08        		.uleb128 0x8
+ 1112 0247 0000 0000 		.long	.LASF41
+ 1113               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 21
+
+
+ 1114 024b 03        		.byte	0x3
+ 1115 024c 6C        		.byte	0x6c
+ 1116 024d 7F02 0000 		.long	639
+ 1117               	
+ 1118 0251 02        		.byte	0x2
+ 1119 0252 23        		.byte	0x23
+ 1120 0253 10        		.uleb128 0x10
+ 1121 0254 08        		.uleb128 0x8
+ 1122 0255 0000 0000 		.long	.LASF42
+ 1123               	
+ 1124 0259 03        		.byte	0x3
+ 1125 025a 6D        		.byte	0x6d
+ 1126 025b 8502 0000 		.long	645
+ 1127               	
+ 1128 025f 02        		.byte	0x2
+ 1129 0260 23        		.byte	0x23
+ 1130 0261 12        		.uleb128 0x12
+ 1131 0262 09        		.uleb128 0x9
+ 1132 0263 6C65 6E00 		.string	"len"
+ 1133 0267 03        		.byte	0x3
+ 1134 0268 6E        		.byte	0x6e
+ 1135 0269 5900 0000 		.long	89
+ 1136               	
+ 1137 026d 02        		.byte	0x2
+ 1138 026e 23        		.byte	0x23
+ 1139 026f 14        		.uleb128 0x14
+ 1140 0270 08        		.uleb128 0x8
+ 1141 0271 0000 0000 		.long	.LASF43
+ 1142               	
+ 1143 0275 03        		.byte	0x3
+ 1144 0276 6F        		.byte	0x6f
+ 1145 0277 5900 0000 		.long	89
+ 1146               	
+ 1147 027b 02        		.byte	0x2
+ 1148 027c 23        		.byte	0x23
+ 1149 027d 15        		.uleb128 0x15
+ 1150 027e 00        		.byte	0x0
+ 1151 027f 0C        		.uleb128 0xc
+ 1152 0280 02        		.byte	0x2
+ 1153 0281 5900 0000 		.long	89
+ 1154               	
+ 1155 0285 0C        		.uleb128 0xc
+ 1156 0286 02        		.byte	0x2
+ 1157 0287 F701 0000 		.long	503
+ 1158               	
+ 1159 028b 04        		.uleb128 0x4
+ 1160 028c 0000 0000 		.long	.LASF44
+ 1161               	
+ 1162 0290 03        		.byte	0x3
+ 1163 0291 71        		.byte	0x71
+ 1164 0292 0202 0000 		.long	514
+ 1165               	
+ 1166 0296 10        		.uleb128 0x10
+ 1167 0297 2A03 0000 		.long	810
+ 1168               	
+ 1169 029b 0000 0000 		.long	.LASF45
+ 1170               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 22
+
+
+ 1171 029f 12        		.byte	0x12
+ 1172 02a0 03        		.byte	0x3
+ 1173 02a1 79        		.byte	0x79
+ 1174 02a2 11        		.uleb128 0x11
+ 1175 02a3 0000 0000 		.long	.LASF83
+ 1176               	
+ 1177 02a7 10        		.byte	0x10
+ 1178 02a8 03        		.byte	0x3
+ 1179 02a9 85        		.byte	0x85
+ 1180 02aa 08        		.uleb128 0x8
+ 1181 02ab 0000 0000 		.long	.LASF25
+ 1182               	
+ 1183 02af 03        		.byte	0x3
+ 1184 02b0 B7        		.byte	0xb7
+ 1185 02b1 7501 0000 		.long	373
+ 1186               	
+ 1187 02b5 02        		.byte	0x2
+ 1188 02b6 23        		.byte	0x23
+ 1189 02b7 00        		.uleb128 0x0
+ 1190 02b8 08        		.uleb128 0x8
+ 1191 02b9 0000 0000 		.long	.LASF26
+ 1192               	
+ 1193 02bd 03        		.byte	0x3
+ 1194 02be B8        		.byte	0xb8
+ 1195 02bf 7501 0000 		.long	373
+ 1196               	
+ 1197 02c3 02        		.byte	0x2
+ 1198 02c4 23        		.byte	0x23
+ 1199 02c5 02        		.uleb128 0x2
+ 1200 02c6 09        		.uleb128 0x9
+ 1201 02c7 6162 7300 		.string	"abs"
+ 1202 02cb 03        		.byte	0x3
+ 1203 02cc BA        		.byte	0xba
+ 1204 02cd 6B00 0000 		.long	107
+ 1205               	
+ 1206 02d1 02        		.byte	0x2
+ 1207 02d2 23        		.byte	0x23
+ 1208 02d3 04        		.uleb128 0x4
+ 1209 02d4 09        		.uleb128 0x9
+ 1210 02d5 7265 6C00 		.string	"rel"
+ 1211 02d9 03        		.byte	0x3
+ 1212 02da BB        		.byte	0xbb
+ 1213 02db 6B00 0000 		.long	107
+ 1214               	
+ 1215 02df 02        		.byte	0x2
+ 1216 02e0 23        		.byte	0x23
+ 1217 02e1 06        		.uleb128 0x6
+ 1218 02e2 08        		.uleb128 0x8
+ 1219 02e3 0000 0000 		.long	.LASF46
+ 1220               	
+ 1221 02e7 03        		.byte	0x3
+ 1222 02e8 C2        		.byte	0xc2
+ 1223 02e9 4403 0000 		.long	836
+ 1224               	
+ 1225 02ed 02        		.byte	0x2
+ 1226 02ee 23        		.byte	0x23
+ 1227 02ef 08        		.uleb128 0x8
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 23
+
+
+ 1228 02f0 09        		.uleb128 0x9
+ 1229 02f1 6576 7400 		.string	"evt"
+ 1230 02f5 03        		.byte	0x3
+ 1231 02f6 C3        		.byte	0xc3
+ 1232 02f7 5900 0000 		.long	89
+ 1233               	
+ 1234 02fb 02        		.byte	0x2
+ 1235 02fc 23        		.byte	0x23
+ 1236 02fd 0A        		.uleb128 0xa
+ 1237 02fe 08        		.uleb128 0x8
+ 1238 02ff 0000 0000 		.long	.LASF47
+ 1239               	
+ 1240 0303 03        		.byte	0x3
+ 1241 0304 C4        		.byte	0xc4
+ 1242 0305 2801 0000 		.long	296
+ 1243               	
+ 1244 0309 02        		.byte	0x2
+ 1245 030a 23        		.byte	0x23
+ 1246 030b 0B        		.uleb128 0xb
+ 1247 030c 08        		.uleb128 0x8
+ 1248 030d 0000 0000 		.long	.LASF48
+ 1249               	
+ 1250 0311 03        		.byte	0x3
+ 1251 0312 C5        		.byte	0xc5
+ 1252 0313 2801 0000 		.long	296
+ 1253               	
+ 1254 0317 02        		.byte	0x2
+ 1255 0318 23        		.byte	0x23
+ 1256 0319 0D        		.uleb128 0xd
+ 1257 031a 08        		.uleb128 0x8
+ 1258 031b 0000 0000 		.long	.LASF49
+ 1259               	
+ 1260 031f 03        		.byte	0x3
+ 1261 0320 C7        		.byte	0xc7
+ 1262 0321 5900 0000 		.long	89
+ 1263               	
+ 1264 0325 02        		.byte	0x2
+ 1265 0326 23        		.byte	0x23
+ 1266 0327 0F        		.uleb128 0xf
+ 1267 0328 00        		.byte	0x0
+ 1268 0329 00        		.byte	0x0
+ 1269 032a 0A        		.uleb128 0xa
+ 1270 032b 4403 0000 		.long	836
+ 1271               	
+ 1272 032f 01        		.byte	0x1
+ 1273 0330 C700 0000 		.long	199
+ 1274               	
+ 1275 0334 0B        		.uleb128 0xb
+ 1276 0335 5900 0000 		.long	89
+ 1277               	
+ 1278 0339 0B        		.uleb128 0xb
+ 1279 033a 2801 0000 		.long	296
+ 1280               	
+ 1281 033e 0B        		.uleb128 0xb
+ 1282 033f 2801 0000 		.long	296
+ 1283               	
+ 1284 0343 00        		.byte	0x0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 24
+
+
+ 1285 0344 0C        		.uleb128 0xc
+ 1286 0345 02        		.byte	0x2
+ 1287 0346 2A03 0000 		.long	810
+ 1288               	
+ 1289 034a 04        		.uleb128 0x4
+ 1290 034b 0000 0000 		.long	.LASF50
+ 1291               	
+ 1292 034f 03        		.byte	0x3
+ 1293 0350 C9        		.byte	0xc9
+ 1294 0351 A202 0000 		.long	674
+ 1295               	
+ 1296 0355 10        		.uleb128 0x10
+ 1297 0356 0A04 0000 		.long	1034
+ 1298               	
+ 1299 035a 0000 0000 		.long	.LASF51
+ 1300               	
+ 1301 035e 24        		.byte	0x24
+ 1302 035f 03        		.byte	0x3
+ 1303 0360 D3        		.byte	0xd3
+ 1304 0361 08        		.uleb128 0x8
+ 1305 0362 0000 0000 		.long	.LASF25
+ 1306               	
+ 1307 0366 03        		.byte	0x3
+ 1308 0367 D4        		.byte	0xd4
+ 1309 0368 7501 0000 		.long	373
+ 1310               	
+ 1311 036c 02        		.byte	0x2
+ 1312 036d 23        		.byte	0x23
+ 1313 036e 00        		.uleb128 0x0
+ 1314 036f 08        		.uleb128 0x8
+ 1315 0370 0000 0000 		.long	.LASF26
+ 1316               	
+ 1317 0374 03        		.byte	0x3
+ 1318 0375 D5        		.byte	0xd5
+ 1319 0376 7501 0000 		.long	373
+ 1320               	
+ 1321 037a 02        		.byte	0x2
+ 1322 037b 23        		.byte	0x23
+ 1323 037c 02        		.uleb128 0x2
+ 1324 037d 08        		.uleb128 0x8
+ 1325 037e 0000 0000 		.long	.LASF49
+ 1326               	
+ 1327 0382 03        		.byte	0x3
+ 1328 0383 D7        		.byte	0xd7
+ 1329 0384 5900 0000 		.long	89
+ 1330               	
+ 1331 0388 02        		.byte	0x2
+ 1332 0389 23        		.byte	0x23
+ 1333 038a 04        		.uleb128 0x4
+ 1334 038b 08        		.uleb128 0x8
+ 1335 038c 0000 0000 		.long	.LASF52
+ 1336               	
+ 1337 0390 03        		.byte	0x3
+ 1338 0391 D8        		.byte	0xd8
+ 1339 0392 5900 0000 		.long	89
+ 1340               	
+ 1341 0396 02        		.byte	0x2
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 25
+
+
+ 1342 0397 23        		.byte	0x23
+ 1343 0398 05        		.uleb128 0x5
+ 1344 0399 08        		.uleb128 0x8
+ 1345 039a 0000 0000 		.long	.LASF53
+ 1346               	
+ 1347 039e 03        		.byte	0x3
+ 1348 039f D9        		.byte	0xd9
+ 1349 03a0 C700 0000 		.long	199
+ 1350               	
+ 1351 03a4 02        		.byte	0x2
+ 1352 03a5 23        		.byte	0x23
+ 1353 03a6 06        		.uleb128 0x6
+ 1354 03a7 08        		.uleb128 0x8
+ 1355 03a8 0000 0000 		.long	.LASF22
+ 1356               	
+ 1357 03ac 03        		.byte	0x3
+ 1358 03ad DA        		.byte	0xda
+ 1359 03ae 2201 0000 		.long	290
+ 1360               	
+ 1361 03b2 02        		.byte	0x2
+ 1362 03b3 23        		.byte	0x23
+ 1363 03b4 08        		.uleb128 0x8
+ 1364 03b5 08        		.uleb128 0x8
+ 1365 03b6 0000 0000 		.long	.LASF54
+ 1366               	
+ 1367 03ba 03        		.byte	0x3
+ 1368 03bb DC        		.byte	0xdc
+ 1369 03bc 0A04 0000 		.long	1034
+ 1370               	
+ 1371 03c0 02        		.byte	0x2
+ 1372 03c1 23        		.byte	0x23
+ 1373 03c2 0A        		.uleb128 0xa
+ 1374 03c3 08        		.uleb128 0x8
+ 1375 03c4 0000 0000 		.long	.LASF55
+ 1376               	
+ 1377 03c8 03        		.byte	0x3
+ 1378 03c9 DD        		.byte	0xdd
+ 1379 03ca 1004 0000 		.long	1040
+ 1380               	
+ 1381 03ce 02        		.byte	0x2
+ 1382 03cf 23        		.byte	0x23
+ 1383 03d0 0C        		.uleb128 0xc
+ 1384 03d1 09        		.uleb128 0x9
+ 1385 03d2 7469 6300 		.string	"tic"
+ 1386 03d6 03        		.byte	0x3
+ 1387 03d7 DE        		.byte	0xde
+ 1388 03d8 A202 0000 		.long	674
+ 1389               	
+ 1390 03dc 02        		.byte	0x2
+ 1391 03dd 23        		.byte	0x23
+ 1392 03de 0E        		.uleb128 0xe
+ 1393 03df 08        		.uleb128 0x8
+ 1394 03e0 0000 0000 		.long	.LASF56
+ 1395               	
+ 1396 03e4 03        		.byte	0x3
+ 1397 03e5 E0        		.byte	0xe0
+ 1398 03e6 6B00 0000 		.long	107
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 26
+
+
+ 1399               	
+ 1400 03ea 02        		.byte	0x2
+ 1401 03eb 23        		.byte	0x23
+ 1402 03ec 1E        		.uleb128 0x1e
+ 1403 03ed 08        		.uleb128 0x8
+ 1404 03ee 0000 0000 		.long	.LASF57
+ 1405               	
+ 1406 03f2 03        		.byte	0x3
+ 1407 03f3 E1        		.byte	0xe1
+ 1408 03f4 6B00 0000 		.long	107
+ 1409               	
+ 1410 03f8 02        		.byte	0x2
+ 1411 03f9 23        		.byte	0x23
+ 1412 03fa 20        		.uleb128 0x20
+ 1413 03fb 08        		.uleb128 0x8
+ 1414 03fc 0000 0000 		.long	.LASF58
+ 1415               	
+ 1416 0400 03        		.byte	0x3
+ 1417 0401 E2        		.byte	0xe2
+ 1418 0402 6B00 0000 		.long	107
+ 1419               	
+ 1420 0406 02        		.byte	0x2
+ 1421 0407 23        		.byte	0x23
+ 1422 0408 22        		.uleb128 0x22
+ 1423 0409 00        		.byte	0x0
+ 1424 040a 0C        		.uleb128 0xc
+ 1425 040b 02        		.byte	0x2
+ 1426 040c C001 0000 		.long	448
+ 1427               	
+ 1428 0410 0C        		.uleb128 0xc
+ 1429 0411 02        		.byte	0x2
+ 1430 0412 8601 0000 		.long	390
+ 1431               	
+ 1432 0416 04        		.uleb128 0x4
+ 1433 0417 0000 0000 		.long	.LASF59
+ 1434               	
+ 1435 041b 03        		.byte	0x3
+ 1436 041c E4        		.byte	0xe4
+ 1437 041d 5503 0000 		.long	853
+ 1438               	
+ 1439 0421 12        		.uleb128 0x12
+ 1440 0422 01        		.byte	0x1
+ 1441 0423 0000 0000 		.long	.LASF84
+ 1442               	
+ 1443 0427 04        		.byte	0x4
+ 1444 0428 19        		.byte	0x19
+ 1445 0429 01        		.byte	0x1
+ 1446 042a 0000      		.word	.LFB3
+ 1447               	
+ 1448 042c 0000      		.word	.LFE3
+ 1449               	
+ 1450 042e 08        		.byte	0x8
+ 1451 042f 90        		.byte	0x90
+ 1452 0430 20        		.uleb128 0x20
+ 1453 0431 93        		.byte	0x93
+ 1454 0432 01        		.uleb128 0x1
+ 1455 0433 90        		.byte	0x90
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 27
+
+
+ 1456 0434 21        		.uleb128 0x21
+ 1457 0435 93        		.byte	0x93
+ 1458 0436 01        		.uleb128 0x1
+ 1459 0437 13        		.uleb128 0x13
+ 1460 0438 9304 0000 		.long	1171
+ 1461               	
+ 1462 043c 01        		.byte	0x1
+ 1463 043d 0000 0000 		.long	.LASF63
+ 1464               	
+ 1465 0441 04        		.byte	0x4
+ 1466 0442 28        		.byte	0x28
+ 1467 0443 01        		.byte	0x1
+ 1468 0444 C700 0000 		.long	199
+ 1469               	
+ 1470 0448 0000      		.word	.LFB4
+ 1471               	
+ 1472 044a 0000      		.word	.LFE4
+ 1473               	
+ 1474 044c 06        		.byte	0x6
+ 1475 044d 6C        		.byte	0x6c
+ 1476 044e 93        		.byte	0x93
+ 1477 044f 01        		.uleb128 0x1
+ 1478 0450 6D        		.byte	0x6d
+ 1479 0451 93        		.byte	0x93
+ 1480 0452 01        		.uleb128 0x1
+ 1481 0453 14        		.uleb128 0x14
+ 1482 0454 0000 0000 		.long	.LASF60
+ 1483               	
+ 1484 0458 04        		.byte	0x4
+ 1485 0459 28        		.byte	0x28
+ 1486 045a 5900 0000 		.long	89
+ 1487               	
+ 1488 045e 01        		.byte	0x1
+ 1489 045f 68        		.byte	0x68
+ 1490 0460 14        		.uleb128 0x14
+ 1491 0461 0000 0000 		.long	.LASF61
+ 1492               	
+ 1493 0465 04        		.byte	0x4
+ 1494 0466 28        		.byte	0x28
+ 1495 0467 2801 0000 		.long	296
+ 1496               	
+ 1497 046b 06        		.byte	0x6
+ 1498 046c 66        		.byte	0x66
+ 1499 046d 93        		.byte	0x93
+ 1500 046e 01        		.uleb128 0x1
+ 1501 046f 67        		.byte	0x67
+ 1502 0470 93        		.byte	0x93
+ 1503 0471 01        		.uleb128 0x1
+ 1504 0472 14        		.uleb128 0x14
+ 1505 0473 0000 0000 		.long	.LASF62
+ 1506               	
+ 1507 0477 04        		.byte	0x4
+ 1508 0478 28        		.byte	0x28
+ 1509 0479 2801 0000 		.long	296
+ 1510               	
+ 1511 047d 06        		.byte	0x6
+ 1512 047e 64        		.byte	0x64
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 28
+
+
+ 1513 047f 93        		.byte	0x93
+ 1514 0480 01        		.uleb128 0x1
+ 1515 0481 65        		.byte	0x65
+ 1516 0482 93        		.byte	0x93
+ 1517 0483 01        		.uleb128 0x1
+ 1518 0484 15        		.uleb128 0x15
+ 1519 0485 0000 0000 		.long	.LASF65
+ 1520               	
+ 1521 0489 04        		.byte	0x4
+ 1522 048a 29        		.byte	0x29
+ 1523 048b 5900 0000 		.long	89
+ 1524               	
+ 1525 048f 02        		.byte	0x2
+ 1526 0490 91        		.byte	0x91
+ 1527 0491 01        		.sleb128 1
+ 1528 0492 00        		.byte	0x0
+ 1529 0493 13        		.uleb128 0x13
+ 1530 0494 D304 0000 		.long	1235
+ 1531               	
+ 1532 0498 01        		.byte	0x1
+ 1533 0499 0000 0000 		.long	.LASF64
+ 1534               	
+ 1535 049d 04        		.byte	0x4
+ 1536 049e 36        		.byte	0x36
+ 1537 049f 01        		.byte	0x1
+ 1538 04a0 C700 0000 		.long	199
+ 1539               	
+ 1540 04a4 0000      		.word	.LFB5
+ 1541               	
+ 1542 04a6 0000      		.word	.LFE5
+ 1543               	
+ 1544 04a8 08        		.byte	0x8
+ 1545 04a9 90        		.byte	0x90
+ 1546 04aa 20        		.uleb128 0x20
+ 1547 04ab 93        		.byte	0x93
+ 1548 04ac 01        		.uleb128 0x1
+ 1549 04ad 90        		.byte	0x90
+ 1550 04ae 21        		.uleb128 0x21
+ 1551 04af 93        		.byte	0x93
+ 1552 04b0 01        		.uleb128 0x1
+ 1553 04b1 14        		.uleb128 0x14
+ 1554 04b2 0000 0000 		.long	.LASF60
+ 1555               	
+ 1556 04b6 04        		.byte	0x4
+ 1557 04b7 36        		.byte	0x36
+ 1558 04b8 C700 0000 		.long	199
+ 1559               	
+ 1560 04bc 06        		.byte	0x6
+ 1561 04bd 68        		.byte	0x68
+ 1562 04be 93        		.byte	0x93
+ 1563 04bf 01        		.uleb128 0x1
+ 1564 04c0 69        		.byte	0x69
+ 1565 04c1 93        		.byte	0x93
+ 1566 04c2 01        		.uleb128 0x1
+ 1567 04c3 15        		.uleb128 0x15
+ 1568 04c4 0000 0000 		.long	.LASF66
+ 1569               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 29
+
+
+ 1570 04c8 04        		.byte	0x4
+ 1571 04c9 37        		.byte	0x37
+ 1572 04ca 5900 0000 		.long	89
+ 1573               	
+ 1574 04ce 03        		.byte	0x3
+ 1575 04cf 03        		.byte	0x3
+ 1576 04d0 0000      		.word	bBlink.3
+ 1577               	
+ 1578 04d2 00        		.byte	0x0
+ 1579 04d3 13        		.uleb128 0x13
+ 1580 04d4 2205 0000 		.long	1314
+ 1581               	
+ 1582 04d8 01        		.byte	0x1
+ 1583 04d9 0000 0000 		.long	.LASF67
+ 1584               	
+ 1585 04dd 04        		.byte	0x4
+ 1586 04de 48        		.byte	0x48
+ 1587 04df 01        		.byte	0x1
+ 1588 04e0 C700 0000 		.long	199
+ 1589               	
+ 1590 04e4 0000      		.word	.LFB6
+ 1591               	
+ 1592 04e6 0000      		.word	.LFE6
+ 1593               	
+ 1594 04e8 08        		.byte	0x8
+ 1595 04e9 90        		.byte	0x90
+ 1596 04ea 20        		.uleb128 0x20
+ 1597 04eb 93        		.byte	0x93
+ 1598 04ec 01        		.uleb128 0x1
+ 1599 04ed 90        		.byte	0x90
+ 1600 04ee 21        		.uleb128 0x21
+ 1601 04ef 93        		.byte	0x93
+ 1602 04f0 01        		.uleb128 0x1
+ 1603 04f1 14        		.uleb128 0x14
+ 1604 04f2 0000 0000 		.long	.LASF60
+ 1605               	
+ 1606 04f6 04        		.byte	0x4
+ 1607 04f7 48        		.byte	0x48
+ 1608 04f8 C700 0000 		.long	199
+ 1609               	
+ 1610 04fc 06        		.byte	0x6
+ 1611 04fd 68        		.byte	0x68
+ 1612 04fe 93        		.byte	0x93
+ 1613 04ff 01        		.uleb128 0x1
+ 1614 0500 69        		.byte	0x69
+ 1615 0501 93        		.byte	0x93
+ 1616 0502 01        		.uleb128 0x1
+ 1617 0503 15        		.uleb128 0x15
+ 1618 0504 0000 0000 		.long	.LASF68
+ 1619               	
+ 1620 0508 04        		.byte	0x4
+ 1621 0509 49        		.byte	0x49
+ 1622 050a 5900 0000 		.long	89
+ 1623               	
+ 1624 050e 03        		.byte	0x3
+ 1625 050f 03        		.byte	0x3
+ 1626 0510 0000      		.word	ucKeyPressCount.1
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 30
+
+
+ 1627               	
+ 1628 0512 15        		.uleb128 0x15
+ 1629 0513 0000 0000 		.long	.LASF65
+ 1630               	
+ 1631 0517 04        		.byte	0x4
+ 1632 0518 4A        		.byte	0x4a
+ 1633 0519 5900 0000 		.long	89
+ 1634               	
+ 1635 051d 03        		.byte	0x3
+ 1636 051e 03        		.byte	0x3
+ 1637 051f 0000      		.word	ucSysEvent.2
+ 1638               	
+ 1639 0521 00        		.byte	0x0
+ 1640 0522 13        		.uleb128 0x13
+ 1641 0523 6E05 0000 		.long	1390
+ 1642               	
+ 1643 0527 01        		.byte	0x1
+ 1644 0528 0000 0000 		.long	.LASF69
+ 1645               	
+ 1646 052c 04        		.byte	0x4
+ 1647 052d 6C        		.byte	0x6c
+ 1648 052e 01        		.byte	0x1
+ 1649 052f C700 0000 		.long	199
+ 1650               	
+ 1651 0533 0000      		.word	.LFB7
+ 1652               	
+ 1653 0535 0000      		.word	.LFE7
+ 1654               	
+ 1655 0537 06        		.byte	0x6
+ 1656 0538 6C        		.byte	0x6c
+ 1657 0539 93        		.byte	0x93
+ 1658 053a 01        		.uleb128 0x1
+ 1659 053b 6D        		.byte	0x6d
+ 1660 053c 93        		.byte	0x93
+ 1661 053d 01        		.uleb128 0x1
+ 1662 053e 14        		.uleb128 0x14
+ 1663 053f 0000 0000 		.long	.LASF60
+ 1664               	
+ 1665 0543 04        		.byte	0x4
+ 1666 0544 6C        		.byte	0x6c
+ 1667 0545 C700 0000 		.long	199
+ 1668               	
+ 1669 0549 06        		.byte	0x6
+ 1670 054a 68        		.byte	0x68
+ 1671 054b 93        		.byte	0x93
+ 1672 054c 01        		.uleb128 0x1
+ 1673 054d 69        		.byte	0x69
+ 1674 054e 93        		.byte	0x93
+ 1675 054f 01        		.uleb128 0x1
+ 1676 0550 15        		.uleb128 0x15
+ 1677 0551 0000 0000 		.long	.LASF65
+ 1678               	
+ 1679 0555 04        		.byte	0x4
+ 1680 0556 6D        		.byte	0x6d
+ 1681 0557 5900 0000 		.long	89
+ 1682               	
+ 1683 055b 02        		.byte	0x2
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 31
+
+
+ 1684 055c 91        		.byte	0x91
+ 1685 055d 01        		.sleb128 1
+ 1686 055e 15        		.uleb128 0x15
+ 1687 055f 0000 0000 		.long	.LASF70
+ 1688               	
+ 1689 0563 04        		.byte	0x4
+ 1690 0564 6E        		.byte	0x6e
+ 1691 0565 7D00 0000 		.long	125
+ 1692               	
+ 1693 0569 03        		.byte	0x3
+ 1694 056a 03        		.byte	0x3
+ 1695 056b 0000      		.word	ulPeriodicAnchor.0
+ 1696               	
+ 1697 056d 00        		.byte	0x0
+ 1698 056e 13        		.uleb128 0x13
+ 1699 056f 9605 0000 		.long	1430
+ 1700               	
+ 1701 0573 01        		.byte	0x1
+ 1702 0574 0000 0000 		.long	.LASF71
+ 1703               	
+ 1704 0578 04        		.byte	0x4
+ 1705 0579 97        		.byte	0x97
+ 1706 057a 01        		.byte	0x1
+ 1707 057b 2F00 0000 		.long	47
+ 1708               	
+ 1709 057f 0000      		.word	.LFB8
+ 1710               	
+ 1711 0581 0000      		.word	.LFE8
+ 1712               	
+ 1713 0583 08        		.byte	0x8
+ 1714 0584 90        		.byte	0x90
+ 1715 0585 20        		.uleb128 0x20
+ 1716 0586 93        		.byte	0x93
+ 1717 0587 01        		.uleb128 0x1
+ 1718 0588 90        		.byte	0x90
+ 1719 0589 21        		.uleb128 0x21
+ 1720 058a 93        		.byte	0x93
+ 1721 058b 01        		.uleb128 0x1
+ 1722 058c 16        		.uleb128 0x16
+ 1723 058d 6900      		.string	"i"
+ 1724 058f 04        		.byte	0x4
+ 1725 0590 98        		.byte	0x98
+ 1726 0591 5900 0000 		.long	89
+ 1727               	
+ 1728 0595 00        		.byte	0x0
+ 1729 0596 17        		.uleb128 0x17
+ 1730 0597 0000 0000 		.long	.LASF72
+ 1731               	
+ 1732 059b 04        		.byte	0x4
+ 1733 059c 1D        		.byte	0x1d
+ 1734 059d 1604 0000 		.long	1046
+ 1735               	
+ 1736 05a1 01        		.byte	0x1
+ 1737 05a2 03        		.byte	0x3
+ 1738 05a3 03        		.byte	0x3
+ 1739 05a4 0000      		.word	TSK_LED
+ 1740               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 32
+
+
+ 1741 05a6 17        		.uleb128 0x17
+ 1742 05a7 0000 0000 		.long	.LASF73
+ 1743               	
+ 1744 05ab 04        		.byte	0x4
+ 1745 05ac 1E        		.byte	0x1e
+ 1746 05ad 1604 0000 		.long	1046
+ 1747               	
+ 1748 05b1 01        		.byte	0x1
+ 1749 05b2 03        		.byte	0x3
+ 1750 05b3 03        		.byte	0x3
+ 1751 05b4 0000      		.word	TSK_KESYSCAN
+ 1752               	
+ 1753 05b6 17        		.uleb128 0x17
+ 1754 05b7 0000 0000 		.long	.LASF74
+ 1755               	
+ 1756 05bb 04        		.byte	0x4
+ 1757 05bc 1F        		.byte	0x1f
+ 1758 05bd 1604 0000 		.long	1046
+ 1759               	
+ 1760 05c1 01        		.byte	0x1
+ 1761 05c2 03        		.byte	0x3
+ 1762 05c3 03        		.byte	0x3
+ 1763 05c4 0000      		.word	TSK_SYSTEM
+ 1764               	
+ 1765 05c6 0E        		.uleb128 0xe
+ 1766 05c7 D605 0000 		.long	1494
+ 1767               	
+ 1768 05cb F701 0000 		.long	503
+ 1769               	
+ 1770 05cf 0F        		.uleb128 0xf
+ 1771 05d0 3A01 0000 		.long	314
+ 1772               	
+ 1773 05d4 04        		.byte	0x4
+ 1774 05d5 00        		.byte	0x0
+ 1775 05d6 17        		.uleb128 0x17
+ 1776 05d7 0000 0000 		.long	.LASF75
+ 1777               	
+ 1778 05db 04        		.byte	0x4
+ 1779 05dc 21        		.byte	0x21
+ 1780 05dd C605 0000 		.long	1478
+ 1781               	
+ 1782 05e1 01        		.byte	0x1
+ 1783 05e2 03        		.byte	0x3
+ 1784 05e3 03        		.byte	0x3
+ 1785 05e4 0000      		.word	mcb_msg_SYS_EVENT_MBX
+ 1786               	
+ 1787 05e6 0E        		.uleb128 0xe
+ 1788 05e7 FC05 0000 		.long	1532
+ 1789               	
+ 1790 05eb 5900 0000 		.long	89
+ 1791               	
+ 1792 05ef 0F        		.uleb128 0xf
+ 1793 05f0 3A01 0000 		.long	314
+ 1794               	
+ 1795 05f4 00        		.byte	0x0
+ 1796 05f5 0F        		.uleb128 0xf
+ 1797 05f6 3A01 0000 		.long	314
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 33
+
+
+ 1798               	
+ 1799 05fa 04        		.byte	0x4
+ 1800 05fb 00        		.byte	0x0
+ 1801 05fc 17        		.uleb128 0x17
+ 1802 05fd 0000 0000 		.long	.LASF76
+ 1803               	
+ 1804 0601 04        		.byte	0x4
+ 1805 0602 21        		.byte	0x21
+ 1806 0603 E605 0000 		.long	1510
+ 1807               	
+ 1808 0607 01        		.byte	0x1
+ 1809 0608 03        		.byte	0x3
+ 1810 0609 03        		.byte	0x3
+ 1811 060a 0000      		.word	mcb_buff_SYS_EVENT_MBX
+ 1812               	
+ 1813 060c 17        		.uleb128 0x17
+ 1814 060d 0000 0000 		.long	.LASF77
+ 1815               	
+ 1816 0611 04        		.byte	0x4
+ 1817 0612 21        		.byte	0x21
+ 1818 0613 8B02 0000 		.long	651
+ 1819               	
+ 1820 0617 01        		.byte	0x1
+ 1821 0618 03        		.byte	0x3
+ 1822 0619 03        		.byte	0x3
+ 1823 061a 0000      		.word	SYS_EVENT_MBX
+ 1824               	
+ 1825 061c 17        		.uleb128 0x17
+ 1826 061d 0000 0000 		.long	.LASF78
+ 1827               	
+ 1828 0621 04        		.byte	0x4
+ 1829 0622 23        		.byte	0x23
+ 1830 0623 4A03 0000 		.long	842
+ 1831               	
+ 1832 0627 01        		.byte	0x1
+ 1833 0628 03        		.byte	0x3
+ 1834 0629 03        		.byte	0x3
+ 1835 062a 0000      		.word	KEY_TIMER
+ 1836               	
+ 1837 062c 0E        		.uleb128 0xe
+ 1838 062d 3C06 0000 		.long	1596
+ 1839               	
+ 1840 0631 4101 0000 		.long	321
+ 1841               	
+ 1842 0635 0F        		.uleb128 0xf
+ 1843 0636 3A01 0000 		.long	314
+ 1844               	
+ 1845 063a 03        		.byte	0x3
+ 1846 063b 00        		.byte	0x0
+ 1847 063c 17        		.uleb128 0x17
+ 1848 063d 0000 0000 		.long	.LASF79
+ 1849               	
+ 1850 0641 04        		.byte	0x4
+ 1851 0642 90        		.byte	0x90
+ 1852 0643 2C06 0000 		.long	1580
+ 1853               	
+ 1854 0647 01        		.byte	0x1
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 34
+
+
+ 1855 0648 03        		.byte	0x3
+ 1856 0649 03        		.byte	0x3
+ 1857 064a 0000      		.word	uSmartXTaskTable
+ 1858               	
+ 1859 064c 00        		.byte	0x0
+ 1860               		.section	.debug_abbrev
+ 1861 0000 01        		.uleb128 0x1
+ 1862 0001 11        		.uleb128 0x11
+ 1863 0002 01        		.byte	0x1
+ 1864 0003 10        		.uleb128 0x10
+ 1865 0004 06        		.uleb128 0x6
+ 1866 0005 12        		.uleb128 0x12
+ 1867 0006 01        		.uleb128 0x1
+ 1868 0007 11        		.uleb128 0x11
+ 1869 0008 01        		.uleb128 0x1
+ 1870 0009 25        		.uleb128 0x25
+ 1871 000a 0E        		.uleb128 0xe
+ 1872 000b 13        		.uleb128 0x13
+ 1873 000c 0B        		.uleb128 0xb
+ 1874 000d 03        		.uleb128 0x3
+ 1875 000e 0E        		.uleb128 0xe
+ 1876 000f 1B        		.uleb128 0x1b
+ 1877 0010 0E        		.uleb128 0xe
+ 1878 0011 00        		.byte	0x0
+ 1879 0012 00        		.byte	0x0
+ 1880 0013 02        		.uleb128 0x2
+ 1881 0014 24        		.uleb128 0x24
+ 1882 0015 00        		.byte	0x0
+ 1883 0016 03        		.uleb128 0x3
+ 1884 0017 0E        		.uleb128 0xe
+ 1885 0018 0B        		.uleb128 0xb
+ 1886 0019 0B        		.uleb128 0xb
+ 1887 001a 3E        		.uleb128 0x3e
+ 1888 001b 0B        		.uleb128 0xb
+ 1889 001c 00        		.byte	0x0
+ 1890 001d 00        		.byte	0x0
+ 1891 001e 03        		.uleb128 0x3
+ 1892 001f 24        		.uleb128 0x24
+ 1893 0020 00        		.byte	0x0
+ 1894 0021 03        		.uleb128 0x3
+ 1895 0022 08        		.uleb128 0x8
+ 1896 0023 0B        		.uleb128 0xb
+ 1897 0024 0B        		.uleb128 0xb
+ 1898 0025 3E        		.uleb128 0x3e
+ 1899 0026 0B        		.uleb128 0xb
+ 1900 0027 00        		.byte	0x0
+ 1901 0028 00        		.byte	0x0
+ 1902 0029 04        		.uleb128 0x4
+ 1903 002a 16        		.uleb128 0x16
+ 1904 002b 00        		.byte	0x0
+ 1905 002c 03        		.uleb128 0x3
+ 1906 002d 0E        		.uleb128 0xe
+ 1907 002e 3A        		.uleb128 0x3a
+ 1908 002f 0B        		.uleb128 0xb
+ 1909 0030 3B        		.uleb128 0x3b
+ 1910 0031 0B        		.uleb128 0xb
+ 1911 0032 49        		.uleb128 0x49
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 35
+
+
+ 1912 0033 13        		.uleb128 0x13
+ 1913 0034 00        		.byte	0x0
+ 1914 0035 00        		.byte	0x0
+ 1915 0036 05        		.uleb128 0x5
+ 1916 0037 04        		.uleb128 0x4
+ 1917 0038 01        		.byte	0x1
+ 1918 0039 01        		.uleb128 0x1
+ 1919 003a 13        		.uleb128 0x13
+ 1920 003b 0B        		.uleb128 0xb
+ 1921 003c 0B        		.uleb128 0xb
+ 1922 003d 3A        		.uleb128 0x3a
+ 1923 003e 0B        		.uleb128 0xb
+ 1924 003f 3B        		.uleb128 0x3b
+ 1925 0040 0B        		.uleb128 0xb
+ 1926 0041 00        		.byte	0x0
+ 1927 0042 00        		.byte	0x0
+ 1928 0043 06        		.uleb128 0x6
+ 1929 0044 28        		.uleb128 0x28
+ 1930 0045 00        		.byte	0x0
+ 1931 0046 03        		.uleb128 0x3
+ 1932 0047 0E        		.uleb128 0xe
+ 1933 0048 1C        		.uleb128 0x1c
+ 1934 0049 0D        		.uleb128 0xd
+ 1935 004a 00        		.byte	0x0
+ 1936 004b 00        		.byte	0x0
+ 1937 004c 07        		.uleb128 0x7
+ 1938 004d 13        		.uleb128 0x13
+ 1939 004e 01        		.byte	0x1
+ 1940 004f 01        		.uleb128 0x1
+ 1941 0050 13        		.uleb128 0x13
+ 1942 0051 0B        		.uleb128 0xb
+ 1943 0052 0B        		.uleb128 0xb
+ 1944 0053 3A        		.uleb128 0x3a
+ 1945 0054 0B        		.uleb128 0xb
+ 1946 0055 3B        		.uleb128 0x3b
+ 1947 0056 0B        		.uleb128 0xb
+ 1948 0057 00        		.byte	0x0
+ 1949 0058 00        		.byte	0x0
+ 1950 0059 08        		.uleb128 0x8
+ 1951 005a 0D        		.uleb128 0xd
+ 1952 005b 00        		.byte	0x0
+ 1953 005c 03        		.uleb128 0x3
+ 1954 005d 0E        		.uleb128 0xe
+ 1955 005e 3A        		.uleb128 0x3a
+ 1956 005f 0B        		.uleb128 0xb
+ 1957 0060 3B        		.uleb128 0x3b
+ 1958 0061 0B        		.uleb128 0xb
+ 1959 0062 49        		.uleb128 0x49
+ 1960 0063 13        		.uleb128 0x13
+ 1961 0064 38        		.uleb128 0x38
+ 1962 0065 0A        		.uleb128 0xa
+ 1963 0066 00        		.byte	0x0
+ 1964 0067 00        		.byte	0x0
+ 1965 0068 09        		.uleb128 0x9
+ 1966 0069 0D        		.uleb128 0xd
+ 1967 006a 00        		.byte	0x0
+ 1968 006b 03        		.uleb128 0x3
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 36
+
+
+ 1969 006c 08        		.uleb128 0x8
+ 1970 006d 3A        		.uleb128 0x3a
+ 1971 006e 0B        		.uleb128 0xb
+ 1972 006f 3B        		.uleb128 0x3b
+ 1973 0070 0B        		.uleb128 0xb
+ 1974 0071 49        		.uleb128 0x49
+ 1975 0072 13        		.uleb128 0x13
+ 1976 0073 38        		.uleb128 0x38
+ 1977 0074 0A        		.uleb128 0xa
+ 1978 0075 00        		.byte	0x0
+ 1979 0076 00        		.byte	0x0
+ 1980 0077 0A        		.uleb128 0xa
+ 1981 0078 15        		.uleb128 0x15
+ 1982 0079 01        		.byte	0x1
+ 1983 007a 01        		.uleb128 0x1
+ 1984 007b 13        		.uleb128 0x13
+ 1985 007c 27        		.uleb128 0x27
+ 1986 007d 0C        		.uleb128 0xc
+ 1987 007e 49        		.uleb128 0x49
+ 1988 007f 13        		.uleb128 0x13
+ 1989 0080 00        		.byte	0x0
+ 1990 0081 00        		.byte	0x0
+ 1991 0082 0B        		.uleb128 0xb
+ 1992 0083 05        		.uleb128 0x5
+ 1993 0084 00        		.byte	0x0
+ 1994 0085 49        		.uleb128 0x49
+ 1995 0086 13        		.uleb128 0x13
+ 1996 0087 00        		.byte	0x0
+ 1997 0088 00        		.byte	0x0
+ 1998 0089 0C        		.uleb128 0xc
+ 1999 008a 0F        		.uleb128 0xf
+ 2000 008b 00        		.byte	0x0
+ 2001 008c 0B        		.uleb128 0xb
+ 2002 008d 0B        		.uleb128 0xb
+ 2003 008e 49        		.uleb128 0x49
+ 2004 008f 13        		.uleb128 0x13
+ 2005 0090 00        		.byte	0x0
+ 2006 0091 00        		.byte	0x0
+ 2007 0092 0D        		.uleb128 0xd
+ 2008 0093 0F        		.uleb128 0xf
+ 2009 0094 00        		.byte	0x0
+ 2010 0095 0B        		.uleb128 0xb
+ 2011 0096 0B        		.uleb128 0xb
+ 2012 0097 00        		.byte	0x0
+ 2013 0098 00        		.byte	0x0
+ 2014 0099 0E        		.uleb128 0xe
+ 2015 009a 01        		.uleb128 0x1
+ 2016 009b 01        		.byte	0x1
+ 2017 009c 01        		.uleb128 0x1
+ 2018 009d 13        		.uleb128 0x13
+ 2019 009e 49        		.uleb128 0x49
+ 2020 009f 13        		.uleb128 0x13
+ 2021 00a0 00        		.byte	0x0
+ 2022 00a1 00        		.byte	0x0
+ 2023 00a2 0F        		.uleb128 0xf
+ 2024 00a3 21        		.uleb128 0x21
+ 2025 00a4 00        		.byte	0x0
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 37
+
+
+ 2026 00a5 49        		.uleb128 0x49
+ 2027 00a6 13        		.uleb128 0x13
+ 2028 00a7 2F        		.uleb128 0x2f
+ 2029 00a8 0B        		.uleb128 0xb
+ 2030 00a9 00        		.byte	0x0
+ 2031 00aa 00        		.byte	0x0
+ 2032 00ab 10        		.uleb128 0x10
+ 2033 00ac 13        		.uleb128 0x13
+ 2034 00ad 01        		.byte	0x1
+ 2035 00ae 01        		.uleb128 0x1
+ 2036 00af 13        		.uleb128 0x13
+ 2037 00b0 03        		.uleb128 0x3
+ 2038 00b1 0E        		.uleb128 0xe
+ 2039 00b2 0B        		.uleb128 0xb
+ 2040 00b3 0B        		.uleb128 0xb
+ 2041 00b4 3A        		.uleb128 0x3a
+ 2042 00b5 0B        		.uleb128 0xb
+ 2043 00b6 3B        		.uleb128 0x3b
+ 2044 00b7 0B        		.uleb128 0xb
+ 2045 00b8 00        		.byte	0x0
+ 2046 00b9 00        		.byte	0x0
+ 2047 00ba 11        		.uleb128 0x11
+ 2048 00bb 13        		.uleb128 0x13
+ 2049 00bc 01        		.byte	0x1
+ 2050 00bd 03        		.uleb128 0x3
+ 2051 00be 0E        		.uleb128 0xe
+ 2052 00bf 0B        		.uleb128 0xb
+ 2053 00c0 0B        		.uleb128 0xb
+ 2054 00c1 3A        		.uleb128 0x3a
+ 2055 00c2 0B        		.uleb128 0xb
+ 2056 00c3 3B        		.uleb128 0x3b
+ 2057 00c4 0B        		.uleb128 0xb
+ 2058 00c5 00        		.byte	0x0
+ 2059 00c6 00        		.byte	0x0
+ 2060 00c7 12        		.uleb128 0x12
+ 2061 00c8 2E        		.uleb128 0x2e
+ 2062 00c9 00        		.byte	0x0
+ 2063 00ca 3F        		.uleb128 0x3f
+ 2064 00cb 0C        		.uleb128 0xc
+ 2065 00cc 03        		.uleb128 0x3
+ 2066 00cd 0E        		.uleb128 0xe
+ 2067 00ce 3A        		.uleb128 0x3a
+ 2068 00cf 0B        		.uleb128 0xb
+ 2069 00d0 3B        		.uleb128 0x3b
+ 2070 00d1 0B        		.uleb128 0xb
+ 2071 00d2 27        		.uleb128 0x27
+ 2072 00d3 0C        		.uleb128 0xc
+ 2073 00d4 11        		.uleb128 0x11
+ 2074 00d5 01        		.uleb128 0x1
+ 2075 00d6 12        		.uleb128 0x12
+ 2076 00d7 01        		.uleb128 0x1
+ 2077 00d8 40        		.uleb128 0x40
+ 2078 00d9 0A        		.uleb128 0xa
+ 2079 00da 00        		.byte	0x0
+ 2080 00db 00        		.byte	0x0
+ 2081 00dc 13        		.uleb128 0x13
+ 2082 00dd 2E        		.uleb128 0x2e
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 38
+
+
+ 2083 00de 01        		.byte	0x1
+ 2084 00df 01        		.uleb128 0x1
+ 2085 00e0 13        		.uleb128 0x13
+ 2086 00e1 3F        		.uleb128 0x3f
+ 2087 00e2 0C        		.uleb128 0xc
+ 2088 00e3 03        		.uleb128 0x3
+ 2089 00e4 0E        		.uleb128 0xe
+ 2090 00e5 3A        		.uleb128 0x3a
+ 2091 00e6 0B        		.uleb128 0xb
+ 2092 00e7 3B        		.uleb128 0x3b
+ 2093 00e8 0B        		.uleb128 0xb
+ 2094 00e9 27        		.uleb128 0x27
+ 2095 00ea 0C        		.uleb128 0xc
+ 2096 00eb 49        		.uleb128 0x49
+ 2097 00ec 13        		.uleb128 0x13
+ 2098 00ed 11        		.uleb128 0x11
+ 2099 00ee 01        		.uleb128 0x1
+ 2100 00ef 12        		.uleb128 0x12
+ 2101 00f0 01        		.uleb128 0x1
+ 2102 00f1 40        		.uleb128 0x40
+ 2103 00f2 0A        		.uleb128 0xa
+ 2104 00f3 00        		.byte	0x0
+ 2105 00f4 00        		.byte	0x0
+ 2106 00f5 14        		.uleb128 0x14
+ 2107 00f6 05        		.uleb128 0x5
+ 2108 00f7 00        		.byte	0x0
+ 2109 00f8 03        		.uleb128 0x3
+ 2110 00f9 0E        		.uleb128 0xe
+ 2111 00fa 3A        		.uleb128 0x3a
+ 2112 00fb 0B        		.uleb128 0xb
+ 2113 00fc 3B        		.uleb128 0x3b
+ 2114 00fd 0B        		.uleb128 0xb
+ 2115 00fe 49        		.uleb128 0x49
+ 2116 00ff 13        		.uleb128 0x13
+ 2117 0100 02        		.uleb128 0x2
+ 2118 0101 0A        		.uleb128 0xa
+ 2119 0102 00        		.byte	0x0
+ 2120 0103 00        		.byte	0x0
+ 2121 0104 15        		.uleb128 0x15
+ 2122 0105 34        		.uleb128 0x34
+ 2123 0106 00        		.byte	0x0
+ 2124 0107 03        		.uleb128 0x3
+ 2125 0108 0E        		.uleb128 0xe
+ 2126 0109 3A        		.uleb128 0x3a
+ 2127 010a 0B        		.uleb128 0xb
+ 2128 010b 3B        		.uleb128 0x3b
+ 2129 010c 0B        		.uleb128 0xb
+ 2130 010d 49        		.uleb128 0x49
+ 2131 010e 13        		.uleb128 0x13
+ 2132 010f 02        		.uleb128 0x2
+ 2133 0110 0A        		.uleb128 0xa
+ 2134 0111 00        		.byte	0x0
+ 2135 0112 00        		.byte	0x0
+ 2136 0113 16        		.uleb128 0x16
+ 2137 0114 34        		.uleb128 0x34
+ 2138 0115 00        		.byte	0x0
+ 2139 0116 03        		.uleb128 0x3
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 39
+
+
+ 2140 0117 08        		.uleb128 0x8
+ 2141 0118 3A        		.uleb128 0x3a
+ 2142 0119 0B        		.uleb128 0xb
+ 2143 011a 3B        		.uleb128 0x3b
+ 2144 011b 0B        		.uleb128 0xb
+ 2145 011c 49        		.uleb128 0x49
+ 2146 011d 13        		.uleb128 0x13
+ 2147 011e 00        		.byte	0x0
+ 2148 011f 00        		.byte	0x0
+ 2149 0120 17        		.uleb128 0x17
+ 2150 0121 34        		.uleb128 0x34
+ 2151 0122 00        		.byte	0x0
+ 2152 0123 03        		.uleb128 0x3
+ 2153 0124 0E        		.uleb128 0xe
+ 2154 0125 3A        		.uleb128 0x3a
+ 2155 0126 0B        		.uleb128 0xb
+ 2156 0127 3B        		.uleb128 0x3b
+ 2157 0128 0B        		.uleb128 0xb
+ 2158 0129 49        		.uleb128 0x49
+ 2159 012a 13        		.uleb128 0x13
+ 2160 012b 3F        		.uleb128 0x3f
+ 2161 012c 0C        		.uleb128 0xc
+ 2162 012d 02        		.uleb128 0x2
+ 2163 012e 0A        		.uleb128 0xa
+ 2164 012f 00        		.byte	0x0
+ 2165 0130 00        		.byte	0x0
+ 2166 0131 00        		.byte	0x0
+ 2167               		.section	.debug_pubnames,"",@progbits
+ 2168 0000 FA00 0000 		.long	250
+ 2169               	
+ 2170 0004 0200      		.word	2
+ 2171               	
+ 2172 0006 0000 0000 		.long	.Ldebug_info0
+ 2173               	
+ 2174 000a 4D06 0000 		.long	1613
+ 2175               	
+ 2176 000e 2104 0000 		.long	1057
+ 2177               	
+ 2178 0012 5F5F 7665 		.string	"__vector_15"
+ 2178      6374 6F72 
+ 2178      5F31 3500 
+ 2179 001e 3704 0000 		.long	1079
+ 2180               	
+ 2181 0022 4B65 7946 		.string	"KeyFxn"
+ 2181      786E 00
+ 2182 0029 9304 0000 		.long	1171
+ 2183               	
+ 2184 002d 5453 4B5F 		.string	"TSK_LedHandler"
+ 2184      4C65 6448 
+ 2184      616E 646C 
+ 2184      6572 00
+ 2185 003c D304 0000 		.long	1235
+ 2186               	
+ 2187 0040 5453 4B5F 		.string	"TSK_KeyScan"
+ 2187      4B65 7953 
+ 2187      6361 6E00 
+ 2188 004c 2205 0000 		.long	1314
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 40
+
+
+ 2189               	
+ 2190 0050 5453 4B5F 		.string	"TSK_System"
+ 2190      5379 7374 
+ 2190      656D 00
+ 2191 005b 6E05 0000 		.long	1390
+ 2192               	
+ 2193 005f 6D61 696E 		.string	"main"
+ 2193      00
+ 2194 0064 9605 0000 		.long	1430
+ 2195               	
+ 2196 0068 5453 4B5F 		.string	"TSK_LED"
+ 2196      4C45 4400 
+ 2197 0070 A605 0000 		.long	1446
+ 2198               	
+ 2199 0074 5453 4B5F 		.string	"TSK_KESYSCAN"
+ 2199      4B45 5359 
+ 2199      5343 414E 
+ 2199      00
+ 2200 0081 B605 0000 		.long	1462
+ 2201               	
+ 2202 0085 5453 4B5F 		.string	"TSK_SYSTEM"
+ 2202      5359 5354 
+ 2202      454D 00
+ 2203 0090 D605 0000 		.long	1494
+ 2204               	
+ 2205 0094 6D63 625F 		.string	"mcb_msg_SYS_EVENT_MBX"
+ 2205      6D73 675F 
+ 2205      5359 535F 
+ 2205      4556 454E 
+ 2205      545F 4D42 
+ 2206 00aa FC05 0000 		.long	1532
+ 2207               	
+ 2208 00ae 6D63 625F 		.string	"mcb_buff_SYS_EVENT_MBX"
+ 2208      6275 6666 
+ 2208      5F53 5953 
+ 2208      5F45 5645 
+ 2208      4E54 5F4D 
+ 2209 00c5 0C06 0000 		.long	1548
+ 2210               	
+ 2211 00c9 5359 535F 		.string	"SYS_EVENT_MBX"
+ 2211      4556 454E 
+ 2211      545F 4D42 
+ 2211      5800 
+ 2212 00d7 1C06 0000 		.long	1564
+ 2213               	
+ 2214 00db 4B45 595F 		.string	"KEY_TIMER"
+ 2214      5449 4D45 
+ 2214      5200 
+ 2215 00e5 3C06 0000 		.long	1596
+ 2216               	
+ 2217 00e9 7553 6D61 		.string	"uSmartXTaskTable"
+ 2217      7274 5854 
+ 2217      6173 6B54 
+ 2217      6162 6C65 
+ 2217      00
+ 2218 00fa 0000 0000 		.long	0
+ 2219               	
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 41
+
+
+ 2220               		.section	.debug_aranges,"",@progbits
+ 2221 0000 1000 0000 		.long	16
+ 2222               	
+ 2223 0004 0200      		.word	2
+ 2224               	
+ 2225 0006 0000 0000 		.long	.Ldebug_info0
+ 2226               	
+ 2227 000a 02        		.byte	0x2
+ 2228 000b 00        		.byte	0x0
+ 2229 000c 0000      		.word	.Ltext0
+ 2230               	
+ 2231 000e F001      		.word	.Letext0-.Ltext0
+ 2232               	
+ 2233 0010 0000      		.word	0
+ 2234               	
+ 2235 0012 0000      		.word	0
+ 2236               	
+ 2237               		.section	.debug_str,"MS",@progbits,1
+ 2238               	.LASF60:
+ 2239 0000 7563 4576 		.string	"ucEvent"
+ 2239      656E 7400 
+ 2240               	.LASF70:
+ 2241 0008 756C 5065 		.string	"ulPeriodicAnchor"
+ 2241      7269 6F64 
+ 2241      6963 416E 
+ 2241      6368 6F72 
+ 2241      00
+ 2242               	.LASF77:
+ 2243 0019 5359 535F 		.string	"SYS_EVENT_MBX"
+ 2243      4556 454E 
+ 2243      545F 4D42 
+ 2243      5800 
+ 2244               	.LASF52:
+ 2245 0027 7072 696F 		.string	"priority"
+ 2245      7269 7479 
+ 2245      00
+ 2246               	.LASF68:
+ 2247 0030 7563 4B65 		.string	"ucKeyPressCount"
+ 2247      7950 7265 
+ 2247      7373 436F 
+ 2247      756E 7400 
+ 2248               	.LASF39:
+ 2249 0040 6672 6565 		.string	"free_list"
+ 2249      5F6C 6973 
+ 2249      7400 
+ 2250               	.LASF7:
+ 2251 004a 7368 6F72 		.string	"short int"
+ 2251      7420 696E 
+ 2251      7400 
+ 2252               	.LASF55:
+ 2253 0054 7071 7565 		.string	"pqueue"
+ 2253      7565 00
+ 2254               	.LASF15:
+ 2255 005b 5359 535F 		.string	"SYS_MBX"
+ 2255      4D42 5800 
+ 2256               	.LASF63:
+ 2257 0063 4B65 7946 		.string	"KeyFxn"
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 42
+
+
+ 2257      786E 00
+ 2258               	.LASF71:
+ 2259 006a 6D61 696E 		.string	"main"
+ 2259      00
+ 2260               	.LASF53:
+ 2261 006f 6576 656E 		.string	"event"
+ 2261      7400 
+ 2262               	.LASF42:
+ 2263 0075 706D 7367 		.string	"pmsg"
+ 2263      00
+ 2264               	.LASF38:
+ 2265 007a 656D 7074 		.string	"emptyq"
+ 2265      7971 00
+ 2266               	.LASF17:
+ 2267 0081 5359 535F 		.string	"SYS_TOUT"
+ 2267      544F 5554 
+ 2267      00
+ 2268               	.LASF9:
+ 2269 008a 7569 6E74 		.string	"uint16"
+ 2269      3136 00
+ 2270               	.LASF31:
+ 2271 0091 706C 6173 		.string	"plast"
+ 2271      7400 
+ 2272               	.LASF16:
+ 2273 0097 5359 535F 		.string	"SYS_SEM"
+ 2273      5345 4D00 
+ 2274               	.LASF82:
+ 2275 009f 463A 5C4D 		.string	"F:\\MyProjects\\usmartx\\examples\\timer"
+ 2275      7950 726F 
+ 2275      6A65 6374 
+ 2275      735C 7573 
+ 2275      6D61 7274 
+ 2276               	.LASF59:
+ 2277 00c4 7463 625F 		.string	"tcb_t"
+ 2277      7400 
+ 2278               	.LASF54:
+ 2279 00ca 706D 7367 		.string	"pmsg_entry"
+ 2279      5F65 6E74 
+ 2279      7279 00
+ 2280               	.LASF67:
+ 2281 00d5 5453 4B5F 		.string	"TSK_KeyScan"
+ 2281      4B65 7953 
+ 2281      6361 6E00 
+ 2282               	.LASF5:
+ 2283 00e1 6C6F 6E67 		.string	"long long int"
+ 2283      206C 6F6E 
+ 2283      6720 696E 
+ 2283      7400 
+ 2284               	.LASF47:
+ 2285 00ef 7061 7267 		.string	"parg1"
+ 2285      3100 
+ 2286               	.LASF34:
+ 2287 00f5 7064 6174 		.string	"pdata"
+ 2287      6100 
+ 2288               	.LASF51:
+ 2289 00fb 7463 625F 		.string	"tcb_s"
+ 2289      7300 
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 43
+
+
+ 2290               	.LASF3:
+ 2291 0101 6C6F 6E67 		.string	"long int"
+ 2291      2069 6E74 
+ 2291      00
+ 2292               	.LASF69:
+ 2293 010a 5453 4B5F 		.string	"TSK_System"
+ 2293      5379 7374 
+ 2293      656D 00
+ 2294               	.LASF36:
+ 2295 0115 6D63 625F 		.string	"mcb_s"
+ 2295      7300 
+ 2296               	.LASF20:
+ 2297 011b 5359 535F 		.string	"SYS_NONE"
+ 2297      4E4F 4E45 
+ 2297      00
+ 2298               	.LASF28:
+ 2299 0124 646C 6C5F 		.string	"dll_s"
+ 2299      7300 
+ 2300               	.LASF27:
+ 2301 012a 646C 6C5F 		.string	"dll_t"
+ 2301      7400 
+ 2302               	.LASF66:
+ 2303 0130 6242 6C69 		.string	"bBlink"
+ 2303      6E6B 00
+ 2304               	.LASF74:
+ 2305 0137 5453 4B5F 		.string	"TSK_SYSTEM"
+ 2305      5359 5354 
+ 2305      454D 00
+ 2306               	.LASF65:
+ 2307 0142 7563 5379 		.string	"ucSysEvent"
+ 2307      7345 7665 
+ 2307      6E74 00
+ 2308               	.LASF25:
+ 2309 014d 706E 7874 		.string	"pnxt"
+ 2309      00
+ 2310               	.LASF8:
+ 2311 0152 7569 6E74 		.string	"uint8"
+ 2311      3800 
+ 2312               	.LASF1:
+ 2313 0158 756E 7369 		.string	"unsigned char"
+ 2313      676E 6564 
+ 2313      2063 6861 
+ 2313      7200 
+ 2314               	.LASF0:
+ 2315 0166 7369 676E 		.string	"signed char"
+ 2315      6564 2063 
+ 2315      6861 7200 
+ 2316               	.LASF49:
+ 2317 0172 666C 6167 		.string	"flags"
+ 2317      7300 
+ 2318               	.LASF6:
+ 2319 0178 6C6F 6E67 		.string	"long long unsigned int"
+ 2319      206C 6F6E 
+ 2319      6720 756E 
+ 2319      7369 676E 
+ 2319      6564 2069 
+ 2320               	.LASF2:
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 44
+
+
+ 2321 018f 756E 7369 		.string	"unsigned int"
+ 2321      676E 6564 
+ 2321      2069 6E74 
+ 2321      00
+ 2322               	.LASF80:
+ 2323 019c 474E 5520 		.string	"GNU C 3.4.1"
+ 2323      4320 332E 
+ 2323      342E 3100 
+ 2324               	.LASF81:
+ 2325 01a8 7469 6D65 		.string	"timers.c"
+ 2325      7273 2E63 
+ 2325      00
+ 2326               	.LASF75:
+ 2327 01b1 6D63 625F 		.string	"mcb_msg_SYS_EVENT_MBX"
+ 2327      6D73 675F 
+ 2327      5359 535F 
+ 2327      4556 454E 
+ 2327      545F 4D42 
+ 2328               	.LASF10:
+ 2329 01c7 7368 6F72 		.string	"short unsigned int"
+ 2329      7420 756E 
+ 2329      7369 676E 
+ 2329      6564 2069 
+ 2329      6E74 00
+ 2330               	.LASF76:
+ 2331 01da 6D63 625F 		.string	"mcb_buff_SYS_EVENT_MBX"
+ 2331      6275 6666 
+ 2331      5F53 5953 
+ 2331      5F45 5645 
+ 2331      4E54 5F4D 
+ 2332               	.LASF22:
+ 2333 01f1 7074 736B 		.string	"ptsk_fxn"
+ 2333      5F66 786E 
+ 2333      00
+ 2334               	.LASF44:
+ 2335 01fa 6D63 625F 		.string	"mcb_t"
+ 2335      7400 
+ 2336               	.LASF24:
+ 2337 0200 7461 736B 		.string	"task_entry_t"
+ 2337      5F65 6E74 
+ 2337      7279 5F74 
+ 2337      00
+ 2338               	.LASF58:
+ 2339 020d 756E 4176 		.string	"unAvgTime"
+ 2339      6754 696D 
+ 2339      6500 
+ 2340               	.LASF26:
+ 2341 0217 7070 7276 		.string	"pprv"
+ 2341      00
+ 2342               	.LASF40:
+ 2343 021c 6675 6C6C 		.string	"full_list"
+ 2343      5F6C 6973 
+ 2343      7400 
+ 2344               	.LASF43:
+ 2345 0226 6E6D 7367 		.string	"nmsg"
+ 2345      00
+ 2346               	.LASF62:
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 45
+
+
+ 2347 022b 7041 7267 		.string	"pArg2"
+ 2347      3200 
+ 2348               	.LASF46:
+ 2349 0231 7066 786E 		.string	"pfxn"
+ 2349      00
+ 2350               	.LASF19:
+ 2351 0236 5359 535F 		.string	"SYS_SEM_TOUT"
+ 2351      5345 4D5F 
+ 2351      544F 5554 
+ 2351      00
+ 2352               	.LASF56:
+ 2353 0243 756E 4D61 		.string	"unMaxTime"
+ 2353      7854 696D 
+ 2353      6500 
+ 2354               	.LASF45:
+ 2355 024d 6275 665F 		.string	"buf_s"
+ 2355      7300 
+ 2356               	.LASF4:
+ 2357 0253 6C6F 6E67 		.string	"long unsigned int"
+ 2357      2075 6E73 
+ 2357      6967 6E65 
+ 2357      6420 696E 
+ 2357      7400 
+ 2358               	.LASF84:
+ 2359 0265 5F5F 7665 		.string	"__vector_15"
+ 2359      6374 6F72 
+ 2359      5F31 3500 
+ 2360               	.LASF11:
+ 2361 0271 7569 6E74 		.string	"uint32"
+ 2361      3332 00
+ 2362               	.LASF61:
+ 2363 0278 7041 7267 		.string	"pArg1"
+ 2363      3100 
+ 2364               	.LASF83:
+ 2365 027e 7469 635F 		.string	"tic_s"
+ 2365      7300 
+ 2366               	.LASF50:
+ 2367 0284 7469 635F 		.string	"tic_t"
+ 2367      7400 
+ 2368               	.LASF41:
+ 2369 028a 7062 7566 		.string	"pbuff"
+ 2369      6600 
+ 2370               	.LASF72:
+ 2371 0290 5453 4B5F 		.string	"TSK_LED"
+ 2371      4C45 4400 
+ 2372               	.LASF14:
+ 2373 0298 5359 535F 		.string	"SYS_IDLE"
+ 2373      4944 4C45 
+ 2373      00
+ 2374               	.LASF79:
+ 2375 02a1 7553 6D61 		.string	"uSmartXTaskTable"
+ 2375      7274 5854 
+ 2375      6173 6B54 
+ 2375      6162 6C65 
+ 2375      00
+ 2376               	.LASF12:
+ 2377 02b2 5359 535F 		.string	"SYS_OK"
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 46
+
+
+ 2377      4F4B 00
+ 2378               	.LASF78:
+ 2379 02b9 4B45 595F 		.string	"KEY_TIMER"
+ 2379      5449 4D45 
+ 2379      5200 
+ 2380               	.LASF57:
+ 2381 02c3 756E 4D69 		.string	"unMinTime"
+ 2381      6E54 696D 
+ 2381      6500 
+ 2382               	.LASF30:
+ 2383 02cd 706F 626A 		.string	"pobject"
+ 2383      6563 7400 
+ 2384               	.LASF29:
+ 2385 02d5 7175 6575 		.string	"queue_s"
+ 2385      655F 7300 
+ 2386               	.LASF32:
+ 2387 02dd 7175 6575 		.string	"queue_t"
+ 2387      655F 7400 
+ 2388               	.LASF23:
+ 2389 02e5 5461 736B 		.string	"TaskName"
+ 2389      4E61 6D65 
+ 2389      00
+ 2390               	.LASF37:
+ 2391 02ee 6675 6C6C 		.string	"fullq"
+ 2391      7100 
+ 2392               	.LASF18:
+ 2393 02f4 5359 535F 		.string	"SYS_MBX_TOUT"
+ 2393      4D42 585F 
+ 2393      544F 5554 
+ 2393      00
+ 2394               	.LASF73:
+ 2395 0301 5453 4B5F 		.string	"TSK_KESYSCAN"
+ 2395      4B45 5359 
+ 2395      5343 414E 
+ 2395      00
+ 2396               	.LASF13:
+ 2397 030e 5359 535F 		.string	"SYS_ERROR"
+ 2397      4552 524F 
+ 2397      5200 
+ 2398               	.LASF21:
+ 2399 0318 5354 4154 		.string	"STATUS"
+ 2399      5553 00
+ 2400               	.LASF48:
+ 2401 031f 7061 7267 		.string	"parg2"
+ 2401      3200 
+ 2402               	.LASF33:
+ 2403 0325 6D73 675F 		.string	"msg_s"
+ 2403      7300 
+ 2404               	.LASF35:
+ 2405 032b 6D73 675F 		.string	"msg_t"
+ 2405      7400 
+ 2406               	.LASF64:
+ 2407 0331 5453 4B5F 		.string	"TSK_LedHandler"
+ 2407      4C65 6448 
+ 2407      616E 646C 
+ 2407      6572 00
+ 2408               	/* File "timers.c": code  252 = 0x00fc ( 160), prologues  47, epilogues  45 */
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 47
+
+
+GAS LISTING C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s 			page 48
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 timers.c
+                            *ABS*:0000003f __SREG__
+                            *ABS*:0000003e __SP_H__
+                            *ABS*:0000003d __SP_L__
+                            *ABS*:00000000 __tmp_reg__
+                            *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:22     .data:00000000 uSmartXTaskTable
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:162    .text:00000088 TSK_LedHandler
+                            *COM*:00000024 TSK_LED
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:200    .text:000000b0 TSK_KeyScan
+                            *COM*:00000024 TSK_KESYSCAN
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:286    .text:00000136 TSK_System
+                            *COM*:00000024 TSK_SYSTEM
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:46     .data:0000003c SYS_EVENT_MBX
+                            *COM*:00000005 mcb_buff_SYS_EVENT_MBX
+                            *COM*:0000001e mcb_msg_SYS_EVENT_MBX
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:62     .text:00000000 __vector_15
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:110    .text:00000048 KeyFxn
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:157    .data:00000052 bBlink.3
+                             .bss:00000000 ucKeyPressCount.1
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:196    .bss:00000001 ucSysEvent.2
+                            *COM*:00000010 KEY_TIMER
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:197    .bss:00000002 ulPeriodicAnchor.0
+C:\DOCUME~1\MarkoP\LOCALS~1\Temp/ccs9aaaa.s:355    .text:000001b4 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
+uSMARTX_Tick
+MBX_Post
+TSK_Self
+TSK_Sleep
+TMR_Start
+MBX_Pend
+TMR_GetTicks
+__stack
+MBX_Init
+uSMARTX_Init
+INT_Enable
+uSMARTX_Scheduler
+exit

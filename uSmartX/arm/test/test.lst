@@ -1,0 +1,2178 @@
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 1
+
+
+   1              		.file	"test.c"
+   2              		.section	.debug_abbrev,"",%progbits
+   3              	.Ldebug_abbrev0:
+   4              		.section	.debug_info,"",%progbits
+   5              	.Ldebug_info0:
+   6              		.section	.debug_line,"",%progbits
+   7              	.Ldebug_line0:
+   8 0000 7E000000 		.text
+   8      02003F00 
+   8      00000201 
+   8      FB0E0A00 
+   8      01010101 
+   9              	.Ltext0:
+  10              		.global	EVENT_MSG
+  11              		.data
+  12              		.align	2
+  13              		.type	EVENT_MSG, %object
+  14              		.size	EVENT_MSG, 44
+  15              	EVENT_MSG:
+  16 0000 00000000 		.word	0
+  17 0004 00000000 		.word	0
+  18 0008 00000000 		.word	0
+  19 000c 00000000 		.word	0
+  20 0010 00000000 		.word	0
+  21 0014 00000000 		.word	0
+  22 0018 00000000 		.word	0
+  23 001c 00000000 		.word	0
+  24 0020 00000000 		.word	mcb_buff_EVENT_MSG
+  25 0024 00000000 		.word	mcb_msg_EVENT_MSG
+  26 0028 01       		.byte	1
+  27 0029 05       		.byte	5
+  28 002a 0000     		.space	2
+  29              		.global	bcb_tic_BUF
+  30              		.align	2
+  31              		.type	bcb_tic_BUF, %object
+  32              		.size	bcb_tic_BUF, 32
+  33              	bcb_tic_BUF:
+  34 002c 00000000 		.word	0
+  35 0030 00000000 		.word	0
+  36 0034 FFFF     		.short	-1
+  37 0036 0000     		.short	0
+  38 0038 00000000 		.word	buff_dummy_clb
+  39 003c 00       		.byte	0
+  40 003d 000000   		.space	3
+  41 0040 00000000 		.word	0
+  42 0044 00000000 		.word	0
+  43 0048 00       		.byte	0
+  44 0049 000000   		.space	3
+  45              		.global	BUF
+  46              		.align	2
+  47              		.type	BUF, %object
+  48              		.size	BUF, 32
+  49              	BUF:
+  50 004c 00000000 		.word	bcb_buff_BUF
+  51 0050 00000000 		.word	bcb_buff_BUF
+  52 0054 00000000 		.word	bcb_buff_BUF
+  53 0058 0C000000 		.word	bcb_buff_BUF+12
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 2
+
+
+  54 005c 0000     		.short	0
+  55 005e 0000     		.short	0
+  56 0060 03       		.byte	3
+  57 0061 00       		.byte	0
+  58 0062 0000     		.space	2
+  59 0064 00000000 		.word	buff_dummy_clb
+  60 0068 00000000 		.word	bcb_tic_BUF
+  61              		.text
+  62              		.align	2
+  63              		.global	TSK1
+  64              		.type	TSK1, %function
+  65              	TSK1:
+  66              	.LFB2:
+  67              		.file 1 "../../test/test.c"
+   1:../../test/test.c **** #include <usmartx.h>
+   2:../../test/test.c **** #include <mailbox.h>
+   3:../../test/test.c **** #include <mballoc.h>
+   4:../../test/test.c **** #include <cycbuff.h>
+   5:../../test/test.c **** 
+   6:../../test/test.c **** TSK_CREATE(TSK1_tcb);
+   7:../../test/test.c **** TSK_CREATE(TSK3_tcb);
+   8:../../test/test.c **** TSK_CREATE(TSK2_tcb);
+   9:../../test/test.c **** 
+  10:../../test/test.c **** TMR_CREATE(DEMO_TMR);
+  11:../../test/test.c **** MBX_CREATE(EVENT_MSG, 5, sizeof(uint8));
+  12:../../test/test.c **** 
+  13:../../test/test.c **** BUF_CREATE(BUF, 4, 3);
+  14:../../test/test.c **** 
+  15:../../test/test.c **** STATUS TSK1(STATUS evt) {
+  68              		.loc 1 15 0
+  69              		@ args = 0, pretend = 0, frame = 4
+  70              		@ frame_needed = 1, uses_anonymous_args = 0
+  71 0000 0DC0A0E1 		mov	ip, sp
+  72              	.LCFI0:
+  73 0004 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+  74              	.LCFI1:
+  75 0008 04B04CE2 		sub	fp, ip, #4
+  76              	.LCFI2:
+  77 000c 04D04DE2 		sub	sp, sp, #4
+  78              	.LCFI3:
+  79 0010 10000BE5 		str	r0, [fp, #-16]
+  16:../../test/test.c **** 	/* DEMO */
+  17:../../test/test.c **** 	TSK_Sleep( TSK_Self(), 100);
+  80              		.loc 1 17 0
+  81 0014 FEFFFFEB 		bl	TSK_Self
+  82 0018 0030A0E1 		mov	r3, r0
+  83 001c 0300A0E1 		mov	r0, r3
+  84 0020 6410A0E3 		mov	r1, #100
+  85 0024 FEFFFFEB 		bl	TSK_Sleep
+  18:../../test/test.c **** 	return SYS_OK;
+  86              		.loc 1 18 0
+  87 0028 0030A0E3 		mov	r3, #0
+  19:../../test/test.c **** }
+  88              		.loc 1 19 0
+  89 002c 0300A0E1 		mov	r0, r3
+  90 0030 08A89DE8 		ldmfd	sp, {r3, fp, sp, pc}
+  91              	.LFE2:
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 3
+
+
+  92              		.size	TSK1, .-TSK1
+  93              		.bss
+  94              	ucTest.0:
+  95 0000 00       		.space	1
+  96              		.text
+  97              		.align	2
+  98              		.global	TSK2
+  99              		.type	TSK2, %function
+ 100              	TSK2:
+ 101              	.LFB3:
+  20:../../test/test.c **** 
+  21:../../test/test.c **** STATUS TSK2(STATUS evt) {
+ 102              		.loc 1 21 0
+ 103              		@ args = 0, pretend = 0, frame = 4
+ 104              		@ frame_needed = 1, uses_anonymous_args = 0
+ 105 0034 0DC0A0E1 		mov	ip, sp
+ 106              	.LCFI4:
+ 107 0038 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 108              	.LCFI5:
+ 109 003c 04B04CE2 		sub	fp, ip, #4
+ 110              	.LCFI6:
+ 111 0040 04D04DE2 		sub	sp, sp, #4
+ 112              	.LCFI7:
+ 113 0044 10000BE5 		str	r0, [fp, #-16]
+  22:../../test/test.c **** 	static uint8 ucTest;
+  23:../../test/test.c **** 	/* DEMO */
+  24:../../test/test.c **** 	if( MBX_Pend(&EVENT_MSG, &ucTest, 500) == SYS_OK ) {
+ 114              		.loc 1 24 0
+ 115 0048 14009FE5 		ldr	r0, .L7
+ 116 004c 14109FE5 		ldr	r1, .L7+4
+ 117 0050 7D2FA0E3 		mov	r2, #500
+ 118 0054 FEFFFFEB 		bl	MBX_Pend
+  25:../../test/test.c **** 	
+  26:../../test/test.c **** 		switch( ucTest ) {
+  27:../../test/test.c **** 			case 100:
+  28:../../test/test.c **** 				/* Handle event 100 here */
+  29:../../test/test.c **** 				break;
+  30:../../test/test.c **** 			default:
+  31:../../test/test.c **** 				break;	
+  32:../../test/test.c **** 		}	
+  33:../../test/test.c **** 		
+  34:../../test/test.c **** 	}
+  35:../../test/test.c **** 	return SYS_OK;
+ 119              		.loc 1 35 0
+ 120 0058 0030A0E3 		mov	r3, #0
+  36:../../test/test.c **** }
+ 121              		.loc 1 36 0
+ 122 005c 0300A0E1 		mov	r0, r3
+ 123 0060 08A89DE8 		ldmfd	sp, {r3, fp, sp, pc}
+ 124              	.L8:
+ 125              		.align	2
+ 126              	.L7:
+ 127 0064 00000000 		.word	EVENT_MSG
+ 128 0068 00000000 		.word	ucTest.0
+ 129              	.LFE3:
+ 130              		.size	TSK2, .-TSK2
+ 131              		.align	2
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 4
+
+
+ 132              		.global	TSK3
+ 133              		.type	TSK3, %function
+ 134              	TSK3:
+ 135              	.LFB4:
+  37:../../test/test.c **** 
+  38:../../test/test.c **** STATUS TSK3(STATUS evt) {
+ 136              		.loc 1 38 0
+ 137              		@ args = 0, pretend = 0, frame = 4
+ 138              		@ frame_needed = 1, uses_anonymous_args = 0
+ 139 006c 0DC0A0E1 		mov	ip, sp
+ 140              	.LCFI8:
+ 141 0070 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 142              	.LCFI9:
+ 143 0074 04B04CE2 		sub	fp, ip, #4
+ 144              	.LCFI10:
+ 145 0078 04D04DE2 		sub	sp, sp, #4
+ 146              	.LCFI11:
+ 147 007c 10000BE5 		str	r0, [fp, #-16]
+  39:../../test/test.c **** 	TSK_Sleep( TSK_Self(), 30);
+ 148              		.loc 1 39 0
+ 149 0080 FEFFFFEB 		bl	TSK_Self
+ 150 0084 0030A0E1 		mov	r3, r0
+ 151 0088 0300A0E1 		mov	r0, r3
+ 152 008c 1E10A0E3 		mov	r1, #30
+ 153 0090 FEFFFFEB 		bl	TSK_Sleep
+  40:../../test/test.c **** 	return SYS_OK;
+ 154              		.loc 1 40 0
+ 155 0094 0030A0E3 		mov	r3, #0
+  41:../../test/test.c **** 	
+  42:../../test/test.c **** }
+ 156              		.loc 1 42 0
+ 157 0098 0300A0E1 		mov	r0, r3
+ 158 009c 08A89DE8 		ldmfd	sp, {r3, fp, sp, pc}
+ 159              	.LFE4:
+ 160              		.size	TSK3, .-TSK3
+ 161              		.global	tsk_tbl
+ 162              		.data
+ 163              		.align	2
+ 164              		.type	tsk_tbl, %object
+ 165              		.size	tsk_tbl, 80
+ 166              	tsk_tbl:
+ 167 006c 00000000 		.word	TSK1
+ 168 0070 00000000 		.word	TSK1_tcb
+ 169 0074 01       		.byte	1
+ 170 0075 5441534B 		.ascii	"TASK1\000"
+ 170      3100
+ 171 007b 00000000 		.space	4
+ 172 007f 00       		.space	1
+ 173 0080 00000000 		.word	TSK2
+ 174 0084 00000000 		.word	TSK2_tcb
+ 175 0088 02       		.byte	2
+ 176 0089 5441534B 		.ascii	"TASK2\000"
+ 176      3200
+ 177 008f 00000000 		.space	4
+ 178 0093 00       		.space	1
+ 179 0094 00000000 		.word	TSK3
+ 180 0098 00000000 		.word	TSK3_tcb
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 5
+
+
+ 181 009c 03       		.byte	3
+ 182 009d 5441534B 		.ascii	"TASK3\000"
+ 182      3300
+ 183 00a3 00000000 		.space	4
+ 184 00a7 00       		.space	1
+ 185 00a8 00000000 		.word	0
+ 186 00ac 00000000 		.word	0
+ 187 00b0 00000000 		.space	12
+ 187      00000000 
+ 187      00000000 
+ 188              		.text
+ 189              		.align	2
+ 190              		.global	TimeoutHandler
+ 191              		.type	TimeoutHandler, %function
+ 192              	TimeoutHandler:
+ 193              	.LFB5:
+  43:../../test/test.c **** 
+  44:../../test/test.c **** task_entry_t tsk_tbl[] = {	{&TSK1, &TSK1_tcb, 1, "TASK1"},
+  45:../../test/test.c **** 							{&TSK2, &TSK2_tcb, 2, "TASK2"},
+  46:../../test/test.c **** 							{&TSK3, &TSK3_tcb, 3, "TASK3"},
+  47:../../test/test.c **** 							{0, 0}
+  48:../../test/test.c **** 							};
+  49:../../test/test.c **** 													
+  50:../../test/test.c **** 
+  51:../../test/test.c **** STATUS TimeoutHandler(uint8 Event, void *pArg1, void *pArg2) {	
+ 194              		.loc 1 51 0
+ 195              		@ args = 0, pretend = 0, frame = 12
+ 196              		@ frame_needed = 1, uses_anonymous_args = 0
+ 197 00a0 0DC0A0E1 		mov	ip, sp
+ 198              	.LCFI12:
+ 199 00a4 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 200              	.LCFI13:
+ 201 00a8 04B04CE2 		sub	fp, ip, #4
+ 202              	.LCFI14:
+ 203 00ac 0CD04DE2 		sub	sp, sp, #12
+ 204              	.LCFI15:
+ 205 00b0 0030A0E1 		mov	r3, r0
+ 206 00b4 14100BE5 		str	r1, [fp, #-20]
+ 207 00b8 18200BE5 		str	r2, [fp, #-24]
+ 208 00bc 0D304BE5 		strb	r3, [fp, #-13]
+  52:../../test/test.c **** 	//MBX_Post(pArg1, &Event, 0);
+  53:../../test/test.c **** 	return SYS_OK;
+ 209              		.loc 1 53 0
+ 210 00c0 0030A0E3 		mov	r3, #0
+  54:../../test/test.c **** }
+ 211              		.loc 1 54 0
+ 212 00c4 0300A0E1 		mov	r0, r3
+ 213 00c8 0CD04BE2 		sub	sp, fp, #12
+ 214 00cc 00A89DE8 		ldmfd	sp, {fp, sp, pc}
+ 215              	.LFE5:
+ 216              		.size	TimeoutHandler, .-TimeoutHandler
+ 217              		.section	.rodata
+ 218              		.align	2
+ 219              	.LC0:
+ 220 0000 31323300 		.ascii	"123\000"
+ 221              		.align	2
+ 222              	.LC1:
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 6
+
+
+ 223 0004 34353600 		.ascii	"456\000"
+ 224              		.align	2
+ 225              	.LC2:
+ 226 0008 37383900 		.ascii	"789\000"
+ 227              		.align	2
+ 228              	.LC3:
+ 229 000c 61626300 		.ascii	"abc\000"
+ 230              		.align	2
+ 231              	.LC4:
+ 232 0010 64656600 		.ascii	"def\000"
+ 233              		.align	2
+ 234              	.LC5:
+ 235 0014 33323100 		.ascii	"321\000"
+ 236              		.text
+ 237              		.align	2
+ 238              		.global	main
+ 239              		.type	main, %function
+ 240              	main:
+ 241              	.LFB6:
+  55:../../test/test.c **** 
+  56:../../test/test.c **** int main(void) {
+ 242              		.loc 1 56 0
+ 243              		@ args = 0, pretend = 0, frame = 4
+ 244              		@ frame_needed = 1, uses_anonymous_args = 0
+ 245 00d0 0DC0A0E1 		mov	ip, sp
+ 246              	.LCFI16:
+ 247 00d4 00D82DE9 		stmfd	sp!, {fp, ip, lr, pc}
+ 248              	.LCFI17:
+ 249 00d8 04B04CE2 		sub	fp, ip, #4
+ 250              	.LCFI18:
+ 251 00dc 10D04DE2 		sub	sp, sp, #16
+ 252              	.LCFI19:
+  57:../../test/test.c **** 	uint8 data[3];
+  58:../../test/test.c **** 	
+  59:../../test/test.c **** 	BUF_AppendTrgFxn(&BUF, 2, &TimeoutHandler);
+ 253              		.loc 1 59 0
+ 254 00e0 30019FE5 		ldr	r0, .L17
+ 255 00e4 0210A0E3 		mov	r1, #2
+ 256 00e8 2C219FE5 		ldr	r2, .L17+4
+ 257 00ec FEFFFFEB 		bl	BUF_AppendTrgFxn
+  60:../../test/test.c **** 	BUF_AppendToutFxn(&BUF, 5, &TimeoutHandler);
+ 258              		.loc 1 60 0
+ 259 00f0 20019FE5 		ldr	r0, .L17
+ 260 00f4 0510A0E3 		mov	r1, #5
+ 261 00f8 1C219FE5 		ldr	r2, .L17+4
+ 262 00fc FEFFFFEB 		bl	BUF_AppendToutFxn
+  61:../../test/test.c **** 	
+  62:../../test/test.c **** 	BUF_Put(&BUF, "123");
+ 263              		.loc 1 62 0
+ 264 0100 10019FE5 		ldr	r0, .L17
+ 265 0104 14119FE5 		ldr	r1, .L17+8
+ 266 0108 FEFFFFEB 		bl	BUF_Put
+  63:../../test/test.c **** 	BUF_Put(&BUF, "456");
+ 267              		.loc 1 63 0
+ 268 010c 04019FE5 		ldr	r0, .L17
+ 269 0110 0C119FE5 		ldr	r1, .L17+12
+ 270 0114 FEFFFFEB 		bl	BUF_Put
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 7
+
+
+  64:../../test/test.c **** 	BUF_Put(&BUF, "789");
+ 271              		.loc 1 64 0
+ 272 0118 F8009FE5 		ldr	r0, .L17
+ 273 011c 04119FE5 		ldr	r1, .L17+16
+ 274 0120 FEFFFFEB 		bl	BUF_Put
+  65:../../test/test.c **** 	BUF_Put(&BUF, "abc");
+ 275              		.loc 1 65 0
+ 276 0124 EC009FE5 		ldr	r0, .L17
+ 277 0128 FC109FE5 		ldr	r1, .L17+20
+ 278 012c FEFFFFEB 		bl	BUF_Put
+  66:../../test/test.c **** 		
+  67:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 279              		.loc 1 67 0
+ 280 0130 10304BE2 		sub	r3, fp, #16
+ 281 0134 DC009FE5 		ldr	r0, .L17
+ 282 0138 0310A0E1 		mov	r1, r3
+ 283 013c FEFFFFEB 		bl	BUF_Get
+  68:../../test/test.c **** 	BUF_Put(&BUF, "def");
+ 284              		.loc 1 68 0
+ 285 0140 D0009FE5 		ldr	r0, .L17
+ 286 0144 E4109FE5 		ldr	r1, .L17+24
+ 287 0148 FEFFFFEB 		bl	BUF_Put
+  69:../../test/test.c **** 	
+  70:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 288              		.loc 1 70 0
+ 289 014c 10304BE2 		sub	r3, fp, #16
+ 290 0150 C0009FE5 		ldr	r0, .L17
+ 291 0154 0310A0E1 		mov	r1, r3
+ 292 0158 FEFFFFEB 		bl	BUF_Get
+  71:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 293              		.loc 1 71 0
+ 294 015c 10304BE2 		sub	r3, fp, #16
+ 295 0160 B0009FE5 		ldr	r0, .L17
+ 296 0164 0310A0E1 		mov	r1, r3
+ 297 0168 FEFFFFEB 		bl	BUF_Get
+  72:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 298              		.loc 1 72 0
+ 299 016c 10304BE2 		sub	r3, fp, #16
+ 300 0170 A0009FE5 		ldr	r0, .L17
+ 301 0174 0310A0E1 		mov	r1, r3
+ 302 0178 FEFFFFEB 		bl	BUF_Get
+  73:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 303              		.loc 1 73 0
+ 304 017c 10304BE2 		sub	r3, fp, #16
+ 305 0180 90009FE5 		ldr	r0, .L17
+ 306 0184 0310A0E1 		mov	r1, r3
+ 307 0188 FEFFFFEB 		bl	BUF_Get
+  74:../../test/test.c **** 	BUF_Get(&BUF, &data);
+ 308              		.loc 1 74 0
+ 309 018c 10304BE2 		sub	r3, fp, #16
+ 310 0190 80009FE5 		ldr	r0, .L17
+ 311 0194 0310A0E1 		mov	r1, r3
+ 312 0198 FEFFFFEB 		bl	BUF_Get
+  75:../../test/test.c **** 	
+  76:../../test/test.c **** 	BUF_Put(&BUF, "321");
+ 313              		.loc 1 76 0
+ 314 019c 74009FE5 		ldr	r0, .L17
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 8
+
+
+ 315 01a0 8C109FE5 		ldr	r1, .L17+28
+ 316 01a4 FEFFFFEB 		bl	BUF_Put
+  77:../../test/test.c **** 	BUF_Put(&BUF, "456");
+ 317              		.loc 1 77 0
+ 318 01a8 68009FE5 		ldr	r0, .L17
+ 319 01ac 70109FE5 		ldr	r1, .L17+12
+ 320 01b0 FEFFFFEB 		bl	BUF_Put
+  78:../../test/test.c **** 	
+  79:../../test/test.c **** 	BUF_Put(&BUF, "789");
+ 321              		.loc 1 79 0
+ 322 01b4 5C009FE5 		ldr	r0, .L17
+ 323 01b8 68109FE5 		ldr	r1, .L17+16
+ 324 01bc FEFFFFEB 		bl	BUF_Put
+  80:../../test/test.c **** 	
+  81:../../test/test.c **** 	
+  82:../../test/test.c **** 	MBX_Init(&EVENT_MSG);
+ 325              		.loc 1 82 0
+ 326 01c0 70009FE5 		ldr	r0, .L17+32
+ 327 01c4 FEFFFFEB 		bl	MBX_Init
+  83:../../test/test.c **** 	TMR_Start(&DEMO_TMR, 5000, &TimeoutHandler, 100, &EVENT_MSG, 0, TMR_PERIODIC);
+ 328              		.loc 1 83 0
+ 329 01c8 68309FE5 		ldr	r3, .L17+32
+ 330 01cc 00308DE5 		str	r3, [sp, #0]
+ 331 01d0 0030A0E3 		mov	r3, #0
+ 332 01d4 04308DE5 		str	r3, [sp, #4]
+ 333 01d8 0130A0E3 		mov	r3, #1
+ 334 01dc 08308DE5 		str	r3, [sp, #8]
+ 335 01e0 54009FE5 		ldr	r0, .L17+36
+ 336 01e4 4E1DA0E3 		mov	r1, #4992
+ 337 01e8 081081E2 		add	r1, r1, #8
+ 338 01ec 28209FE5 		ldr	r2, .L17+4
+ 339 01f0 6430A0E3 		mov	r3, #100
+ 340 01f4 FEFFFFEB 		bl	TMR_Start
+  84:../../test/test.c **** 		
+  85:../../test/test.c **** 	uSMARTX_Init(tsk_tbl);	
+ 341              		.loc 1 85 0
+ 342 01f8 40009FE5 		ldr	r0, .L17+40
+ 343 01fc FEFFFFEB 		bl	uSMARTX_Init
+ 344              	.L12:
+  86:../../test/test.c **** 	while(1) {
+  87:../../test/test.c **** 		uSMARTX_Tick();
+ 345              		.loc 1 87 0
+ 346 0200 FEFFFFEB 		bl	uSMARTX_Tick
+  88:../../test/test.c **** 		if(uSMARTX_Scheduler() == SYS_ERROR)
+ 347              		.loc 1 88 0
+ 348 0204 FEFFFFEB 		bl	uSMARTX_Scheduler
+ 349 0208 0030A0E1 		mov	r3, r0
+ 350 020c 010053E3 		cmp	r3, #1
+ 351 0210 7E00001A 		bne	.L12
+ 352              	.L15:
+  89:../../test/test.c **** 			break;
+  90:../../test/test.c **** 	}
+  91:../../test/test.c **** 	
+  92:../../test/test.c **** 	while(1);
+ 353              		.loc 1 92 0
+ 354 0214 830000EA 		b	.L15
+ 355              	.L18:
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 9
+
+
+ 356              		.align	2
+ 357              	.L17:
+ 358 0218 00000000 		.word	BUF
+ 359 021c 00000000 		.word	TimeoutHandler
+ 360 0220 00000000 		.word	.LC0
+ 361 0224 04000000 		.word	.LC1
+ 362 0228 08000000 		.word	.LC2
+ 363 022c 0C000000 		.word	.LC3
+ 364 0230 10000000 		.word	.LC4
+ 365 0234 14000000 		.word	.LC5
+ 366 0238 00000000 		.word	EVENT_MSG
+ 367 023c 00000000 		.word	DEMO_TMR
+ 368 0240 00000000 		.word	tsk_tbl
+ 369              	.LFE6:
+ 370              		.size	main, .-main
+ 371              		.comm	TSK1_tcb,68,4
+ 372              		.comm	TSK3_tcb,68,4
+ 373              		.comm	TSK2_tcb,68,4
+ 374              		.comm	DEMO_TMR,32,4
+ 375              		.comm	mcb_msg_EVENT_MSG,60,4
+ 376              		.comm	mcb_buff_EVENT_MSG,5,1
+ 377              		.comm	bcb_buff_BUF,12,1
+ 378              		.section	.debug_frame,"",%progbits
+ 379              	.Lframe0:
+ 380 0000 0C000000 		.4byte	.LECIE0-.LSCIE0
+ 381              	.LSCIE0:
+ 382 0004 FFFFFFFF 		.4byte	0xffffffff
+ 383 0008 01       		.byte	0x1
+ 384 0009 00       		.ascii	"\000"
+ 385 000a 01       		.uleb128 0x1
+ 386 000b 7C       		.sleb128 -4
+ 387 000c 0E       		.byte	0xe
+ 388 000d 0C       		.byte	0xc
+ 389 000e 0D       		.uleb128 0xd
+ 390 000f 00       		.uleb128 0x0
+ 391              		.align	2
+ 392              	.LECIE0:
+ 393              	.LSFDE0:
+ 394 0010 1C000000 		.4byte	.LEFDE0-.LASFDE0
+ 395              	.LASFDE0:
+ 396 0014 00000000 		.4byte	.Lframe0
+ 397 0018 00000000 		.4byte	.LFB2
+ 398 001c 34000000 		.4byte	.LFE2-.LFB2
+ 399 0020 44       		.byte	0x4
+ 400              		.4byte	.LCFI0-.LFB2
+ 401 0021 0D       		.byte	0xd
+ 402 0022 0C       		.uleb128 0xc
+ 403 0023 44       		.byte	0x4
+ 404              		.4byte	.LCFI1-.LCFI0
+ 405 0024 8E       		.byte	0x8e
+ 406 0025 02       		.uleb128 0x2
+ 407 0026 8D       		.byte	0x8d
+ 408 0027 03       		.uleb128 0x3
+ 409 0028 8B       		.byte	0x8b
+ 410 0029 04       		.uleb128 0x4
+ 411 002a 44       		.byte	0x4
+ 412              		.4byte	.LCFI2-.LCFI1
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 10
+
+
+ 413 002b 0C       		.byte	0xc
+ 414 002c 0B       		.uleb128 0xb
+ 415 002d 04       		.uleb128 0x4
+ 416 002e 0000     		.align	2
+ 417              	.LEFDE0:
+ 418              	.LSFDE2:
+ 419 0030 1C000000 		.4byte	.LEFDE2-.LASFDE2
+ 420              	.LASFDE2:
+ 421 0034 00000000 		.4byte	.Lframe0
+ 422 0038 34000000 		.4byte	.LFB3
+ 423 003c 38000000 		.4byte	.LFE3-.LFB3
+ 424 0040 44       		.byte	0x4
+ 425              		.4byte	.LCFI4-.LFB3
+ 426 0041 0D       		.byte	0xd
+ 427 0042 0C       		.uleb128 0xc
+ 428 0043 44       		.byte	0x4
+ 429              		.4byte	.LCFI5-.LCFI4
+ 430 0044 8E       		.byte	0x8e
+ 431 0045 02       		.uleb128 0x2
+ 432 0046 8D       		.byte	0x8d
+ 433 0047 03       		.uleb128 0x3
+ 434 0048 8B       		.byte	0x8b
+ 435 0049 04       		.uleb128 0x4
+ 436 004a 44       		.byte	0x4
+ 437              		.4byte	.LCFI6-.LCFI5
+ 438 004b 0C       		.byte	0xc
+ 439 004c 0B       		.uleb128 0xb
+ 440 004d 04       		.uleb128 0x4
+ 441 004e 0000     		.align	2
+ 442              	.LEFDE2:
+ 443              	.LSFDE4:
+ 444 0050 1C000000 		.4byte	.LEFDE4-.LASFDE4
+ 445              	.LASFDE4:
+ 446 0054 00000000 		.4byte	.Lframe0
+ 447 0058 6C000000 		.4byte	.LFB4
+ 448 005c 34000000 		.4byte	.LFE4-.LFB4
+ 449 0060 44       		.byte	0x4
+ 450              		.4byte	.LCFI8-.LFB4
+ 451 0061 0D       		.byte	0xd
+ 452 0062 0C       		.uleb128 0xc
+ 453 0063 44       		.byte	0x4
+ 454              		.4byte	.LCFI9-.LCFI8
+ 455 0064 8E       		.byte	0x8e
+ 456 0065 02       		.uleb128 0x2
+ 457 0066 8D       		.byte	0x8d
+ 458 0067 03       		.uleb128 0x3
+ 459 0068 8B       		.byte	0x8b
+ 460 0069 04       		.uleb128 0x4
+ 461 006a 44       		.byte	0x4
+ 462              		.4byte	.LCFI10-.LCFI9
+ 463 006b 0C       		.byte	0xc
+ 464 006c 0B       		.uleb128 0xb
+ 465 006d 04       		.uleb128 0x4
+ 466 006e 0000     		.align	2
+ 467              	.LEFDE4:
+ 468              	.LSFDE6:
+ 469 0070 1C000000 		.4byte	.LEFDE6-.LASFDE6
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 11
+
+
+ 470              	.LASFDE6:
+ 471 0074 00000000 		.4byte	.Lframe0
+ 472 0078 A0000000 		.4byte	.LFB5
+ 473 007c 30000000 		.4byte	.LFE5-.LFB5
+ 474 0080 44       		.byte	0x4
+ 475              		.4byte	.LCFI12-.LFB5
+ 476 0081 0D       		.byte	0xd
+ 477 0082 0C       		.uleb128 0xc
+ 478 0083 44       		.byte	0x4
+ 479              		.4byte	.LCFI13-.LCFI12
+ 480 0084 8E       		.byte	0x8e
+ 481 0085 02       		.uleb128 0x2
+ 482 0086 8D       		.byte	0x8d
+ 483 0087 03       		.uleb128 0x3
+ 484 0088 8B       		.byte	0x8b
+ 485 0089 04       		.uleb128 0x4
+ 486 008a 44       		.byte	0x4
+ 487              		.4byte	.LCFI14-.LCFI13
+ 488 008b 0C       		.byte	0xc
+ 489 008c 0B       		.uleb128 0xb
+ 490 008d 04       		.uleb128 0x4
+ 491 008e 0000     		.align	2
+ 492              	.LEFDE6:
+ 493              	.LSFDE8:
+ 494 0090 1C000000 		.4byte	.LEFDE8-.LASFDE8
+ 495              	.LASFDE8:
+ 496 0094 00000000 		.4byte	.Lframe0
+ 497 0098 D0000000 		.4byte	.LFB6
+ 498 009c 74010000 		.4byte	.LFE6-.LFB6
+ 499 00a0 44       		.byte	0x4
+ 500              		.4byte	.LCFI16-.LFB6
+ 501 00a1 0D       		.byte	0xd
+ 502 00a2 0C       		.uleb128 0xc
+ 503 00a3 44       		.byte	0x4
+ 504              		.4byte	.LCFI17-.LCFI16
+ 505 00a4 8E       		.byte	0x8e
+ 506 00a5 02       		.uleb128 0x2
+ 507 00a6 8D       		.byte	0x8d
+ 508 00a7 03       		.uleb128 0x3
+ 509 00a8 8B       		.byte	0x8b
+ 510 00a9 04       		.uleb128 0x4
+ 511 00aa 44       		.byte	0x4
+ 512              		.4byte	.LCFI18-.LCFI17
+ 513 00ab 0C       		.byte	0xc
+ 514 00ac 0B       		.uleb128 0xb
+ 515 00ad 04       		.uleb128 0x4
+ 516 00ae 0000     		.align	2
+ 517              	.LEFDE8:
+ 518              		.file 2 "../../../inc/usmartx.h"
+ 519              		.text
+ 520              	.Letext0:
+ 521              		.section	.debug_info
+ 522 0000 50080000 		.4byte	0x850
+ 523 0004 0200     		.2byte	0x2
+ 524 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 525 000a 04       		.byte	0x4
+ 526 000b 01       		.uleb128 0x1
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 12
+
+
+ 527 000c 00000000 		.4byte	.Ldebug_line0
+ 528 0010 44020000 		.4byte	.Letext0
+ 529 0014 00000000 		.4byte	.Ltext0
+ 530 0018 474E5520 		.ascii	"GNU C 3.4.1\000"
+ 530      4320332E 
+ 530      342E3100 
+ 531 0024 01       		.byte	0x1
+ 532 0025 2E2E2F2E 		.ascii	"../../test/test.c\000"
+ 532      2E2F7465 
+ 532      73742F74 
+ 532      6573742E 
+ 532      6300
+ 533 0037 2F65636F 		.ascii	"/ecos-d/Projects/usmartx/arm/gcc/test\000"
+ 533      732D642F 
+ 533      50726F6A 
+ 533      65637473 
+ 533      2F75736D 
+ 534 005d 02       		.uleb128 0x2
+ 535 005e 6C6F6E67 		.ascii	"long int\000"
+ 535      20696E74 
+ 535      00
+ 536 0067 04       		.byte	0x4
+ 537 0068 05       		.byte	0x5
+ 538 0069 03       		.uleb128 0x3
+ 539 006a 09000000 		.4byte	.LASF0
+ 540 006e 04       		.byte	0x4
+ 541 006f 07       		.byte	0x7
+ 542 0070 02       		.uleb128 0x2
+ 543 0071 696E7400 		.ascii	"int\000"
+ 544 0075 04       		.byte	0x4
+ 545 0076 05       		.byte	0x5
+ 546 0077 02       		.uleb128 0x2
+ 547 0078 7369676E 		.ascii	"signed char\000"
+ 547      65642063 
+ 547      68617200 
+ 548 0084 01       		.byte	0x1
+ 549 0085 06       		.byte	0x6
+ 550 0086 04       		.uleb128 0x4
+ 551 0087 75696E74 		.ascii	"uint8\000"
+ 551      3800
+ 552 008d 02       		.byte	0x2
+ 553 008e 2B       		.byte	0x2b
+ 554 008f 93000000 		.4byte	0x93
+ 555 0093 02       		.uleb128 0x2
+ 556 0094 756E7369 		.ascii	"unsigned char\000"
+ 556      676E6564 
+ 556      20636861 
+ 556      7200
+ 557 00a2 01       		.byte	0x1
+ 558 00a3 08       		.byte	0x8
+ 559 00a4 02       		.uleb128 0x2
+ 560 00a5 73686F72 		.ascii	"short int\000"
+ 560      7420696E 
+ 560      7400
+ 561 00af 02       		.byte	0x2
+ 562 00b0 05       		.byte	0x5
+ 563 00b1 04       		.uleb128 0x4
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 13
+
+
+ 564 00b2 75696E74 		.ascii	"uint16\000"
+ 564      313600
+ 565 00b9 02       		.byte	0x2
+ 566 00ba 2D       		.byte	0x2d
+ 567 00bb BF000000 		.4byte	0xbf
+ 568 00bf 02       		.uleb128 0x2
+ 569 00c0 73686F72 		.ascii	"short unsigned int\000"
+ 569      7420756E 
+ 569      7369676E 
+ 569      65642069 
+ 569      6E7400
+ 570 00d3 02       		.byte	0x2
+ 571 00d4 07       		.byte	0x7
+ 572 00d5 05       		.uleb128 0x5
+ 573 00d6 46010000 		.4byte	0x146
+ 574 00da 04       		.byte	0x4
+ 575 00db 02       		.byte	0x2
+ 576 00dc 34       		.byte	0x34
+ 577 00dd 06       		.uleb128 0x6
+ 578 00de 5359535F 		.ascii	"SYS_OK\000"
+ 578      4F4B00
+ 579 00e5 00       		.sleb128 0
+ 580 00e6 06       		.uleb128 0x6
+ 581 00e7 5359535F 		.ascii	"SYS_ERROR\000"
+ 581      4552524F 
+ 581      5200
+ 582 00f1 01       		.sleb128 1
+ 583 00f2 06       		.uleb128 0x6
+ 584 00f3 5359535F 		.ascii	"SYS_IDLE\000"
+ 584      49444C45 
+ 584      00
+ 585 00fc 02       		.sleb128 2
+ 586 00fd 06       		.uleb128 0x6
+ 587 00fe 5359535F 		.ascii	"SYS_MBX\000"
+ 587      4D425800 
+ 588 0106 03       		.sleb128 3
+ 589 0107 06       		.uleb128 0x6
+ 590 0108 5359535F 		.ascii	"SYS_SEM\000"
+ 590      53454D00 
+ 591 0110 04       		.sleb128 4
+ 592 0111 06       		.uleb128 0x6
+ 593 0112 5359535F 		.ascii	"SYS_TOUT\000"
+ 593      544F5554 
+ 593      00
+ 594 011b 05       		.sleb128 5
+ 595 011c 06       		.uleb128 0x6
+ 596 011d 5359535F 		.ascii	"SYS_MBX_TOUT\000"
+ 596      4D42585F 
+ 596      544F5554 
+ 596      00
+ 597 012a 06       		.sleb128 6
+ 598 012b 06       		.uleb128 0x6
+ 599 012c 5359535F 		.ascii	"SYS_SEM_TOUT\000"
+ 599      53454D5F 
+ 599      544F5554 
+ 599      00
+ 600 0139 07       		.sleb128 7
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 14
+
+
+ 601 013a 06       		.uleb128 0x6
+ 602 013b 5359535F 		.ascii	"SYS_NONE\000"
+ 602      4E4F4E45 
+ 602      00
+ 603 0144 08       		.sleb128 8
+ 604 0145 00       		.byte	0x0
+ 605 0146 04       		.uleb128 0x4
+ 606 0147 53544154 		.ascii	"STATUS\000"
+ 606      555300
+ 607 014e 02       		.byte	0x2
+ 608 014f 40       		.byte	0x40
+ 609 0150 D5000000 		.4byte	0xd5
+ 610 0154 07       		.uleb128 0x7
+ 611 0155 99010000 		.4byte	0x199
+ 612 0159 14       		.byte	0x14
+ 613 015a 02       		.byte	0x2
+ 614 015b 52       		.byte	0x52
+ 615 015c 08       		.uleb128 0x8
+ 616 015d 00000000 		.4byte	.LASF1
+ 617 0161 02       		.byte	0x2
+ 618 0162 4D       		.byte	0x4d
+ 619 0163 A9010000 		.4byte	0x1a9
+ 620 0167 02       		.byte	0x2
+ 621 0168 23       		.byte	0x23
+ 622 0169 00       		.uleb128 0x0
+ 623 016a 09       		.uleb128 0x9
+ 624 016b 706800   		.ascii	"ph\000"
+ 625 016e 02       		.byte	0x2
+ 626 016f 4E       		.byte	0x4e
+ 627 0170 AF010000 		.4byte	0x1af
+ 628 0174 02       		.byte	0x2
+ 629 0175 23       		.byte	0x23
+ 630 0176 04       		.uleb128 0x4
+ 631 0177 09       		.uleb128 0x9
+ 632 0178 70726900 		.ascii	"pri\000"
+ 633 017c 02       		.byte	0x2
+ 634 017d 4F       		.byte	0x4f
+ 635 017e 86000000 		.4byte	0x86
+ 636 0182 02       		.byte	0x2
+ 637 0183 23       		.byte	0x23
+ 638 0184 08       		.uleb128 0x8
+ 639 0185 09       		.uleb128 0x9
+ 640 0186 5461736B 		.ascii	"TaskName\000"
+ 640      4E616D65 
+ 640      00
+ 641 018f 02       		.byte	0x2
+ 642 0190 50       		.byte	0x50
+ 643 0191 B1010000 		.4byte	0x1b1
+ 644 0195 02       		.byte	0x2
+ 645 0196 23       		.byte	0x23
+ 646 0197 09       		.uleb128 0x9
+ 647 0198 00       		.byte	0x0
+ 648 0199 0A       		.uleb128 0xa
+ 649 019a A9010000 		.4byte	0x1a9
+ 650 019e 01       		.byte	0x1
+ 651 019f 46010000 		.4byte	0x146
+ 652 01a3 0B       		.uleb128 0xb
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 15
+
+
+ 653 01a4 46010000 		.4byte	0x146
+ 654 01a8 00       		.byte	0x0
+ 655 01a9 0C       		.uleb128 0xc
+ 656 01aa 04       		.byte	0x4
+ 657 01ab 99010000 		.4byte	0x199
+ 658 01af 0D       		.uleb128 0xd
+ 659 01b0 04       		.byte	0x4
+ 660 01b1 0E       		.uleb128 0xe
+ 661 01b2 C1010000 		.4byte	0x1c1
+ 662 01b6 86000000 		.4byte	0x86
+ 663 01ba 0F       		.uleb128 0xf
+ 664 01bb C1010000 		.4byte	0x1c1
+ 665 01bf 09       		.byte	0x9
+ 666 01c0 00       		.byte	0x0
+ 667 01c1 03       		.uleb128 0x3
+ 668 01c2 09000000 		.4byte	.LASF0
+ 669 01c6 04       		.byte	0x4
+ 670 01c7 07       		.byte	0x7
+ 671 01c8 04       		.uleb128 0x4
+ 672 01c9 7461736B 		.ascii	"task_entry_t\000"
+ 672      5F656E74 
+ 672      72795F74 
+ 672      00
+ 673 01d6 02       		.byte	0x2
+ 674 01d7 52       		.byte	0x52
+ 675 01d8 54010000 		.4byte	0x154
+ 676 01dc 10       		.uleb128 0x10
+ 677 01dd 09020000 		.4byte	0x209
+ 678 01e1 646C6C5F 		.ascii	"dll_s\000"
+ 678      7300
+ 679 01e7 08       		.byte	0x8
+ 680 01e8 02       		.byte	0x2
+ 681 01e9 56       		.byte	0x56
+ 682 01ea 09       		.uleb128 0x9
+ 683 01eb 706E7874 		.ascii	"pnxt\000"
+ 683      00
+ 684 01f0 02       		.byte	0x2
+ 685 01f1 58       		.byte	0x58
+ 686 01f2 09020000 		.4byte	0x209
+ 687 01f6 02       		.byte	0x2
+ 688 01f7 23       		.byte	0x23
+ 689 01f8 00       		.uleb128 0x0
+ 690 01f9 09       		.uleb128 0x9
+ 691 01fa 70707276 		.ascii	"pprv\000"
+ 691      00
+ 692 01ff 02       		.byte	0x2
+ 693 0200 59       		.byte	0x59
+ 694 0201 09020000 		.4byte	0x209
+ 695 0205 02       		.byte	0x2
+ 696 0206 23       		.byte	0x23
+ 697 0207 04       		.uleb128 0x4
+ 698 0208 00       		.byte	0x0
+ 699 0209 0C       		.uleb128 0xc
+ 700 020a 04       		.byte	0x4
+ 701 020b DC010000 		.4byte	0x1dc
+ 702 020f 04       		.uleb128 0x4
+ 703 0210 646C6C5F 		.ascii	"dll_t\000"
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 16
+
+
+ 703      7400
+ 704 0216 02       		.byte	0x2
+ 705 0217 5A       		.byte	0x5a
+ 706 0218 DC010000 		.4byte	0x1dc
+ 707 021c 10       		.uleb128 0x10
+ 708 021d 4F020000 		.4byte	0x24f
+ 709 0221 71756575 		.ascii	"queue_s\000"
+ 709      655F7300 
+ 710 0229 08       		.byte	0x8
+ 711 022a 02       		.byte	0x2
+ 712 022b 5C       		.byte	0x5c
+ 713 022c 09       		.uleb128 0x9
+ 714 022d 706F626A 		.ascii	"pobject\000"
+ 714      65637400 
+ 715 0235 02       		.byte	0x2
+ 716 0236 5D       		.byte	0x5d
+ 717 0237 4F020000 		.4byte	0x24f
+ 718 023b 02       		.byte	0x2
+ 719 023c 23       		.byte	0x23
+ 720 023d 00       		.uleb128 0x0
+ 721 023e 09       		.uleb128 0x9
+ 722 023f 706C6173 		.ascii	"plast\000"
+ 722      7400
+ 723 0245 02       		.byte	0x2
+ 724 0246 5E       		.byte	0x5e
+ 725 0247 4F020000 		.4byte	0x24f
+ 726 024b 02       		.byte	0x2
+ 727 024c 23       		.byte	0x23
+ 728 024d 04       		.uleb128 0x4
+ 729 024e 00       		.byte	0x0
+ 730 024f 0C       		.uleb128 0xc
+ 731 0250 04       		.byte	0x4
+ 732 0251 0F020000 		.4byte	0x20f
+ 733 0255 04       		.uleb128 0x4
+ 734 0256 71756575 		.ascii	"queue_t\000"
+ 734      655F7400 
+ 735 025e 02       		.byte	0x2
+ 736 025f 5F       		.byte	0x5f
+ 737 0260 1C020000 		.4byte	0x21c
+ 738 0264 10       		.uleb128 0x10
+ 739 0265 A1020000 		.4byte	0x2a1
+ 740 0269 6D73675F 		.ascii	"msg_s\000"
+ 740      7300
+ 741 026f 0C       		.byte	0xc
+ 742 0270 02       		.byte	0x2
+ 743 0271 61       		.byte	0x61
+ 744 0272 09       		.uleb128 0x9
+ 745 0273 706E7874 		.ascii	"pnxt\000"
+ 745      00
+ 746 0278 02       		.byte	0x2
+ 747 0279 62       		.byte	0x62
+ 748 027a 4F020000 		.4byte	0x24f
+ 749 027e 02       		.byte	0x2
+ 750 027f 23       		.byte	0x23
+ 751 0280 00       		.uleb128 0x0
+ 752 0281 09       		.uleb128 0x9
+ 753 0282 70707276 		.ascii	"pprv\000"
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 17
+
+
+ 753      00
+ 754 0287 02       		.byte	0x2
+ 755 0288 63       		.byte	0x63
+ 756 0289 4F020000 		.4byte	0x24f
+ 757 028d 02       		.byte	0x2
+ 758 028e 23       		.byte	0x23
+ 759 028f 04       		.uleb128 0x4
+ 760 0290 09       		.uleb128 0x9
+ 761 0291 70646174 		.ascii	"pdata\000"
+ 761      6100
+ 762 0297 02       		.byte	0x2
+ 763 0298 64       		.byte	0x64
+ 764 0299 AF010000 		.4byte	0x1af
+ 765 029d 02       		.byte	0x2
+ 766 029e 23       		.byte	0x23
+ 767 029f 08       		.uleb128 0x8
+ 768 02a0 00       		.byte	0x0
+ 769 02a1 04       		.uleb128 0x4
+ 770 02a2 6D73675F 		.ascii	"msg_t\000"
+ 770      7400
+ 771 02a8 02       		.byte	0x2
+ 772 02a9 65       		.byte	0x65
+ 773 02aa 64020000 		.4byte	0x264
+ 774 02ae 10       		.uleb128 0x10
+ 775 02af 42030000 		.4byte	0x342
+ 776 02b3 6D63625F 		.ascii	"mcb_s\000"
+ 776      7300
+ 777 02b9 2C       		.byte	0x2c
+ 778 02ba 02       		.byte	0x2
+ 779 02bb 67       		.byte	0x67
+ 780 02bc 09       		.uleb128 0x9
+ 781 02bd 66756C6C 		.ascii	"fullq\000"
+ 781      7100
+ 782 02c3 02       		.byte	0x2
+ 783 02c4 68       		.byte	0x68
+ 784 02c5 55020000 		.4byte	0x255
+ 785 02c9 02       		.byte	0x2
+ 786 02ca 23       		.byte	0x23
+ 787 02cb 00       		.uleb128 0x0
+ 788 02cc 09       		.uleb128 0x9
+ 789 02cd 656D7074 		.ascii	"emptyq\000"
+ 789      797100
+ 790 02d4 02       		.byte	0x2
+ 791 02d5 69       		.byte	0x69
+ 792 02d6 55020000 		.4byte	0x255
+ 793 02da 02       		.byte	0x2
+ 794 02db 23       		.byte	0x23
+ 795 02dc 08       		.uleb128 0x8
+ 796 02dd 09       		.uleb128 0x9
+ 797 02de 66726565 		.ascii	"free_list\000"
+ 797      5F6C6973 
+ 797      7400
+ 798 02e8 02       		.byte	0x2
+ 799 02e9 6A       		.byte	0x6a
+ 800 02ea 55020000 		.4byte	0x255
+ 801 02ee 02       		.byte	0x2
+ 802 02ef 23       		.byte	0x23
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 18
+
+
+ 803 02f0 10       		.uleb128 0x10
+ 804 02f1 09       		.uleb128 0x9
+ 805 02f2 66756C6C 		.ascii	"full_list\000"
+ 805      5F6C6973 
+ 805      7400
+ 806 02fc 02       		.byte	0x2
+ 807 02fd 6B       		.byte	0x6b
+ 808 02fe 55020000 		.4byte	0x255
+ 809 0302 02       		.byte	0x2
+ 810 0303 23       		.byte	0x23
+ 811 0304 18       		.uleb128 0x18
+ 812 0305 09       		.uleb128 0x9
+ 813 0306 70627566 		.ascii	"pbuff\000"
+ 813      6600
+ 814 030c 02       		.byte	0x2
+ 815 030d 6C       		.byte	0x6c
+ 816 030e 42030000 		.4byte	0x342
+ 817 0312 02       		.byte	0x2
+ 818 0313 23       		.byte	0x23
+ 819 0314 20       		.uleb128 0x20
+ 820 0315 09       		.uleb128 0x9
+ 821 0316 706D7367 		.ascii	"pmsg\000"
+ 821      00
+ 822 031b 02       		.byte	0x2
+ 823 031c 6D       		.byte	0x6d
+ 824 031d 48030000 		.4byte	0x348
+ 825 0321 02       		.byte	0x2
+ 826 0322 23       		.byte	0x23
+ 827 0323 24       		.uleb128 0x24
+ 828 0324 09       		.uleb128 0x9
+ 829 0325 6C656E00 		.ascii	"len\000"
+ 830 0329 02       		.byte	0x2
+ 831 032a 6E       		.byte	0x6e
+ 832 032b 86000000 		.4byte	0x86
+ 833 032f 02       		.byte	0x2
+ 834 0330 23       		.byte	0x23
+ 835 0331 28       		.uleb128 0x28
+ 836 0332 09       		.uleb128 0x9
+ 837 0333 6E6D7367 		.ascii	"nmsg\000"
+ 837      00
+ 838 0338 02       		.byte	0x2
+ 839 0339 6F       		.byte	0x6f
+ 840 033a 86000000 		.4byte	0x86
+ 841 033e 02       		.byte	0x2
+ 842 033f 23       		.byte	0x23
+ 843 0340 29       		.uleb128 0x29
+ 844 0341 00       		.byte	0x0
+ 845 0342 0C       		.uleb128 0xc
+ 846 0343 04       		.byte	0x4
+ 847 0344 86000000 		.4byte	0x86
+ 848 0348 0C       		.uleb128 0xc
+ 849 0349 04       		.byte	0x4
+ 850 034a A1020000 		.4byte	0x2a1
+ 851 034e 04       		.uleb128 0x4
+ 852 034f 6D63625F 		.ascii	"mcb_t\000"
+ 852      7400
+ 853 0355 02       		.byte	0x2
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 19
+
+
+ 854 0356 71       		.byte	0x71
+ 855 0357 AE020000 		.4byte	0x2ae
+ 856 035b 10       		.uleb128 0x10
+ 857 035c 96040000 		.4byte	0x496
+ 858 0360 6275665F 		.ascii	"buf_s\000"
+ 858      7300
+ 859 0366 20       		.byte	0x20
+ 860 0367 02       		.byte	0x2
+ 861 0368 79       		.byte	0x79
+ 862 0369 09       		.uleb128 0x9
+ 863 036a 70696E00 		.ascii	"pin\000"
+ 864 036e 02       		.byte	0x2
+ 865 036f 7A       		.byte	0x7a
+ 866 0370 AF010000 		.4byte	0x1af
+ 867 0374 02       		.byte	0x2
+ 868 0375 23       		.byte	0x23
+ 869 0376 00       		.uleb128 0x0
+ 870 0377 09       		.uleb128 0x9
+ 871 0378 706F7574 		.ascii	"pout\000"
+ 871      00
+ 872 037d 02       		.byte	0x2
+ 873 037e 7B       		.byte	0x7b
+ 874 037f AF010000 		.4byte	0x1af
+ 875 0383 02       		.byte	0x2
+ 876 0384 23       		.byte	0x23
+ 877 0385 04       		.uleb128 0x4
+ 878 0386 09       		.uleb128 0x9
+ 879 0387 70746F70 		.ascii	"ptop\000"
+ 879      00
+ 880 038c 02       		.byte	0x2
+ 881 038d 7C       		.byte	0x7c
+ 882 038e AF010000 		.4byte	0x1af
+ 883 0392 02       		.byte	0x2
+ 884 0393 23       		.byte	0x23
+ 885 0394 08       		.uleb128 0x8
+ 886 0395 09       		.uleb128 0x9
+ 887 0396 70626F74 		.ascii	"pbot\000"
+ 887      00
+ 888 039b 02       		.byte	0x2
+ 889 039c 7D       		.byte	0x7d
+ 890 039d AF010000 		.4byte	0x1af
+ 891 03a1 02       		.byte	0x2
+ 892 03a2 23       		.byte	0x23
+ 893 03a3 0C       		.uleb128 0xc
+ 894 03a4 09       		.uleb128 0x9
+ 895 03a5 6E00     		.ascii	"n\000"
+ 896 03a7 02       		.byte	0x2
+ 897 03a8 7E       		.byte	0x7e
+ 898 03a9 B1000000 		.4byte	0xb1
+ 899 03ad 02       		.byte	0x2
+ 900 03ae 23       		.byte	0x23
+ 901 03af 10       		.uleb128 0x10
+ 902 03b0 09       		.uleb128 0x9
+ 903 03b1 74726700 		.ascii	"trg\000"
+ 904 03b5 02       		.byte	0x2
+ 905 03b6 7F       		.byte	0x7f
+ 906 03b7 B1000000 		.4byte	0xb1
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 20
+
+
+ 907 03bb 02       		.byte	0x2
+ 908 03bc 23       		.byte	0x23
+ 909 03bd 12       		.uleb128 0x12
+ 910 03be 09       		.uleb128 0x9
+ 911 03bf 6C656E00 		.ascii	"len\000"
+ 912 03c3 02       		.byte	0x2
+ 913 03c4 81       		.byte	0x81
+ 914 03c5 86000000 		.4byte	0x86
+ 915 03c9 02       		.byte	0x2
+ 916 03ca 23       		.byte	0x23
+ 917 03cb 14       		.uleb128 0x14
+ 918 03cc 09       		.uleb128 0x9
+ 919 03cd 62747267 		.ascii	"btrgfxn\000"
+ 919      66786E00 
+ 920 03d5 02       		.byte	0x2
+ 921 03d6 82       		.byte	0x82
+ 922 03d7 86000000 		.4byte	0x86
+ 923 03db 02       		.byte	0x2
+ 924 03dc 23       		.byte	0x23
+ 925 03dd 15       		.uleb128 0x15
+ 926 03de 09       		.uleb128 0x9
+ 927 03df 70747267 		.ascii	"ptrgfxn\000"
+ 927      66786E00 
+ 928 03e7 02       		.byte	0x2
+ 929 03e8 83       		.byte	0x83
+ 930 03e9 B0040000 		.4byte	0x4b0
+ 931 03ed 02       		.byte	0x2
+ 932 03ee 23       		.byte	0x23
+ 933 03ef 18       		.uleb128 0x18
+ 934 03f0 10       		.uleb128 0x10
+ 935 03f1 86040000 		.4byte	0x486
+ 936 03f5 7469635F 		.ascii	"tic_s\000"
+ 936      7300
+ 937 03fb 20       		.byte	0x20
+ 938 03fc 02       		.byte	0x2
+ 939 03fd 85       		.byte	0x85
+ 940 03fe 09       		.uleb128 0x9
+ 941 03ff 706E7874 		.ascii	"pnxt\000"
+ 941      00
+ 942 0404 02       		.byte	0x2
+ 943 0405 B6       		.byte	0xb6
+ 944 0406 09020000 		.4byte	0x209
+ 945 040a 02       		.byte	0x2
+ 946 040b 23       		.byte	0x23
+ 947 040c 00       		.uleb128 0x0
+ 948 040d 09       		.uleb128 0x9
+ 949 040e 70707276 		.ascii	"pprv\000"
+ 949      00
+ 950 0413 02       		.byte	0x2
+ 951 0414 B7       		.byte	0xb7
+ 952 0415 09020000 		.4byte	0x209
+ 953 0419 02       		.byte	0x2
+ 954 041a 23       		.byte	0x23
+ 955 041b 04       		.uleb128 0x4
+ 956 041c 09       		.uleb128 0x9
+ 957 041d 61627300 		.ascii	"abs\000"
+ 958 0421 02       		.byte	0x2
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 21
+
+
+ 959 0422 B9       		.byte	0xb9
+ 960 0423 B1000000 		.4byte	0xb1
+ 961 0427 02       		.byte	0x2
+ 962 0428 23       		.byte	0x23
+ 963 0429 08       		.uleb128 0x8
+ 964 042a 09       		.uleb128 0x9
+ 965 042b 72656C00 		.ascii	"rel\000"
+ 966 042f 02       		.byte	0x2
+ 967 0430 BA       		.byte	0xba
+ 968 0431 B1000000 		.4byte	0xb1
+ 969 0435 02       		.byte	0x2
+ 970 0436 23       		.byte	0x23
+ 971 0437 0A       		.uleb128 0xa
+ 972 0438 09       		.uleb128 0x9
+ 973 0439 7066786E 		.ascii	"pfxn\000"
+ 973      00
+ 974 043e 02       		.byte	0x2
+ 975 043f C1       		.byte	0xc1
+ 976 0440 B0040000 		.4byte	0x4b0
+ 977 0444 02       		.byte	0x2
+ 978 0445 23       		.byte	0x23
+ 979 0446 0C       		.uleb128 0xc
+ 980 0447 09       		.uleb128 0x9
+ 981 0448 65767400 		.ascii	"evt\000"
+ 982 044c 02       		.byte	0x2
+ 983 044d C2       		.byte	0xc2
+ 984 044e 86000000 		.4byte	0x86
+ 985 0452 02       		.byte	0x2
+ 986 0453 23       		.byte	0x23
+ 987 0454 10       		.uleb128 0x10
+ 988 0455 09       		.uleb128 0x9
+ 989 0456 70617267 		.ascii	"parg1\000"
+ 989      3100
+ 990 045c 02       		.byte	0x2
+ 991 045d C3       		.byte	0xc3
+ 992 045e AF010000 		.4byte	0x1af
+ 993 0462 02       		.byte	0x2
+ 994 0463 23       		.byte	0x23
+ 995 0464 14       		.uleb128 0x14
+ 996 0465 09       		.uleb128 0x9
+ 997 0466 70617267 		.ascii	"parg2\000"
+ 997      3200
+ 998 046c 02       		.byte	0x2
+ 999 046d C4       		.byte	0xc4
+ 1000 046e AF010000 		.4byte	0x1af
+ 1001 0472 02       		.byte	0x2
+ 1002 0473 23       		.byte	0x23
+ 1003 0474 18       		.uleb128 0x18
+ 1004 0475 09       		.uleb128 0x9
+ 1005 0476 666C6167 		.ascii	"flags\000"
+ 1005      7300
+ 1006 047c 02       		.byte	0x2
+ 1007 047d C6       		.byte	0xc6
+ 1008 047e 86000000 		.4byte	0x86
+ 1009 0482 02       		.byte	0x2
+ 1010 0483 23       		.byte	0x23
+ 1011 0484 1C       		.uleb128 0x1c
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 22
+
+
+ 1012 0485 00       		.byte	0x0
+ 1013 0486 09       		.uleb128 0x9
+ 1014 0487 70746963 		.ascii	"ptic\000"
+ 1014      00
+ 1015 048c 02       		.byte	0x2
+ 1016 048d 85       		.byte	0x85
+ 1017 048e B6040000 		.4byte	0x4b6
+ 1018 0492 02       		.byte	0x2
+ 1019 0493 23       		.byte	0x23
+ 1020 0494 1C       		.uleb128 0x1c
+ 1021 0495 00       		.byte	0x0
+ 1022 0496 0A       		.uleb128 0xa
+ 1023 0497 B0040000 		.4byte	0x4b0
+ 1024 049b 01       		.byte	0x1
+ 1025 049c 46010000 		.4byte	0x146
+ 1026 04a0 0B       		.uleb128 0xb
+ 1027 04a1 86000000 		.4byte	0x86
+ 1028 04a5 0B       		.uleb128 0xb
+ 1029 04a6 AF010000 		.4byte	0x1af
+ 1030 04aa 0B       		.uleb128 0xb
+ 1031 04ab AF010000 		.4byte	0x1af
+ 1032 04af 00       		.byte	0x0
+ 1033 04b0 0C       		.uleb128 0xc
+ 1034 04b1 04       		.byte	0x4
+ 1035 04b2 96040000 		.4byte	0x496
+ 1036 04b6 0C       		.uleb128 0xc
+ 1037 04b7 04       		.byte	0x4
+ 1038 04b8 F0030000 		.4byte	0x3f0
+ 1039 04bc 04       		.uleb128 0x4
+ 1040 04bd 6263625F 		.ascii	"bcb_t\000"
+ 1040      7400
+ 1041 04c3 02       		.byte	0x2
+ 1042 04c4 87       		.byte	0x87
+ 1043 04c5 5B030000 		.4byte	0x35b
+ 1044 04c9 04       		.uleb128 0x4
+ 1045 04ca 7469635F 		.ascii	"tic_t\000"
+ 1045      7400
+ 1046 04d0 02       		.byte	0x2
+ 1047 04d1 C8       		.byte	0xc8
+ 1048 04d2 F0030000 		.4byte	0x3f0
+ 1049 04d6 10       		.uleb128 0x10
+ 1050 04d7 B4050000 		.4byte	0x5b4
+ 1051 04db 7463625F 		.ascii	"tcb_s\000"
+ 1051      7300
+ 1052 04e1 44       		.byte	0x44
+ 1053 04e2 02       		.byte	0x2
+ 1054 04e3 D2       		.byte	0xd2
+ 1055 04e4 09       		.uleb128 0x9
+ 1056 04e5 706E7874 		.ascii	"pnxt\000"
+ 1056      00
+ 1057 04ea 02       		.byte	0x2
+ 1058 04eb D3       		.byte	0xd3
+ 1059 04ec 09020000 		.4byte	0x209
+ 1060 04f0 02       		.byte	0x2
+ 1061 04f1 23       		.byte	0x23
+ 1062 04f2 00       		.uleb128 0x0
+ 1063 04f3 09       		.uleb128 0x9
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 23
+
+
+ 1064 04f4 70707276 		.ascii	"pprv\000"
+ 1064      00
+ 1065 04f9 02       		.byte	0x2
+ 1066 04fa D4       		.byte	0xd4
+ 1067 04fb 09020000 		.4byte	0x209
+ 1068 04ff 02       		.byte	0x2
+ 1069 0500 23       		.byte	0x23
+ 1070 0501 04       		.uleb128 0x4
+ 1071 0502 09       		.uleb128 0x9
+ 1072 0503 666C6167 		.ascii	"flags\000"
+ 1072      7300
+ 1073 0509 02       		.byte	0x2
+ 1074 050a D6       		.byte	0xd6
+ 1075 050b 86000000 		.4byte	0x86
+ 1076 050f 02       		.byte	0x2
+ 1077 0510 23       		.byte	0x23
+ 1078 0511 08       		.uleb128 0x8
+ 1079 0512 09       		.uleb128 0x9
+ 1080 0513 7072696F 		.ascii	"priority\000"
+ 1080      72697479 
+ 1080      00
+ 1081 051c 02       		.byte	0x2
+ 1082 051d D7       		.byte	0xd7
+ 1083 051e 86000000 		.4byte	0x86
+ 1084 0522 02       		.byte	0x2
+ 1085 0523 23       		.byte	0x23
+ 1086 0524 09       		.uleb128 0x9
+ 1087 0525 09       		.uleb128 0x9
+ 1088 0526 6576656E 		.ascii	"event\000"
+ 1088      7400
+ 1089 052c 02       		.byte	0x2
+ 1090 052d D8       		.byte	0xd8
+ 1091 052e 46010000 		.4byte	0x146
+ 1092 0532 02       		.byte	0x2
+ 1093 0533 23       		.byte	0x23
+ 1094 0534 0C       		.uleb128 0xc
+ 1095 0535 08       		.uleb128 0x8
+ 1096 0536 00000000 		.4byte	.LASF1
+ 1097 053a 02       		.byte	0x2
+ 1098 053b D9       		.byte	0xd9
+ 1099 053c A9010000 		.4byte	0x1a9
+ 1100 0540 02       		.byte	0x2
+ 1101 0541 23       		.byte	0x23
+ 1102 0542 10       		.uleb128 0x10
+ 1103 0543 09       		.uleb128 0x9
+ 1104 0544 706D7367 		.ascii	"pmsg_entry\000"
+ 1104      5F656E74 
+ 1104      727900
+ 1105 054f 02       		.byte	0x2
+ 1106 0550 DB       		.byte	0xdb
+ 1107 0551 B4050000 		.4byte	0x5b4
+ 1108 0555 02       		.byte	0x2
+ 1109 0556 23       		.byte	0x23
+ 1110 0557 14       		.uleb128 0x14
+ 1111 0558 09       		.uleb128 0x9
+ 1112 0559 70717565 		.ascii	"pqueue\000"
+ 1112      756500
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 24
+
+
+ 1113 0560 02       		.byte	0x2
+ 1114 0561 DC       		.byte	0xdc
+ 1115 0562 BA050000 		.4byte	0x5ba
+ 1116 0566 02       		.byte	0x2
+ 1117 0567 23       		.byte	0x23
+ 1118 0568 18       		.uleb128 0x18
+ 1119 0569 09       		.uleb128 0x9
+ 1120 056a 74696300 		.ascii	"tic\000"
+ 1121 056e 02       		.byte	0x2
+ 1122 056f DD       		.byte	0xdd
+ 1123 0570 F0030000 		.4byte	0x3f0
+ 1124 0574 02       		.byte	0x2
+ 1125 0575 23       		.byte	0x23
+ 1126 0576 1C       		.uleb128 0x1c
+ 1127 0577 09       		.uleb128 0x9
+ 1128 0578 756E4D61 		.ascii	"unMaxTime\000"
+ 1128      7854696D 
+ 1128      6500
+ 1129 0582 02       		.byte	0x2
+ 1130 0583 DF       		.byte	0xdf
+ 1131 0584 B1000000 		.4byte	0xb1
+ 1132 0588 02       		.byte	0x2
+ 1133 0589 23       		.byte	0x23
+ 1134 058a 3C       		.uleb128 0x3c
+ 1135 058b 09       		.uleb128 0x9
+ 1136 058c 756E4D69 		.ascii	"unMinTime\000"
+ 1136      6E54696D 
+ 1136      6500
+ 1137 0596 02       		.byte	0x2
+ 1138 0597 E0       		.byte	0xe0
+ 1139 0598 B1000000 		.4byte	0xb1
+ 1140 059c 02       		.byte	0x2
+ 1141 059d 23       		.byte	0x23
+ 1142 059e 3E       		.uleb128 0x3e
+ 1143 059f 09       		.uleb128 0x9
+ 1144 05a0 756E4176 		.ascii	"unAvgTime\000"
+ 1144      6754696D 
+ 1144      6500
+ 1145 05aa 02       		.byte	0x2
+ 1146 05ab E1       		.byte	0xe1
+ 1147 05ac B1000000 		.4byte	0xb1
+ 1148 05b0 02       		.byte	0x2
+ 1149 05b1 23       		.byte	0x23
+ 1150 05b2 40       		.uleb128 0x40
+ 1151 05b3 00       		.byte	0x0
+ 1152 05b4 0C       		.uleb128 0xc
+ 1153 05b5 04       		.byte	0x4
+ 1154 05b6 64020000 		.4byte	0x264
+ 1155 05ba 0C       		.uleb128 0xc
+ 1156 05bb 04       		.byte	0x4
+ 1157 05bc 1C020000 		.4byte	0x21c
+ 1158 05c0 04       		.uleb128 0x4
+ 1159 05c1 7463625F 		.ascii	"tcb_t\000"
+ 1159      7400
+ 1160 05c7 02       		.byte	0x2
+ 1161 05c8 E3       		.byte	0xe3
+ 1162 05c9 D6040000 		.4byte	0x4d6
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 25
+
+
+ 1163 05cd 11       		.uleb128 0x11
+ 1164 05ce F8050000 		.4byte	0x5f8
+ 1165 05d2 01       		.byte	0x1
+ 1166 05d3 54534B31 		.ascii	"TSK1\000"
+ 1166      00
+ 1167 05d8 01       		.byte	0x1
+ 1168 05d9 0F       		.byte	0xf
+ 1169 05da 01       		.byte	0x1
+ 1170 05db 46010000 		.4byte	0x146
+ 1171 05df 00000000 		.4byte	.LFB2
+ 1172 05e3 34000000 		.4byte	.LFE2
+ 1173 05e7 01       		.byte	0x1
+ 1174 05e8 5B       		.byte	0x5b
+ 1175 05e9 12       		.uleb128 0x12
+ 1176 05ea 65767400 		.ascii	"evt\000"
+ 1177 05ee 01       		.byte	0x1
+ 1178 05ef 0F       		.byte	0xf
+ 1179 05f0 46010000 		.4byte	0x146
+ 1180 05f4 02       		.byte	0x2
+ 1181 05f5 91       		.byte	0x91
+ 1182 05f6 70       		.sleb128 -16
+ 1183 05f7 00       		.byte	0x0
+ 1184 05f8 11       		.uleb128 0x11
+ 1185 05f9 37060000 		.4byte	0x637
+ 1186 05fd 01       		.byte	0x1
+ 1187 05fe 54534B32 		.ascii	"TSK2\000"
+ 1187      00
+ 1188 0603 01       		.byte	0x1
+ 1189 0604 15       		.byte	0x15
+ 1190 0605 01       		.byte	0x1
+ 1191 0606 46010000 		.4byte	0x146
+ 1192 060a 34000000 		.4byte	.LFB3
+ 1193 060e 6C000000 		.4byte	.LFE3
+ 1194 0612 01       		.byte	0x1
+ 1195 0613 5B       		.byte	0x5b
+ 1196 0614 12       		.uleb128 0x12
+ 1197 0615 65767400 		.ascii	"evt\000"
+ 1198 0619 01       		.byte	0x1
+ 1199 061a 15       		.byte	0x15
+ 1200 061b 46010000 		.4byte	0x146
+ 1201 061f 02       		.byte	0x2
+ 1202 0620 91       		.byte	0x91
+ 1203 0621 70       		.sleb128 -16
+ 1204 0622 13       		.uleb128 0x13
+ 1205 0623 75635465 		.ascii	"ucTest\000"
+ 1205      737400
+ 1206 062a 01       		.byte	0x1
+ 1207 062b 16       		.byte	0x16
+ 1208 062c 86000000 		.4byte	0x86
+ 1209 0630 05       		.byte	0x5
+ 1210 0631 03       		.byte	0x3
+ 1211 0632 00000000 		.4byte	ucTest.0
+ 1212 0636 00       		.byte	0x0
+ 1213 0637 11       		.uleb128 0x11
+ 1214 0638 62060000 		.4byte	0x662
+ 1215 063c 01       		.byte	0x1
+ 1216 063d 54534B33 		.ascii	"TSK3\000"
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 26
+
+
+ 1216      00
+ 1217 0642 01       		.byte	0x1
+ 1218 0643 26       		.byte	0x26
+ 1219 0644 01       		.byte	0x1
+ 1220 0645 46010000 		.4byte	0x146
+ 1221 0649 6C000000 		.4byte	.LFB4
+ 1222 064d A0000000 		.4byte	.LFE4
+ 1223 0651 01       		.byte	0x1
+ 1224 0652 5B       		.byte	0x5b
+ 1225 0653 12       		.uleb128 0x12
+ 1226 0654 65767400 		.ascii	"evt\000"
+ 1227 0658 01       		.byte	0x1
+ 1228 0659 26       		.byte	0x26
+ 1229 065a 46010000 		.4byte	0x146
+ 1230 065e 02       		.byte	0x2
+ 1231 065f 91       		.byte	0x91
+ 1232 0660 70       		.sleb128 -16
+ 1233 0661 00       		.byte	0x0
+ 1234 0662 11       		.uleb128 0x11
+ 1235 0663 B9060000 		.4byte	0x6b9
+ 1236 0667 01       		.byte	0x1
+ 1237 0668 54696D65 		.ascii	"TimeoutHandler\000"
+ 1237      6F757448 
+ 1237      616E646C 
+ 1237      657200
+ 1238 0677 01       		.byte	0x1
+ 1239 0678 33       		.byte	0x33
+ 1240 0679 01       		.byte	0x1
+ 1241 067a 46010000 		.4byte	0x146
+ 1242 067e A0000000 		.4byte	.LFB5
+ 1243 0682 D0000000 		.4byte	.LFE5
+ 1244 0686 01       		.byte	0x1
+ 1245 0687 5B       		.byte	0x5b
+ 1246 0688 12       		.uleb128 0x12
+ 1247 0689 4576656E 		.ascii	"Event\000"
+ 1247      7400
+ 1248 068f 01       		.byte	0x1
+ 1249 0690 33       		.byte	0x33
+ 1250 0691 86000000 		.4byte	0x86
+ 1251 0695 02       		.byte	0x2
+ 1252 0696 91       		.byte	0x91
+ 1253 0697 73       		.sleb128 -13
+ 1254 0698 12       		.uleb128 0x12
+ 1255 0699 70417267 		.ascii	"pArg1\000"
+ 1255      3100
+ 1256 069f 01       		.byte	0x1
+ 1257 06a0 33       		.byte	0x33
+ 1258 06a1 AF010000 		.4byte	0x1af
+ 1259 06a5 02       		.byte	0x2
+ 1260 06a6 91       		.byte	0x91
+ 1261 06a7 6C       		.sleb128 -20
+ 1262 06a8 12       		.uleb128 0x12
+ 1263 06a9 70417267 		.ascii	"pArg2\000"
+ 1263      3200
+ 1264 06af 01       		.byte	0x1
+ 1265 06b0 33       		.byte	0x33
+ 1266 06b1 AF010000 		.4byte	0x1af
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 27
+
+
+ 1267 06b5 02       		.byte	0x2
+ 1268 06b6 91       		.byte	0x91
+ 1269 06b7 68       		.sleb128 -24
+ 1270 06b8 00       		.byte	0x0
+ 1271 06b9 11       		.uleb128 0x11
+ 1272 06ba E5060000 		.4byte	0x6e5
+ 1273 06be 01       		.byte	0x1
+ 1274 06bf 6D61696E 		.ascii	"main\000"
+ 1274      00
+ 1275 06c4 01       		.byte	0x1
+ 1276 06c5 38       		.byte	0x38
+ 1277 06c6 01       		.byte	0x1
+ 1278 06c7 70000000 		.4byte	0x70
+ 1279 06cb D0000000 		.4byte	.LFB6
+ 1280 06cf 44020000 		.4byte	.LFE6
+ 1281 06d3 01       		.byte	0x1
+ 1282 06d4 5B       		.byte	0x5b
+ 1283 06d5 13       		.uleb128 0x13
+ 1284 06d6 64617461 		.ascii	"data\000"
+ 1284      00
+ 1285 06db 01       		.byte	0x1
+ 1286 06dc 39       		.byte	0x39
+ 1287 06dd E5060000 		.4byte	0x6e5
+ 1288 06e1 02       		.byte	0x2
+ 1289 06e2 91       		.byte	0x91
+ 1290 06e3 70       		.sleb128 -16
+ 1291 06e4 00       		.byte	0x0
+ 1292 06e5 0E       		.uleb128 0xe
+ 1293 06e6 F5060000 		.4byte	0x6f5
+ 1294 06ea 86000000 		.4byte	0x86
+ 1295 06ee 0F       		.uleb128 0xf
+ 1296 06ef C1010000 		.4byte	0x1c1
+ 1297 06f3 02       		.byte	0x2
+ 1298 06f4 00       		.byte	0x0
+ 1299 06f5 14       		.uleb128 0x14
+ 1300 06f6 54534B31 		.ascii	"TSK1_tcb\000"
+ 1300      5F746362 
+ 1300      00
+ 1301 06ff 01       		.byte	0x1
+ 1302 0700 06       		.byte	0x6
+ 1303 0701 C0050000 		.4byte	0x5c0
+ 1304 0705 01       		.byte	0x1
+ 1305 0706 05       		.byte	0x5
+ 1306 0707 03       		.byte	0x3
+ 1307 0708 00000000 		.4byte	TSK1_tcb
+ 1308 070c 14       		.uleb128 0x14
+ 1309 070d 54534B33 		.ascii	"TSK3_tcb\000"
+ 1309      5F746362 
+ 1309      00
+ 1310 0716 01       		.byte	0x1
+ 1311 0717 07       		.byte	0x7
+ 1312 0718 C0050000 		.4byte	0x5c0
+ 1313 071c 01       		.byte	0x1
+ 1314 071d 05       		.byte	0x5
+ 1315 071e 03       		.byte	0x3
+ 1316 071f 00000000 		.4byte	TSK3_tcb
+ 1317 0723 14       		.uleb128 0x14
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 28
+
+
+ 1318 0724 54534B32 		.ascii	"TSK2_tcb\000"
+ 1318      5F746362 
+ 1318      00
+ 1319 072d 01       		.byte	0x1
+ 1320 072e 08       		.byte	0x8
+ 1321 072f C0050000 		.4byte	0x5c0
+ 1322 0733 01       		.byte	0x1
+ 1323 0734 05       		.byte	0x5
+ 1324 0735 03       		.byte	0x3
+ 1325 0736 00000000 		.4byte	TSK2_tcb
+ 1326 073a 14       		.uleb128 0x14
+ 1327 073b 44454D4F 		.ascii	"DEMO_TMR\000"
+ 1327      5F544D52 
+ 1327      00
+ 1328 0744 01       		.byte	0x1
+ 1329 0745 0A       		.byte	0xa
+ 1330 0746 C9040000 		.4byte	0x4c9
+ 1331 074a 01       		.byte	0x1
+ 1332 074b 05       		.byte	0x5
+ 1333 074c 03       		.byte	0x3
+ 1334 074d 00000000 		.4byte	DEMO_TMR
+ 1335 0751 0E       		.uleb128 0xe
+ 1336 0752 61070000 		.4byte	0x761
+ 1337 0756 A1020000 		.4byte	0x2a1
+ 1338 075a 0F       		.uleb128 0xf
+ 1339 075b C1010000 		.4byte	0x1c1
+ 1340 075f 04       		.byte	0x4
+ 1341 0760 00       		.byte	0x0
+ 1342 0761 14       		.uleb128 0x14
+ 1343 0762 6D63625F 		.ascii	"mcb_msg_EVENT_MSG\000"
+ 1343      6D73675F 
+ 1343      4556454E 
+ 1343      545F4D53 
+ 1343      4700
+ 1344 0774 01       		.byte	0x1
+ 1345 0775 0B       		.byte	0xb
+ 1346 0776 51070000 		.4byte	0x751
+ 1347 077a 01       		.byte	0x1
+ 1348 077b 05       		.byte	0x5
+ 1349 077c 03       		.byte	0x3
+ 1350 077d 00000000 		.4byte	mcb_msg_EVENT_MSG
+ 1351 0781 0E       		.uleb128 0xe
+ 1352 0782 97070000 		.4byte	0x797
+ 1353 0786 86000000 		.4byte	0x86
+ 1354 078a 0F       		.uleb128 0xf
+ 1355 078b C1010000 		.4byte	0x1c1
+ 1356 078f 00       		.byte	0x0
+ 1357 0790 0F       		.uleb128 0xf
+ 1358 0791 C1010000 		.4byte	0x1c1
+ 1359 0795 04       		.byte	0x4
+ 1360 0796 00       		.byte	0x0
+ 1361 0797 14       		.uleb128 0x14
+ 1362 0798 6D63625F 		.ascii	"mcb_buff_EVENT_MSG\000"
+ 1362      62756666 
+ 1362      5F455645 
+ 1362      4E545F4D 
+ 1362      534700
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 29
+
+
+ 1363 07ab 01       		.byte	0x1
+ 1364 07ac 0B       		.byte	0xb
+ 1365 07ad 81070000 		.4byte	0x781
+ 1366 07b1 01       		.byte	0x1
+ 1367 07b2 05       		.byte	0x5
+ 1368 07b3 03       		.byte	0x3
+ 1369 07b4 00000000 		.4byte	mcb_buff_EVENT_MSG
+ 1370 07b8 14       		.uleb128 0x14
+ 1371 07b9 4556454E 		.ascii	"EVENT_MSG\000"
+ 1371      545F4D53 
+ 1371      4700
+ 1372 07c3 01       		.byte	0x1
+ 1373 07c4 0B       		.byte	0xb
+ 1374 07c5 4E030000 		.4byte	0x34e
+ 1375 07c9 01       		.byte	0x1
+ 1376 07ca 05       		.byte	0x5
+ 1377 07cb 03       		.byte	0x3
+ 1378 07cc 00000000 		.4byte	EVENT_MSG
+ 1379 07d0 14       		.uleb128 0x14
+ 1380 07d1 6263625F 		.ascii	"bcb_tic_BUF\000"
+ 1380      7469635F 
+ 1380      42554600 
+ 1381 07dd 01       		.byte	0x1
+ 1382 07de 0D       		.byte	0xd
+ 1383 07df F0030000 		.4byte	0x3f0
+ 1384 07e3 01       		.byte	0x1
+ 1385 07e4 05       		.byte	0x5
+ 1386 07e5 03       		.byte	0x3
+ 1387 07e6 00000000 		.4byte	bcb_tic_BUF
+ 1388 07ea 0E       		.uleb128 0xe
+ 1389 07eb 00080000 		.4byte	0x800
+ 1390 07ef 86000000 		.4byte	0x86
+ 1391 07f3 0F       		.uleb128 0xf
+ 1392 07f4 C1010000 		.4byte	0x1c1
+ 1393 07f8 03       		.byte	0x3
+ 1394 07f9 0F       		.uleb128 0xf
+ 1395 07fa C1010000 		.4byte	0x1c1
+ 1396 07fe 02       		.byte	0x2
+ 1397 07ff 00       		.byte	0x0
+ 1398 0800 14       		.uleb128 0x14
+ 1399 0801 6263625F 		.ascii	"bcb_buff_BUF\000"
+ 1399      62756666 
+ 1399      5F425546 
+ 1399      00
+ 1400 080e 01       		.byte	0x1
+ 1401 080f 0D       		.byte	0xd
+ 1402 0810 EA070000 		.4byte	0x7ea
+ 1403 0814 01       		.byte	0x1
+ 1404 0815 05       		.byte	0x5
+ 1405 0816 03       		.byte	0x3
+ 1406 0817 00000000 		.4byte	bcb_buff_BUF
+ 1407 081b 14       		.uleb128 0x14
+ 1408 081c 42554600 		.ascii	"BUF\000"
+ 1409 0820 01       		.byte	0x1
+ 1410 0821 0D       		.byte	0xd
+ 1411 0822 BC040000 		.4byte	0x4bc
+ 1412 0826 01       		.byte	0x1
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 30
+
+
+ 1413 0827 05       		.byte	0x5
+ 1414 0828 03       		.byte	0x3
+ 1415 0829 00000000 		.4byte	BUF
+ 1416 082d 0E       		.uleb128 0xe
+ 1417 082e 3D080000 		.4byte	0x83d
+ 1418 0832 C8010000 		.4byte	0x1c8
+ 1419 0836 0F       		.uleb128 0xf
+ 1420 0837 C1010000 		.4byte	0x1c1
+ 1421 083b 03       		.byte	0x3
+ 1422 083c 00       		.byte	0x0
+ 1423 083d 14       		.uleb128 0x14
+ 1424 083e 74736B5F 		.ascii	"tsk_tbl\000"
+ 1424      74626C00 
+ 1425 0846 01       		.byte	0x1
+ 1426 0847 2C       		.byte	0x2c
+ 1427 0848 2D080000 		.4byte	0x82d
+ 1428 084c 01       		.byte	0x1
+ 1429 084d 05       		.byte	0x5
+ 1430 084e 03       		.byte	0x3
+ 1431 084f 00000000 		.4byte	tsk_tbl
+ 1432 0853 00       		.byte	0x0
+ 1433              		.section	.debug_abbrev
+ 1434 0000 01       		.uleb128 0x1
+ 1435 0001 11       		.uleb128 0x11
+ 1436 0002 01       		.byte	0x1
+ 1437 0003 10       		.uleb128 0x10
+ 1438 0004 06       		.uleb128 0x6
+ 1439 0005 12       		.uleb128 0x12
+ 1440 0006 01       		.uleb128 0x1
+ 1441 0007 11       		.uleb128 0x11
+ 1442 0008 01       		.uleb128 0x1
+ 1443 0009 25       		.uleb128 0x25
+ 1444 000a 08       		.uleb128 0x8
+ 1445 000b 13       		.uleb128 0x13
+ 1446 000c 0B       		.uleb128 0xb
+ 1447 000d 03       		.uleb128 0x3
+ 1448 000e 08       		.uleb128 0x8
+ 1449 000f 1B       		.uleb128 0x1b
+ 1450 0010 08       		.uleb128 0x8
+ 1451 0011 00       		.byte	0x0
+ 1452 0012 00       		.byte	0x0
+ 1453 0013 02       		.uleb128 0x2
+ 1454 0014 24       		.uleb128 0x24
+ 1455 0015 00       		.byte	0x0
+ 1456 0016 03       		.uleb128 0x3
+ 1457 0017 08       		.uleb128 0x8
+ 1458 0018 0B       		.uleb128 0xb
+ 1459 0019 0B       		.uleb128 0xb
+ 1460 001a 3E       		.uleb128 0x3e
+ 1461 001b 0B       		.uleb128 0xb
+ 1462 001c 00       		.byte	0x0
+ 1463 001d 00       		.byte	0x0
+ 1464 001e 03       		.uleb128 0x3
+ 1465 001f 24       		.uleb128 0x24
+ 1466 0020 00       		.byte	0x0
+ 1467 0021 03       		.uleb128 0x3
+ 1468 0022 0E       		.uleb128 0xe
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 31
+
+
+ 1469 0023 0B       		.uleb128 0xb
+ 1470 0024 0B       		.uleb128 0xb
+ 1471 0025 3E       		.uleb128 0x3e
+ 1472 0026 0B       		.uleb128 0xb
+ 1473 0027 00       		.byte	0x0
+ 1474 0028 00       		.byte	0x0
+ 1475 0029 04       		.uleb128 0x4
+ 1476 002a 16       		.uleb128 0x16
+ 1477 002b 00       		.byte	0x0
+ 1478 002c 03       		.uleb128 0x3
+ 1479 002d 08       		.uleb128 0x8
+ 1480 002e 3A       		.uleb128 0x3a
+ 1481 002f 0B       		.uleb128 0xb
+ 1482 0030 3B       		.uleb128 0x3b
+ 1483 0031 0B       		.uleb128 0xb
+ 1484 0032 49       		.uleb128 0x49
+ 1485 0033 13       		.uleb128 0x13
+ 1486 0034 00       		.byte	0x0
+ 1487 0035 00       		.byte	0x0
+ 1488 0036 05       		.uleb128 0x5
+ 1489 0037 04       		.uleb128 0x4
+ 1490 0038 01       		.byte	0x1
+ 1491 0039 01       		.uleb128 0x1
+ 1492 003a 13       		.uleb128 0x13
+ 1493 003b 0B       		.uleb128 0xb
+ 1494 003c 0B       		.uleb128 0xb
+ 1495 003d 3A       		.uleb128 0x3a
+ 1496 003e 0B       		.uleb128 0xb
+ 1497 003f 3B       		.uleb128 0x3b
+ 1498 0040 0B       		.uleb128 0xb
+ 1499 0041 00       		.byte	0x0
+ 1500 0042 00       		.byte	0x0
+ 1501 0043 06       		.uleb128 0x6
+ 1502 0044 28       		.uleb128 0x28
+ 1503 0045 00       		.byte	0x0
+ 1504 0046 03       		.uleb128 0x3
+ 1505 0047 08       		.uleb128 0x8
+ 1506 0048 1C       		.uleb128 0x1c
+ 1507 0049 0D       		.uleb128 0xd
+ 1508 004a 00       		.byte	0x0
+ 1509 004b 00       		.byte	0x0
+ 1510 004c 07       		.uleb128 0x7
+ 1511 004d 13       		.uleb128 0x13
+ 1512 004e 01       		.byte	0x1
+ 1513 004f 01       		.uleb128 0x1
+ 1514 0050 13       		.uleb128 0x13
+ 1515 0051 0B       		.uleb128 0xb
+ 1516 0052 0B       		.uleb128 0xb
+ 1517 0053 3A       		.uleb128 0x3a
+ 1518 0054 0B       		.uleb128 0xb
+ 1519 0055 3B       		.uleb128 0x3b
+ 1520 0056 0B       		.uleb128 0xb
+ 1521 0057 00       		.byte	0x0
+ 1522 0058 00       		.byte	0x0
+ 1523 0059 08       		.uleb128 0x8
+ 1524 005a 0D       		.uleb128 0xd
+ 1525 005b 00       		.byte	0x0
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 32
+
+
+ 1526 005c 03       		.uleb128 0x3
+ 1527 005d 0E       		.uleb128 0xe
+ 1528 005e 3A       		.uleb128 0x3a
+ 1529 005f 0B       		.uleb128 0xb
+ 1530 0060 3B       		.uleb128 0x3b
+ 1531 0061 0B       		.uleb128 0xb
+ 1532 0062 49       		.uleb128 0x49
+ 1533 0063 13       		.uleb128 0x13
+ 1534 0064 38       		.uleb128 0x38
+ 1535 0065 0A       		.uleb128 0xa
+ 1536 0066 00       		.byte	0x0
+ 1537 0067 00       		.byte	0x0
+ 1538 0068 09       		.uleb128 0x9
+ 1539 0069 0D       		.uleb128 0xd
+ 1540 006a 00       		.byte	0x0
+ 1541 006b 03       		.uleb128 0x3
+ 1542 006c 08       		.uleb128 0x8
+ 1543 006d 3A       		.uleb128 0x3a
+ 1544 006e 0B       		.uleb128 0xb
+ 1545 006f 3B       		.uleb128 0x3b
+ 1546 0070 0B       		.uleb128 0xb
+ 1547 0071 49       		.uleb128 0x49
+ 1548 0072 13       		.uleb128 0x13
+ 1549 0073 38       		.uleb128 0x38
+ 1550 0074 0A       		.uleb128 0xa
+ 1551 0075 00       		.byte	0x0
+ 1552 0076 00       		.byte	0x0
+ 1553 0077 0A       		.uleb128 0xa
+ 1554 0078 15       		.uleb128 0x15
+ 1555 0079 01       		.byte	0x1
+ 1556 007a 01       		.uleb128 0x1
+ 1557 007b 13       		.uleb128 0x13
+ 1558 007c 27       		.uleb128 0x27
+ 1559 007d 0C       		.uleb128 0xc
+ 1560 007e 49       		.uleb128 0x49
+ 1561 007f 13       		.uleb128 0x13
+ 1562 0080 00       		.byte	0x0
+ 1563 0081 00       		.byte	0x0
+ 1564 0082 0B       		.uleb128 0xb
+ 1565 0083 05       		.uleb128 0x5
+ 1566 0084 00       		.byte	0x0
+ 1567 0085 49       		.uleb128 0x49
+ 1568 0086 13       		.uleb128 0x13
+ 1569 0087 00       		.byte	0x0
+ 1570 0088 00       		.byte	0x0
+ 1571 0089 0C       		.uleb128 0xc
+ 1572 008a 0F       		.uleb128 0xf
+ 1573 008b 00       		.byte	0x0
+ 1574 008c 0B       		.uleb128 0xb
+ 1575 008d 0B       		.uleb128 0xb
+ 1576 008e 49       		.uleb128 0x49
+ 1577 008f 13       		.uleb128 0x13
+ 1578 0090 00       		.byte	0x0
+ 1579 0091 00       		.byte	0x0
+ 1580 0092 0D       		.uleb128 0xd
+ 1581 0093 0F       		.uleb128 0xf
+ 1582 0094 00       		.byte	0x0
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 33
+
+
+ 1583 0095 0B       		.uleb128 0xb
+ 1584 0096 0B       		.uleb128 0xb
+ 1585 0097 00       		.byte	0x0
+ 1586 0098 00       		.byte	0x0
+ 1587 0099 0E       		.uleb128 0xe
+ 1588 009a 01       		.uleb128 0x1
+ 1589 009b 01       		.byte	0x1
+ 1590 009c 01       		.uleb128 0x1
+ 1591 009d 13       		.uleb128 0x13
+ 1592 009e 49       		.uleb128 0x49
+ 1593 009f 13       		.uleb128 0x13
+ 1594 00a0 00       		.byte	0x0
+ 1595 00a1 00       		.byte	0x0
+ 1596 00a2 0F       		.uleb128 0xf
+ 1597 00a3 21       		.uleb128 0x21
+ 1598 00a4 00       		.byte	0x0
+ 1599 00a5 49       		.uleb128 0x49
+ 1600 00a6 13       		.uleb128 0x13
+ 1601 00a7 2F       		.uleb128 0x2f
+ 1602 00a8 0B       		.uleb128 0xb
+ 1603 00a9 00       		.byte	0x0
+ 1604 00aa 00       		.byte	0x0
+ 1605 00ab 10       		.uleb128 0x10
+ 1606 00ac 13       		.uleb128 0x13
+ 1607 00ad 01       		.byte	0x1
+ 1608 00ae 01       		.uleb128 0x1
+ 1609 00af 13       		.uleb128 0x13
+ 1610 00b0 03       		.uleb128 0x3
+ 1611 00b1 08       		.uleb128 0x8
+ 1612 00b2 0B       		.uleb128 0xb
+ 1613 00b3 0B       		.uleb128 0xb
+ 1614 00b4 3A       		.uleb128 0x3a
+ 1615 00b5 0B       		.uleb128 0xb
+ 1616 00b6 3B       		.uleb128 0x3b
+ 1617 00b7 0B       		.uleb128 0xb
+ 1618 00b8 00       		.byte	0x0
+ 1619 00b9 00       		.byte	0x0
+ 1620 00ba 11       		.uleb128 0x11
+ 1621 00bb 2E       		.uleb128 0x2e
+ 1622 00bc 01       		.byte	0x1
+ 1623 00bd 01       		.uleb128 0x1
+ 1624 00be 13       		.uleb128 0x13
+ 1625 00bf 3F       		.uleb128 0x3f
+ 1626 00c0 0C       		.uleb128 0xc
+ 1627 00c1 03       		.uleb128 0x3
+ 1628 00c2 08       		.uleb128 0x8
+ 1629 00c3 3A       		.uleb128 0x3a
+ 1630 00c4 0B       		.uleb128 0xb
+ 1631 00c5 3B       		.uleb128 0x3b
+ 1632 00c6 0B       		.uleb128 0xb
+ 1633 00c7 27       		.uleb128 0x27
+ 1634 00c8 0C       		.uleb128 0xc
+ 1635 00c9 49       		.uleb128 0x49
+ 1636 00ca 13       		.uleb128 0x13
+ 1637 00cb 11       		.uleb128 0x11
+ 1638 00cc 01       		.uleb128 0x1
+ 1639 00cd 12       		.uleb128 0x12
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 34
+
+
+ 1640 00ce 01       		.uleb128 0x1
+ 1641 00cf 40       		.uleb128 0x40
+ 1642 00d0 0A       		.uleb128 0xa
+ 1643 00d1 00       		.byte	0x0
+ 1644 00d2 00       		.byte	0x0
+ 1645 00d3 12       		.uleb128 0x12
+ 1646 00d4 05       		.uleb128 0x5
+ 1647 00d5 00       		.byte	0x0
+ 1648 00d6 03       		.uleb128 0x3
+ 1649 00d7 08       		.uleb128 0x8
+ 1650 00d8 3A       		.uleb128 0x3a
+ 1651 00d9 0B       		.uleb128 0xb
+ 1652 00da 3B       		.uleb128 0x3b
+ 1653 00db 0B       		.uleb128 0xb
+ 1654 00dc 49       		.uleb128 0x49
+ 1655 00dd 13       		.uleb128 0x13
+ 1656 00de 02       		.uleb128 0x2
+ 1657 00df 0A       		.uleb128 0xa
+ 1658 00e0 00       		.byte	0x0
+ 1659 00e1 00       		.byte	0x0
+ 1660 00e2 13       		.uleb128 0x13
+ 1661 00e3 34       		.uleb128 0x34
+ 1662 00e4 00       		.byte	0x0
+ 1663 00e5 03       		.uleb128 0x3
+ 1664 00e6 08       		.uleb128 0x8
+ 1665 00e7 3A       		.uleb128 0x3a
+ 1666 00e8 0B       		.uleb128 0xb
+ 1667 00e9 3B       		.uleb128 0x3b
+ 1668 00ea 0B       		.uleb128 0xb
+ 1669 00eb 49       		.uleb128 0x49
+ 1670 00ec 13       		.uleb128 0x13
+ 1671 00ed 02       		.uleb128 0x2
+ 1672 00ee 0A       		.uleb128 0xa
+ 1673 00ef 00       		.byte	0x0
+ 1674 00f0 00       		.byte	0x0
+ 1675 00f1 14       		.uleb128 0x14
+ 1676 00f2 34       		.uleb128 0x34
+ 1677 00f3 00       		.byte	0x0
+ 1678 00f4 03       		.uleb128 0x3
+ 1679 00f5 08       		.uleb128 0x8
+ 1680 00f6 3A       		.uleb128 0x3a
+ 1681 00f7 0B       		.uleb128 0xb
+ 1682 00f8 3B       		.uleb128 0x3b
+ 1683 00f9 0B       		.uleb128 0xb
+ 1684 00fa 49       		.uleb128 0x49
+ 1685 00fb 13       		.uleb128 0x13
+ 1686 00fc 3F       		.uleb128 0x3f
+ 1687 00fd 0C       		.uleb128 0xc
+ 1688 00fe 02       		.uleb128 0x2
+ 1689 00ff 0A       		.uleb128 0xa
+ 1690 0100 00       		.byte	0x0
+ 1691 0101 00       		.byte	0x0
+ 1692 0102 00       		.byte	0x0
+ 1693              		.section	.debug_pubnames,"",%progbits
+ 1694 0000 E9000000 		.4byte	0xe9
+ 1695 0004 0200     		.2byte	0x2
+ 1696 0006 00000000 		.4byte	.Ldebug_info0
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 35
+
+
+ 1697 000a 54080000 		.4byte	0x854
+ 1698 000e CD050000 		.4byte	0x5cd
+ 1699 0012 54534B31 		.ascii	"TSK1\000"
+ 1699      00
+ 1700 0017 F8050000 		.4byte	0x5f8
+ 1701 001b 54534B32 		.ascii	"TSK2\000"
+ 1701      00
+ 1702 0020 37060000 		.4byte	0x637
+ 1703 0024 54534B33 		.ascii	"TSK3\000"
+ 1703      00
+ 1704 0029 62060000 		.4byte	0x662
+ 1705 002d 54696D65 		.ascii	"TimeoutHandler\000"
+ 1705      6F757448 
+ 1705      616E646C 
+ 1705      657200
+ 1706 003c B9060000 		.4byte	0x6b9
+ 1707 0040 6D61696E 		.ascii	"main\000"
+ 1707      00
+ 1708 0045 F5060000 		.4byte	0x6f5
+ 1709 0049 54534B31 		.ascii	"TSK1_tcb\000"
+ 1709      5F746362 
+ 1709      00
+ 1710 0052 0C070000 		.4byte	0x70c
+ 1711 0056 54534B33 		.ascii	"TSK3_tcb\000"
+ 1711      5F746362 
+ 1711      00
+ 1712 005f 23070000 		.4byte	0x723
+ 1713 0063 54534B32 		.ascii	"TSK2_tcb\000"
+ 1713      5F746362 
+ 1713      00
+ 1714 006c 3A070000 		.4byte	0x73a
+ 1715 0070 44454D4F 		.ascii	"DEMO_TMR\000"
+ 1715      5F544D52 
+ 1715      00
+ 1716 0079 61070000 		.4byte	0x761
+ 1717 007d 6D63625F 		.ascii	"mcb_msg_EVENT_MSG\000"
+ 1717      6D73675F 
+ 1717      4556454E 
+ 1717      545F4D53 
+ 1717      4700
+ 1718 008f 97070000 		.4byte	0x797
+ 1719 0093 6D63625F 		.ascii	"mcb_buff_EVENT_MSG\000"
+ 1719      62756666 
+ 1719      5F455645 
+ 1719      4E545F4D 
+ 1719      534700
+ 1720 00a6 B8070000 		.4byte	0x7b8
+ 1721 00aa 4556454E 		.ascii	"EVENT_MSG\000"
+ 1721      545F4D53 
+ 1721      4700
+ 1722 00b4 D0070000 		.4byte	0x7d0
+ 1723 00b8 6263625F 		.ascii	"bcb_tic_BUF\000"
+ 1723      7469635F 
+ 1723      42554600 
+ 1724 00c4 00080000 		.4byte	0x800
+ 1725 00c8 6263625F 		.ascii	"bcb_buff_BUF\000"
+ 1725      62756666 
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 36
+
+
+ 1725      5F425546 
+ 1725      00
+ 1726 00d5 1B080000 		.4byte	0x81b
+ 1727 00d9 42554600 		.ascii	"BUF\000"
+ 1728 00dd 3D080000 		.4byte	0x83d
+ 1729 00e1 74736B5F 		.ascii	"tsk_tbl\000"
+ 1729      74626C00 
+ 1730 00e9 00000000 		.4byte	0x0
+ 1731              		.section	.debug_aranges,"",%progbits
+ 1732 0000 1C000000 		.4byte	0x1c
+ 1733 0004 0200     		.2byte	0x2
+ 1734 0006 00000000 		.4byte	.Ldebug_info0
+ 1735 000a 04       		.byte	0x4
+ 1736 000b 00       		.byte	0x0
+ 1737 000c 0000     		.2byte	0x0
+ 1738 000e 0000     		.2byte	0x0
+ 1739 0010 00000000 		.4byte	.Ltext0
+ 1740 0014 44020000 		.4byte	.Letext0-.Ltext0
+ 1741 0018 00000000 		.4byte	0x0
+ 1742 001c 00000000 		.4byte	0x0
+ 1743              		.section	.debug_str,"",%progbits
+ 1744              	.LASF1:
+ 1745 0000 7074736B 		.ascii	"ptsk_fxn\000"
+ 1745      5F66786E 
+ 1745      00
+ 1746              	.LASF0:
+ 1747 0009 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1747      20756E73 
+ 1747      69676E65 
+ 1747      6420696E 
+ 1747      7400
+ 1748              		.ident	"GCC: (GNU) 3.4.1"
+ARM GAS  /cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s 			page 37
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 test.c
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:15     .data:00000000 EVENT_MSG
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:16     .data:00000000 $d
+                            *COM*:00000005 mcb_buff_EVENT_MSG
+                            *COM*:0000003c mcb_msg_EVENT_MSG
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:33     .data:0000002c bcb_tic_BUF
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:49     .data:0000004c BUF
+                            *COM*:0000000c bcb_buff_BUF
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:65     .text:00000000 TSK1
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:71     .text:00000000 $a
+                             .bss:00000000 $d
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:94     .bss:00000000 ucTest.0
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:100    .text:00000034 TSK2
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:127    .text:00000064 $d
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:134    .text:0000006c TSK3
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:139    .text:0000006c $a
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:166    .data:0000006c tsk_tbl
+                            *COM*:00000044 TSK1_tcb
+                            *COM*:00000044 TSK2_tcb
+                            *COM*:00000044 TSK3_tcb
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:192    .text:000000a0 TimeoutHandler
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:240    .text:000000d0 main
+/cygdrive/c/DOCUME~1/MARKOP~1/LOCALS~1/Temp/ccd60SXg.s:358    .text:00000218 $d
+                            *COM*:00000020 DEMO_TMR
+
+UNDEFINED SYMBOLS
+buff_dummy_clb
+TSK_Self
+TSK_Sleep
+MBX_Pend
+BUF_AppendTrgFxn
+BUF_AppendToutFxn
+BUF_Put
+BUF_Get
+MBX_Init
+TMR_Start
+uSMARTX_Init
+uSMARTX_Tick
+uSMARTX_Scheduler

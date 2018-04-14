@@ -1,0 +1,107 @@
+ARM GAS  C:\\DOCUME~1\\Marko\\LOCALS~1\\Temp/ccUFaaaa.s 			page 1
+
+
+   1              	# 1 "../../hal/hal_gnu.s"
+   2              	# 1 "<built-in>"
+   1              	@/*
+   0              	
+   0              	
+   2              	@ * Copyright (C) 2004-2005, Marko Panger
+   3              	@ *
+   4              	@ * Redistribution and use in source and binary forms, with or without
+   5              	@ * modification, are permitted provided that the following conditions
+   6              	@ * are met:
+   7              	@ *
+   8              	@ * 1. Redistributions of source code must retain the above copyright
+   9              	@ *    notice, this list of conditions and the following disclaimer.
+  10              	@ * 2. Redistributions in binary form must reproduce the above copyright
+  11              	@ *    notice, this list of conditions and the following disclaimer in the
+  12              	@ *    documentation and/or other materials provided with the distribution.
+  13              	@ * 3. Neither the name of the author may be used to endorse or promote products
+  14              	@ *	  derived from this software without specific prior written permission.
+  15              	@ *
+  16              	@ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS
+  17              	@ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  18              	@ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+  19              	@ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR
+  20              	@ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  21              	@ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+  22              	@ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+  23              	@ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+  24              	@ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  25              	@ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+  26              	@ * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  27              	@ * SUCH DAMAGE.
+  28              	@ *
+  29              	@ * For additional information send an email to marko.panger@siol.net
+  30              	@ *
+  31              	@ */
+  32              	 
+  33              	#define _MODULE(A)		
+  34              	#define _GLOBAL(A)		.global A
+  35              	#define _ARM_CODE		.code 32
+  36              	#define GET_CPSR(A)		mrs A, cpsr
+  37              	#define SET_CPSR(A)		msr	cpsr_c, A
+  38              		
+  39              		_ARM_CODE
+  40              		
+  41              	@/*!	\brief Globaly disable interrupts
+  42              	@ *
+  43              	@ *	Calling this function will globaly disable interrupts and return the interrupts mask register b
+  44              	@ *	interrupts. 
+  45              	@ *
+  46              	@ *	\retval Interrupts mask
+  47              	@ */
+  48              	@   
+  49              		.global INT_Disable
+  50              		.func INT_Disable
+  51              	INT_Disable:	
+  52:../../hal/hal_gnu.s **** 	mrs 	r1, cpsr		@ get current program status register
+  53:../../hal/hal_gnu.s **** 	orr 	r0, r1, #0x80	@ set I bit to disable interrupts
+ARM GAS  C:\\DOCUME~1\\Marko\\LOCALS~1\\Temp/ccUFaaaa.s 			page 2
+
+
+  54:../../hal/hal_gnu.s **** 	msr		cpsr_c, r0		@ write back cpsr
+  55:../../hal/hal_gnu.s **** 	and		r0, r1, #0x80	@ mask out the I bit (original cpsr) and return it via r0	
+  56:../../hal/hal_gnu.s **** 	bx		lr				@ return in thumb mode
+  57              		.endfunc
+  58              		
+  59              	@/*!	\brief Globaly enable interrupts
+  60              	@ *
+  61              	@ *	Calling this function will globaly enable interrupts. 
+  62              	@ */	
+  63              		.global INT_Enable
+  64              		.func INT_Enable
+  65              	INT_Enable:    
+  66:../../hal/hal_gnu.s **** 	GET_CPSR(r1)			@ get current cpsr
+  67:../../hal/hal_gnu.s **** 	bic		r1, r1, #0x80	@ clear the I bit
+  68:../../hal/hal_gnu.s **** 	SET_CPSR(r1)			@ write back cpsr
+  69:../../hal/hal_gnu.s **** 	bx		lr				@ return in thumb mode
+  70              		.endfunc
+  71              	
+  72              	@/*!	\brief Globaly restore interrupts
+  73              	@ *
+  74              	@ *	Calling this function will restore the interrupts state as were before calling the disable func
+  75              	@ *	\param flags interrupts state before disabling them
+  76              	@ */
+  77              		.global INT_Restore
+  78              		.func INT_Restore	
+  79              	INT_Restore:
+  80:../../hal/hal_gnu.s **** 	ands	r0,r0,#0x80
+  81:../../hal/hal_gnu.s **** 	beq		INT_Enable
+  82:../../hal/hal_gnu.s **** 	bx		lr				 @return in thumb mode
+  83              		.endfunc
+ARM GAS  C:\\DOCUME~1\\Marko\\LOCALS~1\\Temp/ccUFaaaa.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 ../../hal/hal_gnu.s
+                            *ABS*:00000000 <command line>
+                            *ABS*:00000000 <built-in>
+                            *ABS*:00000000 ../../hal/hal_gnu.s
+ ../../hal/hal_gnu.s:39     .text:00000000 $a
+ ../../hal/hal_gnu.s:51     .text:00000000 INT_Disable
+ ../../hal/hal_gnu.s:65     .text:00000014 INT_Enable
+ ../../hal/hal_gnu.s:79     .text:00000024 INT_Restore
+
+NO UNDEFINED SYMBOLS

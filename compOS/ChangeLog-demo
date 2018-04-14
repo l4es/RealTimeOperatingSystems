@@ -1,0 +1,100 @@
+demo7:
+
+- last demo version, i forget all the changes i made!!!!!
+
+- added thread support
+
+----------------------------------------------------------
+demo6:
+
+- Added kalloc() and kfree() functions using bget as a backend.
+
+- Created a simple console device, currently only works as a teletypewriter.
+
+- Added full file support. read(), write() etc. on a file handle. Files can
+	only be opened using OpenDevice() so far.
+
+- better keyboard and video devices.
+
+- lots of internal changes.
+
+- updated all documentation files.
+
+- removed the wait for keypress before jumping into kernel.
+
+- updated file extensions to reflect what they are compiled with.
+
+- overhauled the Makefile's.
+
+- moved config options to config.mak and added some more options. The system
+	should now be more user-friendly.
+
+- added support for the Bochs emulator with a bochrc file.
+	See http://bochs.sourceforge.net/
+
+- changed all files from windows CR-LF format to unix LF format.
+
+----------------------------------------------------------
+demo5:
+
+- added support for devices.
+
+- added null device, similar to unix /dev/null and /dev/zero.
+
+- changed keyboard code to a device.
+
+- added video device, still using the VidWrite() style functions though.
+
+- changed compiler to g++ for type safety, no C++ features actually used.
+
+- updated Acknowledgements, Memory and Readme, added TODO file.
+
+- improved the GDT code, added several new GDT management functions.
+
+- added more config options.
+
+----------------------------------------------------------
+demo4:
+
+- added a very crude floppy disk driver.
+
+- corrected an error in "include.mak" so we can compile under linux.
+
+- introduced standard types.
+
+- added a Kate project file (Kate is the KDE programmer's editor, used for development under linux).
+
+- added simple config header and a couple of options.
+
+- updated Acknowledgements.
+
+----------------------------------------------------------
+demo3:
+
+- shifted the positions at which things are loaded.
+
+- added gdt management in kernel.
+
+- added support for interrupts.
+
+- added a simple page allocator.
+
+- added keyboard driver.
+
+- added Acknowledgements file.
+
+----------------------------------------------------------
+demo2:
+
+- added video memory code.
+
+- added kernel panic routine.
+
+- added version info.
+
+- added messages to boot and setup code, the setup code now waits for a keypress before starting the kernel.
+
+----------------------------------------------------------
+demo1:
+
+- first code demo, the kernel is just an infinite loop. This is only to prove we can actually boot.

@@ -1,0 +1,2196 @@
+
+test.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .startup      00000110  02000000  02000000  00008000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .text         00000f38  02000110  02000110  00008110  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .data         000000bc  02001048  02001048  00009048  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .bss          00000158  02001104  02001104  00009104  2**2
+                  ALLOC
+  4 .stack        00000100  02001400  02001400  000092a8  2**0
+                  ALLOC
+  5 .stab         00000420  00000000  00000000  000092a8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  6 .stabstr      000000f2  00000000  00000000  000096c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .comment      0000006c  00000000  00000000  000097ba  2**0
+                  CONTENTS, READONLY
+  8 .debug_aranges 000000c0  00000000  00000000  00009826  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_pubnames 000003e7  00000000  00000000  000098e6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_info   00001d79  00000000  00000000  00009ccd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_abbrev 0000068b  00000000  00000000  0000ba46  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_line   00000604  00000000  00000000  0000c0d1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_frame  000004e4  00000000  00000000  0000c6d8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_str    0000057f  00000000  00000000  0000cbbc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .startup:
+
+02000000 <_boot>:
+
+// Runtime Interrupt Vectors
+// -------------------------
+_vectors:
+        b     _start                    // reset - _start
+ 2000000:	ea000012 	b	2000050 <_mainCRTStartup>
+        ldr   pc,_undf                  // undefined - _undf
+ 2000004:	e59ff014 	ldr	pc, [pc, #20]	; 2000020 <_undf>
+        ldr   pc,_swi                   // SWI - _swi
+ 2000008:	e59ff014 	ldr	pc, [pc, #20]	; 2000024 <_swi>
+        ldr   pc,_pabt                  // program abort - _pabt
+ 200000c:	e59ff014 	ldr	pc, [pc, #20]	; 2000028 <_pabt>
+        ldr   pc,_dabt                  // data abort - _dabt
+ 2000010:	e59ff014 	ldr	pc, [pc, #20]	; 200002c <_dabt>
+        nop                             // reserved
+ 2000014:	e1a00000 	nop			(mov r0,r0)
+        ldr   pc,[pc,#-0xf20]           // IRQ - read the VIC		
+ 2000018:	e51fff20 	ldr	pc, [pc, #-3872]	; 1fff100 <STACK_SIZE+0x1fff000>
+        ldr   pc,_fiq                   // FIQ - _fiq
+ 200001c:	e59ff010 	ldr	pc, [pc, #16]	; 2000034 <_fiq>
+
+02000020 <_undf>:
+ 2000020:	02000038 	andeq	r0, r0, #56	; 0x38
+
+02000024 <_swi>:
+ 2000024:	0200003c 	andeq	r0, r0, #60	; 0x3c
+
+02000028 <_pabt>:
+ 2000028:	02000040 	andeq	r0, r0, #64	; 0x40
+
+0200002c <_dabt>:
+ 200002c:	02000044 	andeq	r0, r0, #68	; 0x44
+
+02000030 <_irq>:
+ 2000030:	02000048 	andeq	r0, r0, #72	; 0x48
+
+02000034 <_fiq>:
+ 2000034:	0200004c 	andeq	r0, r0, #76	; 0x4c
+
+02000038 <__undf>:
+
+#if 0
+// Use this group for production
+_undf:  .word _reset                    // undefined - _reset
+_swi:   .word _reset                    // SWI - _reset
+_pabt:  .word _reset                    // program abort - _reset
+_dabt:  .word _reset                    // data abort - _reset
+_irq:   .word _reset                    // IRQ - _reset
+_fiq:   .word _reset                    // FIQ - _reset
+
+#else
+// Use this group for development
+_undf:  .word __undf                    // undefined
+_swi:   .word __swi                     // SWI
+_pabt:  .word __pabt                    // program abort
+_dabt:  .word __dabt                    // data abort
+_irq:   .word __irq                     // IRQ
+_fiq:   .word __fiq                     // FIQ
+
+__undf: b     .                         // undefined
+ 2000038:	eafffffe 	b	2000038 <__undf>
+
+0200003c <__swi>:
+__swi:  b     .                         // SWI
+ 200003c:	eafffffe 	b	200003c <__swi>
+
+02000040 <__pabt>:
+__pabt: b     .                         // program abort
+ 2000040:	eafffffe 	b	2000040 <__pabt>
+
+02000044 <__dabt>:
+__dabt: b     .                         // data abort
+ 2000044:	eafffffe 	b	2000044 <__dabt>
+
+02000048 <__irq>:
+__irq:  b     .					         // IRQ
+ 2000048:	eafffffe 	b	2000048 <__irq>
+
+0200004c <__fiq>:
+__fiq:  b     .                         // FIQ
+ 200004c:	eafffffe 	b	200004c <__fiq>
+
+02000050 <_mainCRTStartup>:
+#endif
+        .size _boot, . - _boot
+        .endfunc
+
+
+// Setup the operating mode & stack.
+// ---------------------------------
+        .global _start, start, _mainCRTStartup
+        .func   _start
+
+_start:
+start:
+_mainCRTStartup:
+
+// Initialize Interrupt System
+// - Set stack location for each mode
+// - Leave in System Mode with Interrupts Disabled
+// -----------------------------------------------
+        ldr   r0,=_stack
+ 2000050:	e59f009c 	ldr	r0, [pc, #156]	; 20000f4 <.startup+0xf4>
+        msr   CPSR_c,#MODE_UND|I_BIT|F_BIT // Undefined Instruction Mode
+ 2000054:	e321f0db 	msr	CPSR_c, #219	; 0xdb
+        mov   sp,r0
+ 2000058:	e1a0d000 	mov	sp, r0
+        sub   r0,r0,#UND_STACK_SIZE
+ 200005c:	e2400004 	sub	r0, r0, #4	; 0x4
+        msr   CPSR_c,#MODE_ABT|I_BIT|F_BIT // Abort Mode
+ 2000060:	e321f0d7 	msr	CPSR_c, #215	; 0xd7
+        mov   sp,r0
+ 2000064:	e1a0d000 	mov	sp, r0
+        sub   r0,r0,#ABT_STACK_SIZE
+ 2000068:	e2400004 	sub	r0, r0, #4	; 0x4
+        msr   CPSR_c,#MODE_FIQ|I_BIT|F_BIT // FIQ Mode
+ 200006c:	e321f0d1 	msr	CPSR_c, #209	; 0xd1
+        mov   sp,r0
+ 2000070:	e1a0d000 	mov	sp, r0
+        sub   r0,r0,#FIQ_STACK_SIZE
+ 2000074:	e2400004 	sub	r0, r0, #4	; 0x4
+        msr   CPSR_c,#MODE_IRQ|I_BIT|F_BIT // IRQ Mode
+ 2000078:	e321f0d2 	msr	CPSR_c, #210	; 0xd2
+        mov   sp,r0
+ 200007c:	e1a0d000 	mov	sp, r0
+        sub   r0,r0,#IRQ_STACK_SIZE
+ 2000080:	e2400080 	sub	r0, r0, #128	; 0x80
+        msr   CPSR_c,#MODE_SVC|I_BIT|F_BIT // Supervisor Mode
+ 2000084:	e321f0d3 	msr	CPSR_c, #211	; 0xd3
+        mov   sp,r0
+ 2000088:	e1a0d000 	mov	sp, r0
+        sub   r0,r0,#SVC_STACK_SIZE
+ 200008c:	e2400004 	sub	r0, r0, #4	; 0x4
+        msr   CPSR_c,#MODE_SYS|I_BIT|F_BIT // System Mode
+ 2000090:	e321f0df 	msr	CPSR_c, #223	; 0xdf
+        mov   sp,r0
+ 2000094:	e1a0d000 	mov	sp, r0
+
+// Copy initialized data to its execution address in RAM
+// -----------------------------------------------------
+#ifdef ROM_RUN
+        ldr   r1,=_etext                // -> ROM data start
+        ldr   r2,=_data                 // -> data start
+        ldr   r3,=_edata                // -> end of data
+1:      cmp   r2,r3                     // check if data to move
+        ldrlo r0,[r1],#4                // copy it
+        strlo r0,[r2],#4
+        blo   1b                        // loop until done
+#endif
+// Clear .bss
+// ----------
+        mov   r0,#0                     // get a zero
+ 2000098:	e3a00000 	mov	r0, #0	; 0x0
+        ldr   r1,=__bss_start           // -> bss start
+ 200009c:	e59f1054 	ldr	r1, [pc, #84]	; 20000f8 <.startup+0xf8>
+        ldr   r2,=__bss_end__           // -> bss end
+ 20000a0:	e59f2054 	ldr	r2, [pc, #84]	; 20000fc <.startup+0xfc>
+2:      cmp   r1,r2                     // check if data to clear
+ 20000a4:	e1510002 	cmp	r1, r2
+        strlo r0,[r1],#4                // clear 4 bytes
+ 20000a8:	34810004 	strcc	r0, [r1], #4
+        blo   2b                        // loop until done
+ 20000ac:	3afffffc 	bcc	20000a4 <_mainCRTStartup+0x54>
+
+020000b0 <copy_vectors>:
+
+copy_vectors:
+// Copy vectors to internal ram
+		ldr		r10, =_vectors
+ 20000b0:	e59fa048 	ldr	sl, [pc, #72]	; 2000100 <.startup+0x100>
+		mov		r11, #0x00
+ 20000b4:	e3a0b000 	mov	fp, #0	; 0x0
+		ldmia	r10!, {r0 - r7}
+ 20000b8:	e8ba00ff 	ldmia	sl!, {r0, r1, r2, r3, r4, r5, r6, r7}
+		stmia	r11!, {r0 - r7}
+ 20000bc:	e8ab00ff 	stmia	fp!, {r0, r1, r2, r3, r4, r5, r6, r7}
+		
+			
+		 
+		       
+
+// Call main program: main(0)
+// --------------------------
+        mov   r0,#0                     // no arguments (argc = 0)
+ 20000c0:	e3a00000 	mov	r0, #0	; 0x0
+        mov   r1,r0
+ 20000c4:	e1a01000 	mov	r1, r0
+        mov   r2,r0
+ 20000c8:	e1a02000 	mov	r2, r0
+        mov   fp,r0                     // null frame pointer
+ 20000cc:	e1a0b000 	mov	fp, r0
+        mov   r7,r0                     // null frame pointer for thumb
+ 20000d0:	e1a07000 	mov	r7, r0
+        ldr   r10,=main
+ 20000d4:	e59fa028 	ldr	sl, [pc, #40]	; 2000104 <.startup+0x104>
+        mov   lr,pc
+ 20000d8:	e1a0e00f 	mov	lr, pc
+        bx    r10                       // enter main()
+ 20000dc:	e12fff1a 	bx	sl
+
+020000e0 <_reset>:
+
+        .size   _start, . - _start
+        .endfunc
+
+        .global _reset, reset, exit, abort
+        .func   _reset
+_reset:
+reset:
+exit:
+abort:
+#if 0
+// Disable interrupts, then force a hardware reset by driving P23 low
+// -------------------------------------------------------------------
+        mrs   r0,cpsr                   // get PSR
+        orr   r0,r0,#I_BIT|F_BIT        // disable IRQ and FIQ
+        msr   cpsr,r0                   // set up status register
+
+        ldr   r1,=(PS_BASE)             // PS Base Address
+        ldr   r0,=(PS_PIO)              // PIO Module
+        str   r0,[r1,#PS_PCER_OFF]      // enable its clock
+        ldr   r1,=(PIO_BASE)            // PIO Base Address
+        ldr   r0,=(1<<23)               // P23
+        str   r0,[r1,#PIO_PER_OFF]      // make sure pin is contolled by PIO
+        str   r0,[r1,#PIO_CODR_OFF]     // set the pin low
+        str   r0,[r1,#PIO_OER_OFF]      // make it an output
+#endif
+        b     .                         // loop until reset
+ 20000e0:	eafffffe 	b	20000e0 <_reset>
+
+020000e4 <_tmr0_irq_handler>:
+
+        .size _reset, . - _reset
+        .endfunc
+
+		.func _tmr0_irq_handler
+_tmr0_irq_handler:
+		nop
+ 20000e4:	e1a00000 	nop			(mov r0,r0)
+		nop
+ 20000e8:	e1a00000 	nop			(mov r0,r0)
+		nop
+ 20000ec:	e1a00000 	nop			(mov r0,r0)
+		nop        
+ 20000f0:	e1a00000 	nop			(mov r0,r0)
+ 20000f4:	02001500 	andeq	r1, r0, #0	; 0x0
+ 20000f8:	02001104 	andeq	r1, r0, #1	; 0x1
+ 20000fc:	0200125c 	andeq	r1, r0, #-1073741819	; 0xc0000005
+ 2000100:	02000000 	andeq	r0, r0, #0	; 0x0
+ 2000104:	020001e0 	andeq	r0, r0, #56	; 0x38
+ 2000108:	e1a00000 	nop			(mov r0,r0)
+ 200010c:	e1a00000 	nop			(mov r0,r0)
+Disassembly of section .text:
+
+02000110 <TSK1>:
+MBX_CREATE(EVENT_MSG, 5, sizeof(uint8));
+
+BUF_CREATE(BUF, 4, 3);
+
+STATUS TSK1(STATUS evt) {
+ 2000110:	e1a0c00d 	mov	ip, sp
+ 2000114:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+ 2000118:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 200011c:	e24dd004 	sub	sp, sp, #4	; 0x4
+ 2000120:	e50b0010 	str	r0, [fp, #-16]
+	/* DEMO */
+	TSK_Sleep( TSK_Self(), 100);
+ 2000124:	eb00008a 	bl	2000354 <TSK_Self>
+ 2000128:	e1a03000 	mov	r3, r0
+ 200012c:	e1a00003 	mov	r0, r3
+ 2000130:	e3a01064 	mov	r1, #100	; 0x64
+ 2000134:	eb000197 	bl	2000798 <TSK_Sleep>
+	return SYS_OK;
+ 2000138:	e3a03000 	mov	r3, #0	; 0x0
+}
+ 200013c:	e1a00003 	mov	r0, r3
+ 2000140:	e89da808 	ldmia	sp, {r3, fp, sp, pc}
+
+02000144 <TSK2>:
+
+STATUS TSK2(STATUS evt) {
+ 2000144:	e1a0c00d 	mov	ip, sp
+ 2000148:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+ 200014c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000150:	e24dd004 	sub	sp, sp, #4	; 0x4
+ 2000154:	e50b0010 	str	r0, [fp, #-16]
+	static uint8 ucTest;
+	/* DEMO */
+	if( MBX_Pend(&EVENT_MSG, &ucTest, 500) == SYS_OK ) {
+ 2000158:	e59f0014 	ldr	r0, [pc, #20]	; 2000174 <.text+0x64>
+ 200015c:	e59f1014 	ldr	r1, [pc, #20]	; 2000178 <.text+0x68>
+ 2000160:	e3a02f7d 	mov	r2, #500	; 0x1f4
+ 2000164:	eb000286 	bl	2000b84 <MBX_Pend>
+	
+		switch( ucTest ) {
+			case 100:
+				/* Handle event 100 here */
+				break;
+			default:
+				break;	
+		}	
+		
+	}
+	return SYS_OK;
+ 2000168:	e3a03000 	mov	r3, #0	; 0x0
+}
+ 200016c:	e1a00003 	mov	r0, r3
+ 2000170:	e89da808 	ldmia	sp, {r3, fp, sp, pc}
+ 2000174:	02001048 	andeq	r1, r0, #72	; 0x48
+ 2000178:	02001104 	andeq	r1, r0, #1	; 0x1
+
+0200017c <TSK3>:
+
+STATUS TSK3(STATUS evt) {
+ 200017c:	e1a0c00d 	mov	ip, sp
+ 2000180:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+ 2000184:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000188:	e24dd004 	sub	sp, sp, #4	; 0x4
+ 200018c:	e50b0010 	str	r0, [fp, #-16]
+	TSK_Sleep( TSK_Self(), 30);
+ 2000190:	eb00006f 	bl	2000354 <TSK_Self>
+ 2000194:	e1a03000 	mov	r3, r0
+ 2000198:	e1a00003 	mov	r0, r3
+ 200019c:	e3a0101e 	mov	r1, #30	; 0x1e
+ 20001a0:	eb00017c 	bl	2000798 <TSK_Sleep>
+	return SYS_OK;
+ 20001a4:	e3a03000 	mov	r3, #0	; 0x0
+	
+}
+ 20001a8:	e1a00003 	mov	r0, r3
+ 20001ac:	e89da808 	ldmia	sp, {r3, fp, sp, pc}
+
+020001b0 <TimeoutHandler>:
+
+task_entry_t tsk_tbl[] = {	{&TSK1, &TSK1_tcb, 1, "TASK1"},
+							{&TSK2, &TSK2_tcb, 2, "TASK2"},
+							{&TSK3, &TSK3_tcb, 3, "TASK3"},
+							{0, 0}
+							};
+													
+
+STATUS TimeoutHandler(uint8 Event, void *pArg1, void *pArg2) {	
+ 20001b0:	e1a0c00d 	mov	ip, sp
+ 20001b4:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+ 20001b8:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20001bc:	e24dd00c 	sub	sp, sp, #12	; 0xc
+ 20001c0:	e1a03000 	mov	r3, r0
+ 20001c4:	e50b1014 	str	r1, [fp, #-20]
+ 20001c8:	e50b2018 	str	r2, [fp, #-24]
+ 20001cc:	e54b300d 	strb	r3, [fp, #-13]
+	//MBX_Post(pArg1, &Event, 0);
+	return SYS_OK;
+ 20001d0:	e3a03000 	mov	r3, #0	; 0x0
+}
+ 20001d4:	e1a00003 	mov	r0, r3
+ 20001d8:	e24bd00c 	sub	sp, fp, #12	; 0xc
+ 20001dc:	e89da800 	ldmia	sp, {fp, sp, pc}
+
+020001e0 <main>:
+
+int main(void) {
+ 20001e0:	e1a0c00d 	mov	ip, sp
+ 20001e4:	e92dd800 	stmdb	sp!, {fp, ip, lr, pc}
+ 20001e8:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20001ec:	e24dd010 	sub	sp, sp, #16	; 0x10
+	uint8 data[3];
+	
+	BUF_AppendTrgFxn(&BUF, 2, &TimeoutHandler);
+ 20001f0:	e59f0130 	ldr	r0, [pc, #304]	; 2000328 <.text+0x218>
+ 20001f4:	e3a01002 	mov	r1, #2	; 0x2
+ 20001f8:	e59f212c 	ldr	r2, [pc, #300]	; 200032c <.text+0x21c>
+ 20001fc:	eb000360 	bl	2000f84 <BUF_AppendTrgFxn>
+	BUF_AppendToutFxn(&BUF, 5, &TimeoutHandler);
+ 2000200:	e59f0120 	ldr	r0, [pc, #288]	; 2000328 <.text+0x218>
+ 2000204:	e3a01005 	mov	r1, #5	; 0x5
+ 2000208:	e59f211c 	ldr	r2, [pc, #284]	; 200032c <.text+0x21c>
+ 200020c:	eb00034c 	bl	2000f44 <BUF_AppendToutFxn>
+	
+	BUF_Put(&BUF, "123");
+ 2000210:	e59f0110 	ldr	r0, [pc, #272]	; 2000328 <.text+0x218>
+ 2000214:	e59f1114 	ldr	r1, [pc, #276]	; 2000330 <.text+0x220>
+ 2000218:	eb0002d7 	bl	2000d7c <BUF_Put>
+	BUF_Put(&BUF, "456");
+ 200021c:	e59f0104 	ldr	r0, [pc, #260]	; 2000328 <.text+0x218>
+ 2000220:	e59f110c 	ldr	r1, [pc, #268]	; 2000334 <.text+0x224>
+ 2000224:	eb0002d4 	bl	2000d7c <BUF_Put>
+	BUF_Put(&BUF, "789");
+ 2000228:	e59f00f8 	ldr	r0, [pc, #248]	; 2000328 <.text+0x218>
+ 200022c:	e59f1104 	ldr	r1, [pc, #260]	; 2000338 <.text+0x228>
+ 2000230:	eb0002d1 	bl	2000d7c <BUF_Put>
+	BUF_Put(&BUF, "abc");
+ 2000234:	e59f00ec 	ldr	r0, [pc, #236]	; 2000328 <.text+0x218>
+ 2000238:	e59f10fc 	ldr	r1, [pc, #252]	; 200033c <.text+0x22c>
+ 200023c:	eb0002ce 	bl	2000d7c <BUF_Put>
+		
+	BUF_Get(&BUF, &data);
+ 2000240:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 2000244:	e59f00dc 	ldr	r0, [pc, #220]	; 2000328 <.text+0x218>
+ 2000248:	e1a01003 	mov	r1, r3
+ 200024c:	eb0002ff 	bl	2000e50 <BUF_Get>
+	BUF_Put(&BUF, "def");
+ 2000250:	e59f00d0 	ldr	r0, [pc, #208]	; 2000328 <.text+0x218>
+ 2000254:	e59f10e4 	ldr	r1, [pc, #228]	; 2000340 <.text+0x230>
+ 2000258:	eb0002c7 	bl	2000d7c <BUF_Put>
+	
+	BUF_Get(&BUF, &data);
+ 200025c:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 2000260:	e59f00c0 	ldr	r0, [pc, #192]	; 2000328 <.text+0x218>
+ 2000264:	e1a01003 	mov	r1, r3
+ 2000268:	eb0002f8 	bl	2000e50 <BUF_Get>
+	BUF_Get(&BUF, &data);
+ 200026c:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 2000270:	e59f00b0 	ldr	r0, [pc, #176]	; 2000328 <.text+0x218>
+ 2000274:	e1a01003 	mov	r1, r3
+ 2000278:	eb0002f4 	bl	2000e50 <BUF_Get>
+	BUF_Get(&BUF, &data);
+ 200027c:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 2000280:	e59f00a0 	ldr	r0, [pc, #160]	; 2000328 <.text+0x218>
+ 2000284:	e1a01003 	mov	r1, r3
+ 2000288:	eb0002f0 	bl	2000e50 <BUF_Get>
+	BUF_Get(&BUF, &data);
+ 200028c:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 2000290:	e59f0090 	ldr	r0, [pc, #144]	; 2000328 <.text+0x218>
+ 2000294:	e1a01003 	mov	r1, r3
+ 2000298:	eb0002ec 	bl	2000e50 <BUF_Get>
+	BUF_Get(&BUF, &data);
+ 200029c:	e24b3010 	sub	r3, fp, #16	; 0x10
+ 20002a0:	e59f0080 	ldr	r0, [pc, #128]	; 2000328 <.text+0x218>
+ 20002a4:	e1a01003 	mov	r1, r3
+ 20002a8:	eb0002e8 	bl	2000e50 <BUF_Get>
+	
+	BUF_Put(&BUF, "321");
+ 20002ac:	e59f0074 	ldr	r0, [pc, #116]	; 2000328 <.text+0x218>
+ 20002b0:	e59f108c 	ldr	r1, [pc, #140]	; 2000344 <.text+0x234>
+ 20002b4:	eb0002b0 	bl	2000d7c <BUF_Put>
+	BUF_Put(&BUF, "456");
+ 20002b8:	e59f0068 	ldr	r0, [pc, #104]	; 2000328 <.text+0x218>
+ 20002bc:	e59f1070 	ldr	r1, [pc, #112]	; 2000334 <.text+0x224>
+ 20002c0:	eb0002ad 	bl	2000d7c <BUF_Put>
+	
+	BUF_Put(&BUF, "789");
+ 20002c4:	e59f005c 	ldr	r0, [pc, #92]	; 2000328 <.text+0x218>
+ 20002c8:	e59f1068 	ldr	r1, [pc, #104]	; 2000338 <.text+0x228>
+ 20002cc:	eb0002aa 	bl	2000d7c <BUF_Put>
+	
+	
+	MBX_Init(&EVENT_MSG);
+ 20002d0:	e59f0070 	ldr	r0, [pc, #112]	; 2000348 <.text+0x238>
+ 20002d4:	eb0001ca 	bl	2000a04 <MBX_Init>
+	TMR_Start(&DEMO_TMR, 5000, &TimeoutHandler, 100, &EVENT_MSG, 0, TMR_PERIODIC);
+ 20002d8:	e59f3068 	ldr	r3, [pc, #104]	; 2000348 <.text+0x238>
+ 20002dc:	e58d3000 	str	r3, [sp]
+ 20002e0:	e3a03000 	mov	r3, #0	; 0x0
+ 20002e4:	e58d3004 	str	r3, [sp, #4]
+ 20002e8:	e3a03001 	mov	r3, #1	; 0x1
+ 20002ec:	e58d3008 	str	r3, [sp, #8]
+ 20002f0:	e59f0054 	ldr	r0, [pc, #84]	; 200034c <.text+0x23c>
+ 20002f4:	e3a01d4e 	mov	r1, #4992	; 0x1380
+ 20002f8:	e2811008 	add	r1, r1, #8	; 0x8
+ 20002fc:	e59f2028 	ldr	r2, [pc, #40]	; 200032c <.text+0x21c>
+ 2000300:	e3a03064 	mov	r3, #100	; 0x64
+ 2000304:	eb000103 	bl	2000718 <TMR_Start>
+		
+	uSMARTX_Init(tsk_tbl);	
+ 2000308:	e59f0040 	ldr	r0, [pc, #64]	; 2000350 <.text+0x240>
+ 200030c:	eb0000a6 	bl	20005ac <uSMARTX_Init>
+	while(1) {
+		uSMARTX_Tick();
+ 2000310:	eb000135 	bl	20007ec <uSMARTX_Tick>
+		if(uSMARTX_Scheduler() == SYS_ERROR)
+ 2000314:	eb000071 	bl	20004e0 <uSMARTX_Scheduler>
+ 2000318:	e1a03000 	mov	r3, r0
+ 200031c:	e3530001 	cmp	r3, #1	; 0x1
+ 2000320:	1afffffa 	bne	2000310 <main+0x130>
+			break;
+	}
+	
+	while(1);
+ 2000324:	eafffffe 	b	2000324 <main+0x144>
+ 2000328:	02001094 	andeq	r1, r0, #148	; 0x94
+ 200032c:	020001b0 	andeq	r0, r0, #44	; 0x2c
+ 2000330:	02001030 	andeq	r1, r0, #48	; 0x30
+ 2000334:	02001034 	andeq	r1, r0, #52	; 0x34
+ 2000338:	02001038 	andeq	r1, r0, #56	; 0x38
+ 200033c:	0200103c 	andeq	r1, r0, #60	; 0x3c
+ 2000340:	02001040 	andeq	r1, r0, #64	; 0x40
+ 2000344:	02001044 	andeq	r1, r0, #68	; 0x44
+ 2000348:	02001048 	andeq	r1, r0, #72	; 0x48
+ 200034c:	02001198 	andeq	r1, r0, #38	; 0x26
+ 2000350:	020010b4 	andeq	r1, r0, #180	; 0xb4
+
+02000354 <TSK_Self>:
+ */
+HANDLE* TSK_Self(void) {
+	return (HANDLE*) pcurr_ctx;
+	
+}
+ 2000354:	e59f3004 	ldr	r3, [pc, #4]	; 2000360 <.text+0x250>
+ 2000358:	e5930000 	ldr	r0, [r3]
+ 200035c:	e1a0f00e 	mov	pc, lr
+ 2000360:	02001258 	andeq	r1, r0, #-2147483643	; 0x80000005
+
+02000364 <timer_dequeue>:
+/*! \brief Task sleep function
+ *
+ *	Delay a task from execution for the specified amount of timer ticks. When the timeout expires the task is unblocked and is ready to execute.
+ *	The \e TSK_TOUT value is passed to it.
+ *  \param ph		handle to task
+ *  \param tout 	timeout value  
+ */
+void TSK_Sleep(HANDLE *ph, uint16 tout) {
+	tcb_t *ptcb = (tcb_t*) ph;
+	ptcb->flags = TSK_DELAY;	
+	TMR_Start(&ptcb->tic, tout, &tsk_delay_clb, 0, ptcb, 0, TMR_ONE_SHOT);		
+}
+
+/*! \brief Task suspend function
+ *
+ *	Suspend a task from execution, until the task is it explicitely resumed.
+ *  \param ph	handle to task
+ */
+void TSK_Suspend(HANDLE *ph) {
+	tcb_t *ptcb = (tcb_t*) ph;
+	size_t flags;
+			
+	flags = INT_Disable();
+	ptcb->flags = TSK_SUSPENDED;
+	/* If the task is waiting in a queue dequeue it and stop its timer. */
+	if( ptcb->pqueue ) {
+		dequeue_object(ptcb->pqueue, (dll_t*) ptcb);
+		remove_timeout( &ptcb->tic );
+	}
+	INT_Restore( flags );	
+}
+
+/*! \brief Task resume function
+ *
+ *	Resume a previously suspended task.
+ *  \param ph	handle to task 
+ */
+void TSK_Resume(HANDLE *ph) {
+	size_t flags;
+	tcb_t *ptcb = (tcb_t*) ph;
+	
+	flags = INT_Disable();
+	ptcb->flags &= ~TSK_SUSPENDED;
+	priority_enqueue_tsk( ptcb );
+	INT_Restore( flags );
+}
+/*!	@}
+ *
+ * End of tasking group documentation.
+ */
+ 
+ 
+/*!	\defgroup uSMARTX_api_timer Timers
+ *	@{
+ *	In addition to time control over tasks the uSmartX kernel provides another way of time control via software timers. Each system tick
+ *	software timers are evaluated. If one or more timers expires the tiemr associated call-back function is executed. the uSmartX kernel places
+ *	timers in a so called relative time queue, where each timer expiration is relative to the preceeding timer. Timers that will expire at the
+ *	same time have 0 relative ticks. In this way each system tick only one timer is evaluated. This increase performances drasticaly.
+ *	Please note that the call-back function will be executed from uSMARTX_Tick() function context.
+ *	\n\n
+ *	The call back function must be of type:
+ *	\code STATUS my_callback_func(uint8, void*, void*)
+ *	\endcode
+ */
+ 
+/*! \brief Timer start function
+ *
+ *	This function starts a software timer. A valid call back function must be passed to the function. The timer is re-started if it was
+ *	already started. Timers can be one shot or periodic.
+ *  \param ph		handle to timer
+ *  \param tout 	timeout value  
+ *  \param pfxn		address of the callback function
+ *  \param evt		event to be passed to the call-back function
+ *  \param parg1	argument 1 to be passed to the call-back function
+ *  \param parg2	argument 2 to be passed to the call-back function
+ *  \param mode		one-shot or periodic mode
+ *	\attention		The callback function will be executed from the context where uSMARTX_Tick function was called.
+ */
+void TMR_Start(HANDLE *ph, uint16 tout, STATUS(*pfxn)(uint8, void*, void*), uint8 evt, void *parg1, void *parg2, uint8 mode) {
+	size_t flags;
+	tic_t *ptic = (tic_t*) ph;
+
+	flags = INT_Disable();
+	
+	/* If timer already active dequeue it first */
+	if( ptic->flags & TMR_ACTIVE )
+	  timer_dequeue( ptic );
+
+    ptic->abs = tout;
+	ptic->pfxn = pfxn;
+	ptic->evt = evt;
+	ptic->parg1 = parg1;
+	ptic->parg2 = parg2;
+	ptic->flags	|= mode;	
+	timer_enqueue( ptic );
+	
+	INT_Restore( flags ); 
+}
+/*! \brief Timer re-start function
+ *
+ *	This function re-starts a software timer. Be careful to apply this system call only on an already
+ *	started timer. Its functionality is very similar to TMR_Start() function but it is faster.
+ *
+ *  \param ph		handle to timer
+ * 
+ */
+void TMR_ReStart(HANDLE *ph) {
+	size_t flags;
+	tic_t *ptic = (tic_t*) ph;
+	
+	flags = INT_Disable();
+	
+	/* If timer already active dequeue it first */
+	if( ptic->flags & TMR_ACTIVE )
+	  timer_dequeue( ptic );
+	  
+	timer_enqueue( ptic );
+	
+	INT_Restore( flags );
+}
+
+/*! \brief Timer stop function
+ *
+ *	This function stops a software timer without executin its call-back function.
+ *  \param ph		handle to timer
+ */
+void TMR_Stop(HANDLE *ph) {
+	size_t flags;
+	tic_t *ptic = (tic_t*) ph;
+
+	flags = INT_Disable();
+	
+	if( ptic->flags & TMR_ACTIVE )
+		timer_dequeue( ptic );
+		
+	INT_Restore( flags ); 
+}
+
+/*! \brief Return system ticks
+ *
+ *	This function returns elapsed system ticks since system startup.
+ *	\retval elapsed system ticks
+ */
+uint32 TMR_GetTicks(void) {
+	return g_ticks;
+}
+
+///*! \brief Get free CPU running counter
+// *
+// *	This function is called from the scheduler to get the curret ticks of a CPU timer.
+// *  The implementation of this function is up to the user. Please see the Porting guide section for more details.
+// *
+// *	\retval value of the CPU timer in 16 bit resolution
+// */
+//extern uint16 TMR_GetFreeRunningCounter(void);
+
+/*!	@}
+ *
+ * End of timers group documentation.
+ */
+//------------------------------------------------------------------------------
+/*						INTERNAL FUNCTIONS		
+ *
+ * These are uSMARTX internal function. They must not be called from a task.
+ */
+ 
+ 
+ /* Insert a timer in a timer the queue */
+void timer_enqueue(tic_t *ptic) {
+	uint16 ticks;
+	tic_t *t;
+	
+    ptic->flags |= TMR_ACTIVE;
+	ticks = ptic->abs;
+	if( (t = (tic_t*) g_timerq.pobject) ) {
+		while( t->rel <= ticks) {
+			ticks -= t->rel;
+			if( t->pnxt )			
+				t = (tic_t*) t->pnxt;
+			else {
+				ptic->rel = ticks;
+				enqueue_bottom_object( (queue_t*) &g_timerq, (dll_t*) ptic );
+				return;
+			}
+		}	
+		ptic->rel = ticks;
+		t->rel -= ticks;		
+		if( t->pprv )
+			enqueue_middle_object( (dll_t*) t, (dll_t*) ptic );			
+		else 
+			enqueue_top_object( (queue_t*) &g_timerq, (dll_t*) ptic );
+	}
+    else {
+    	ptic->rel = ticks;
+	    enqueue_top_object( (queue_t*) &g_timerq, (dll_t*) ptic );
+    }
+}
+
+/* Dequeue a timer from timer list */
+void timer_dequeue(tic_t *ptic) {
+ 2000364:	e1a02000 	mov	r2, r0
+	ptic->flags &= ~TMR_ACTIVE;
+	/* If this is not the last timer add the relative ticks to the next timer */
+	if( ptic->pnxt )		
+ 2000368:	e592c000 	ldr	ip, [r2]
+ 200036c:	e5d2301c 	ldrb	r3, [r2, #28]
+ 2000370:	e35c0000 	cmp	ip, #0	; 0x0
+ 2000374:	e3c33008 	bic	r3, r3, #8	; 0x8
+ 2000378:	e5c2301c 	strb	r3, [r2, #28]
+		((tic_t*)ptic->pnxt)->rel += ptic->rel;
+ 200037c:	11dc30ba 	ldrneh	r3, [ip, #10]
+ 2000380:	11d220ba 	ldrneh	r2, [r2, #10]
+	
+	dequeue_object( (queue_t*) &g_timerq, (dll_t*) ptic );
+ 2000384:	e1a01000 	mov	r1, r0
+ 2000388:	e59f0008 	ldr	r0, [pc, #8]	; 2000398 <.text+0x288>
+ 200038c:	10833002 	addne	r3, r3, r2
+ 2000390:	11cc30ba 	strneh	r3, [ip, #10]
+ 2000394:	ea00018e 	b	20009d4 <dequeue_object>
+ 2000398:	02001244 	andeq	r1, r0, #1073741828	; 0x40000004
+
+0200039c <remove_timeout>:
+}
+
+/* Append a timer to the task */
+void append_timeout(tcb_t *ptcb, STATUS (*pfxn)(uint8 evt, void *parg1, void *parg2), uint16 tout) {
+	tic_t *ptic;
+
+	if( tout == WAIT_FOREVER )
+		return;
+
+	ptic = &ptcb->tic;
+	ptic->flags	|= TMR_ONE_SHOT;
+	ptic->evt = 0;
+	ptic->parg1 = ptcb;
+	ptic->parg2 = 0;
+	
+	ptic->abs = tout;
+	ptic->pfxn = pfxn;		
+	timer_enqueue( ptic );
+}
+/* Remove a pending timer */
+void remove_timeout(tic_t *ptic) {
+	if( ptic )
+ 200039c:	e2503000 	subs	r3, r0, #0	; 0x0
+ 20003a0:	01a0f00e 	moveq	pc, lr
+		if( ptic->flags & TMR_ACTIVE)
+ 20003a4:	e5d3301c 	ldrb	r3, [r3, #28]
+ 20003a8:	e3130008 	tst	r3, #8	; 0x8
+ 20003ac:	01a0f00e 	moveq	pc, lr
+			timer_dequeue( ptic );
+ 20003b0:	eaffffeb 	b	2000364 <timer_dequeue>
+
+020003b4 <TSK_Suspend>:
+ 20003b4:	e1a0c00d 	mov	ip, sp
+ 20003b8:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 20003bc:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20003c0:	e1a04000 	mov	r4, r0
+ 20003c4:	eb000260 	bl	2000d4c <INT_Disable>
+ 20003c8:	e5942018 	ldr	r2, [r4, #24]
+ 20003cc:	e3a03002 	mov	r3, #2	; 0x2
+ 20003d0:	e3520000 	cmp	r2, #0	; 0x0
+ 20003d4:	e1a05000 	mov	r5, r0
+ 20003d8:	e1a01004 	mov	r1, r4
+ 20003dc:	e1a00002 	mov	r0, r2
+ 20003e0:	e5c43008 	strb	r3, [r4, #8]
+ 20003e4:	1a000002 	bne	20003f4 <TSK_Suspend+0x40>
+ 20003e8:	e1a00005 	mov	r0, r5
+ 20003ec:	e89d6830 	ldmia	sp, {r4, r5, fp, sp, lr}
+ 20003f0:	ea00025e 	b	2000d70 <INT_Restore>
+ 20003f4:	eb000176 	bl	20009d4 <dequeue_object>
+ 20003f8:	e284001c 	add	r0, r4, #28	; 0x1c
+ 20003fc:	ebffffe6 	bl	200039c <remove_timeout>
+ 2000400:	eafffff8 	b	20003e8 <TSK_Suspend+0x34>
+
+02000404 <TMR_Stop>:
+ 2000404:	e1a0c00d 	mov	ip, sp
+ 2000408:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 200040c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000410:	e1a04000 	mov	r4, r0
+ 2000414:	eb00024c 	bl	2000d4c <INT_Disable>
+ 2000418:	e5d4301c 	ldrb	r3, [r4, #28]
+ 200041c:	e3130008 	tst	r3, #8	; 0x8
+ 2000420:	e1a05000 	mov	r5, r0
+ 2000424:	e1a00004 	mov	r0, r4
+ 2000428:	1a000002 	bne	2000438 <TMR_Stop+0x34>
+ 200042c:	e1a00005 	mov	r0, r5
+ 2000430:	e89d6830 	ldmia	sp, {r4, r5, fp, sp, lr}
+ 2000434:	ea00024d 	b	2000d70 <INT_Restore>
+ 2000438:	ebffffc9 	bl	2000364 <timer_dequeue>
+ 200043c:	eafffffa 	b	200042c <TMR_Stop+0x28>
+
+02000440 <TMR_GetTicks>:
+ 2000440:	e59f3004 	ldr	r3, [pc, #4]	; 200044c <.text+0x33c>
+ 2000444:	e5930000 	ldr	r0, [r3]
+ 2000448:	e1a0f00e 	mov	pc, lr
+ 200044c:	02001254 	andeq	r1, r0, #1073741829	; 0x40000005
+
+02000450 <priority_enqueue_tsk>:
+}
+
+/* Task delay call back function */
+STATUS tsk_delay_clb(uint8 evt, void *parg1, void *parg2) {		
+	tcb_t *ptcb = (tcb_t*) parg1;
+	ptcb->event = SYS_TOUT;
+	ptcb->flags	= TSK_READY;
+	priority_enqueue_tsk( ptcb );
+	return SYS_OK;			
+}
+
+/* Enqueue tasks on a priority based scheme */
+void priority_enqueue_tsk(/*queue_t *pqueue, */tcb_t *ptcb) {
+	tcb_t *t;
+	uint8 p	= ptcb->priority;
+	queue_t *pqueue = (queue_t*) &g_taskq;
+	
+	if( pqueue->pobject ) {
+ 2000450:	e59f304c 	ldr	r3, [pc, #76]	; 20004a4 <.text+0x394>
+ 2000454:	e5933000 	ldr	r3, [r3]
+ 2000458:	e3530000 	cmp	r3, #0	; 0x0
+ 200045c:	e1a01000 	mov	r1, r0
+ 2000460:	e5d02009 	ldrb	r2, [r0, #9]
+ 2000464:	0a000008 	beq	200048c <priority_enqueue_tsk+0x3c>
+		t = (tcb_t*) pqueue->pobject;
+ 2000468:	e1a00003 	mov	r0, r3
+		while( t->priority <= p  ) 		{
+			if( t->pnxt )
+				t = (tcb_t*) t->pnxt;
+			else {
+				enqueue_bottom_object(pqueue, (dll_t*) ptcb);
+				return;
+ 200046c:	e5d03009 	ldrb	r3, [r0, #9]
+ 2000470:	e1530002 	cmp	r3, r2
+ 2000474:	8a000006 	bhi	2000494 <priority_enqueue_tsk+0x44>
+ 2000478:	e5903000 	ldr	r3, [r0]
+ 200047c:	e2530000 	subs	r0, r3, #0	; 0x0
+ 2000480:	1afffff9 	bne	200046c <priority_enqueue_tsk+0x1c>
+ 2000484:	e59f0018 	ldr	r0, [pc, #24]	; 20004a4 <.text+0x394>
+ 2000488:	ea000139 	b	2000974 <enqueue_bottom_object>
+			}
+		}
+		if( t->pprv ) {	
+			enqueue_middle_object((dll_t*) t, (dll_t*) ptcb);
+			return;
+		}
+	}	
+	enqueue_top_object( pqueue, (dll_t*) ptcb );
+ 200048c:	e59f0010 	ldr	r0, [pc, #16]	; 20004a4 <.text+0x394>
+ 2000490:	ea000126 	b	2000930 <enqueue_top_object>
+ 2000494:	e5903004 	ldr	r3, [r0, #4]
+ 2000498:	e3530000 	cmp	r3, #0	; 0x0
+ 200049c:	0afffffa 	beq	200048c <priority_enqueue_tsk+0x3c>
+ 20004a0:	ea00012d 	b	200095c <enqueue_middle_object>
+ 20004a4:	0200124c 	andeq	r1, r0, #-1073741820	; 0xc0000004
+
+020004a8 <TSK_Resume>:
+ 20004a8:	e1a0c00d 	mov	ip, sp
+ 20004ac:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 20004b0:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20004b4:	e1a04000 	mov	r4, r0
+ 20004b8:	eb000223 	bl	2000d4c <INT_Disable>
+ 20004bc:	e5d43008 	ldrb	r3, [r4, #8]
+ 20004c0:	e3c33002 	bic	r3, r3, #2	; 0x2
+ 20004c4:	e1a05000 	mov	r5, r0
+ 20004c8:	e5c43008 	strb	r3, [r4, #8]
+ 20004cc:	e1a00004 	mov	r0, r4
+ 20004d0:	ebffffde 	bl	2000450 <priority_enqueue_tsk>
+ 20004d4:	e1a00005 	mov	r0, r5
+ 20004d8:	e89d6830 	ldmia	sp, {r4, r5, fp, sp, lr}
+ 20004dc:	ea000223 	b	2000d70 <INT_Restore>
+
+020004e0 <uSMARTX_Scheduler>:
+ 20004e0:	e1a0c00d 	mov	ip, sp
+ 20004e4:	e92dd8f0 	stmdb	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
+ 20004e8:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20004ec:	eb000216 	bl	2000d4c <INT_Disable>
+ 20004f0:	e1a04000 	mov	r4, r0
+ 20004f4:	e59f00a4 	ldr	r0, [pc, #164]	; 20005a0 <.text+0x490>
+ 20004f8:	eb000128 	bl	20009a0 <dequeue_top_object>
+ 20004fc:	e2505000 	subs	r5, r0, #0	; 0x0
+ 2000500:	e59f709c 	ldr	r7, [pc, #156]	; 20005a4 <.text+0x494>
+ 2000504:	e1a00004 	mov	r0, r4
+ 2000508:	03a06002 	moveq	r6, #2	; 0x2
+ 200050c:	0a00001a 	beq	200057c <uSMARTX_Scheduler+0x9c>
+ 2000510:	e59f3090 	ldr	r3, [pc, #144]	; 20005a8 <.text+0x498>
+ 2000514:	e595600c 	ldr	r6, [r5, #12]
+ 2000518:	e5835000 	str	r5, [r3]
+ 200051c:	eb000213 	bl	2000d70 <INT_Restore>
+ 2000520:	e1a00006 	mov	r0, r6
+ 2000524:	e5974000 	ldr	r4, [r7]
+ 2000528:	e1a0e00f 	mov	lr, pc
+ 200052c:	e595f010 	ldr	pc, [r5, #16]
+ 2000530:	e5973000 	ldr	r3, [r7]
+ 2000534:	e0643003 	rsb	r3, r4, r3
+ 2000538:	e1d523bc 	ldrh	r2, [r5, #60]
+ 200053c:	e1a03803 	mov	r3, r3, lsl #16
+ 2000540:	e1a04823 	mov	r4, r3, lsr #16
+ 2000544:	e1d533be 	ldrh	r3, [r5, #62]
+ 2000548:	e1520004 	cmp	r2, r4
+ 200054c:	31c543bc 	strcch	r4, [r5, #60]
+ 2000550:	e1530004 	cmp	r3, r4
+ 2000554:	81c543be 	strhih	r4, [r5, #62]
+ 2000558:	e1a06000 	mov	r6, r0
+ 200055c:	eb0001fa 	bl	2000d4c <INT_Disable>
+ 2000560:	e5d53008 	ldrb	r3, [r5, #8]
+ 2000564:	e3a02008 	mov	r2, #8	; 0x8
+ 2000568:	e3530000 	cmp	r3, #0	; 0x0
+ 200056c:	e1a04000 	mov	r4, r0
+ 2000570:	e585200c 	str	r2, [r5, #12]
+ 2000574:	e1a00005 	mov	r0, r5
+ 2000578:	0a000003 	beq	200058c <uSMARTX_Scheduler+0xac>
+ 200057c:	e1a00004 	mov	r0, r4
+ 2000580:	eb0001fa 	bl	2000d70 <INT_Restore>
+ 2000584:	e1a00006 	mov	r0, r6
+ 2000588:	e89da8f0 	ldmia	sp, {r4, r5, r6, r7, fp, sp, pc}
+ 200058c:	ebffffaf 	bl	2000450 <priority_enqueue_tsk>
+ 2000590:	e1a00004 	mov	r0, r4
+ 2000594:	eb0001f5 	bl	2000d70 <INT_Restore>
+ 2000598:	e1a00006 	mov	r0, r6
+ 200059c:	e89da8f0 	ldmia	sp, {r4, r5, r6, r7, fp, sp, pc}
+ 20005a0:	0200124c 	andeq	r1, r0, #-1073741820	; 0xc0000004
+ 20005a4:	02001254 	andeq	r1, r0, #1073741829	; 0x40000005
+ 20005a8:	02001258 	andeq	r1, r0, #-2147483643	; 0x80000005
+
+020005ac <uSMARTX_Init>:
+ 20005ac:	e1a0c00d 	mov	ip, sp
+ 20005b0:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 20005b4:	e1a04000 	mov	r4, r0
+ 20005b8:	e5900004 	ldr	r0, [r0, #4]
+ 20005bc:	e59f3074 	ldr	r3, [pc, #116]	; 2000638 <.text+0x528>
+ 20005c0:	e59f2074 	ldr	r2, [pc, #116]	; 200063c <.text+0x52c>
+ 20005c4:	e3a01000 	mov	r1, #0	; 0x0
+ 20005c8:	e3500000 	cmp	r0, #0	; 0x0
+ 20005cc:	e5831000 	str	r1, [r3]
+ 20005d0:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20005d4:	e5821000 	str	r1, [r2]
+ 20005d8:	0a000011 	beq	2000624 <uSMARTX_Init+0x78>
+ 20005dc:	e1a05001 	mov	r5, r1
+ 20005e0:	e5c05008 	strb	r5, [r0, #8]
+ 20005e4:	e5d43008 	ldrb	r3, [r4, #8]
+ 20005e8:	e5c03009 	strb	r3, [r0, #9]
+ 20005ec:	e3a03004 	mov	r3, #4	; 0x4
+ 20005f0:	e4942014 	ldr	r2, [r4], #20
+ 20005f4:	e5c03038 	strb	r3, [r0, #56]
+ 20005f8:	e3a03000 	mov	r3, #0	; 0x0
+ 20005fc:	e1c033bc 	strh	r3, [r0, #60]
+ 2000600:	e3e03000 	mvn	r3, #0	; 0x0
+ 2000604:	e1c033be 	strh	r3, [r0, #62]
+ 2000608:	e3a03000 	mov	r3, #0	; 0x0
+ 200060c:	e5802010 	str	r2, [r0, #16]
+ 2000610:	e1c034b0 	strh	r3, [r0, #64]
+ 2000614:	ebffff8d 	bl	2000450 <priority_enqueue_tsk>
+ 2000618:	e5940004 	ldr	r0, [r4, #4]
+ 200061c:	e3500000 	cmp	r0, #0	; 0x0
+ 2000620:	1affffee 	bne	20005e0 <uSMARTX_Init+0x34>
+ 2000624:	e59f3014 	ldr	r3, [pc, #20]	; 2000640 <.text+0x530>
+ 2000628:	e59f2014 	ldr	r2, [pc, #20]	; 2000644 <.text+0x534>
+ 200062c:	e5931000 	ldr	r1, [r3]
+ 2000630:	e5821000 	str	r1, [r2]
+ 2000634:	e89da830 	ldmia	sp, {r4, r5, fp, sp, pc}
+ 2000638:	02001244 	andeq	r1, r0, #1073741828	; 0x40000004
+ 200063c:	02001254 	andeq	r1, r0, #1073741829	; 0x40000005
+ 2000640:	0200124c 	andeq	r1, r0, #-1073741820	; 0xc0000004
+ 2000644:	02001258 	andeq	r1, r0, #-2147483643	; 0x80000005
+
+02000648 <timer_enqueue>:
+ 2000648:	e5d0301c 	ldrb	r3, [r0, #28]
+ 200064c:	e3833008 	orr	r3, r3, #8	; 0x8
+ 2000650:	e5c0301c 	strb	r3, [r0, #28]
+ 2000654:	e59f3074 	ldr	r3, [pc, #116]	; 20006d0 <.text+0x5c0>
+ 2000658:	e1a01000 	mov	r1, r0
+ 200065c:	e5930000 	ldr	r0, [r3]
+ 2000660:	e3500000 	cmp	r0, #0	; 0x0
+ 2000664:	e1d1c0b8 	ldrh	ip, [r1, #8]
+ 2000668:	0a000015 	beq	20006c4 <timer_enqueue+0x7c>
+ 200066c:	e1d030ba 	ldrh	r3, [r0, #10]
+ 2000670:	e153000c 	cmp	r3, ip
+ 2000674:	8a000009 	bhi	20006a0 <timer_enqueue+0x58>
+ 2000678:	e5902000 	ldr	r2, [r0]
+ 200067c:	e063300c 	rsb	r3, r3, ip
+ 2000680:	e1a03803 	mov	r3, r3, lsl #16
+ 2000684:	e3520000 	cmp	r2, #0	; 0x0
+ 2000688:	e1a00002 	mov	r0, r2
+ 200068c:	e1a0c823 	mov	ip, r3, lsr #16
+ 2000690:	1afffff5 	bne	200066c <timer_enqueue+0x24>
+ 2000694:	e59f0034 	ldr	r0, [pc, #52]	; 20006d0 <.text+0x5c0>
+ 2000698:	e1c1c0ba 	strh	ip, [r1, #10]
+ 200069c:	ea0000b4 	b	2000974 <enqueue_bottom_object>
+ 20006a0:	e1c1c0ba 	strh	ip, [r1, #10]
+ 20006a4:	e5902004 	ldr	r2, [r0, #4]
+ 20006a8:	e1d030ba 	ldrh	r3, [r0, #10]
+ 20006ac:	e3520000 	cmp	r2, #0	; 0x0
+ 20006b0:	e06c3003 	rsb	r3, ip, r3
+ 20006b4:	e1c030ba 	strh	r3, [r0, #10]
+ 20006b8:	059f0010 	ldreq	r0, [pc, #16]	; 20006d0 <.text+0x5c0>
+ 20006bc:	0a000002 	beq	20006cc <timer_enqueue+0x84>
+ 20006c0:	ea0000a5 	b	200095c <enqueue_middle_object>
+ 20006c4:	e1c1c0ba 	strh	ip, [r1, #10]
+ 20006c8:	e1a00003 	mov	r0, r3
+ 20006cc:	ea000097 	b	2000930 <enqueue_top_object>
+ 20006d0:	02001244 	andeq	r1, r0, #1073741828	; 0x40000004
+
+020006d4 <TMR_ReStart>:
+ 20006d4:	e1a0c00d 	mov	ip, sp
+ 20006d8:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 20006dc:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20006e0:	e1a04000 	mov	r4, r0
+ 20006e4:	eb000198 	bl	2000d4c <INT_Disable>
+ 20006e8:	e5d4301c 	ldrb	r3, [r4, #28]
+ 20006ec:	e3130008 	tst	r3, #8	; 0x8
+ 20006f0:	e1a05000 	mov	r5, r0
+ 20006f4:	e1a00004 	mov	r0, r4
+ 20006f8:	1a000004 	bne	2000710 <TMR_ReStart+0x3c>
+ 20006fc:	e1a00004 	mov	r0, r4
+ 2000700:	ebffffd0 	bl	2000648 <timer_enqueue>
+ 2000704:	e1a00005 	mov	r0, r5
+ 2000708:	e89d6830 	ldmia	sp, {r4, r5, fp, sp, lr}
+ 200070c:	ea000197 	b	2000d70 <INT_Restore>
+ 2000710:	ebffff13 	bl	2000364 <timer_dequeue>
+ 2000714:	eafffff8 	b	20006fc <TMR_ReStart+0x28>
+
+02000718 <TMR_Start>:
+ 2000718:	e1a0c00d 	mov	ip, sp
+ 200071c:	e92ddff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, ip, lr, pc}
+ 2000720:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000724:	e24dd004 	sub	sp, sp, #4	; 0x4
+ 2000728:	e1a01801 	mov	r1, r1, lsl #16
+ 200072c:	e1a04000 	mov	r4, r0
+ 2000730:	e20370ff 	and	r7, r3, #255	; 0xff
+ 2000734:	e1a09002 	mov	r9, r2
+ 2000738:	e1a06821 	mov	r6, r1, lsr #16
+ 200073c:	e99b0500 	ldmib	fp, {r8, sl}
+ 2000740:	e5db500c 	ldrb	r5, [fp, #12]
+ 2000744:	eb000180 	bl	2000d4c <INT_Disable>
+ 2000748:	e50b002c 	str	r0, [fp, #-44]
+ 200074c:	e5d4301c 	ldrb	r3, [r4, #28]
+ 2000750:	e3130008 	tst	r3, #8	; 0x8
+ 2000754:	e1a00004 	mov	r0, r4
+ 2000758:	1a00000b 	bne	200078c <TMR_Start+0x74>
+ 200075c:	e1853003 	orr	r3, r5, r3
+ 2000760:	e1a00004 	mov	r0, r4
+ 2000764:	e1c460b8 	strh	r6, [r4, #8]
+ 2000768:	e584900c 	str	r9, [r4, #12]
+ 200076c:	e5c47010 	strb	r7, [r4, #16]
+ 2000770:	e5848014 	str	r8, [r4, #20]
+ 2000774:	e584a018 	str	sl, [r4, #24]
+ 2000778:	e5c4301c 	strb	r3, [r4, #28]
+ 200077c:	ebffffb1 	bl	2000648 <timer_enqueue>
+ 2000780:	e51b002c 	ldr	r0, [fp, #-44]
+ 2000784:	e89d6ff8 	ldmia	sp, {r3, r4, r5, r6, r7, r8, r9, sl, fp, sp, lr}
+ 2000788:	ea000178 	b	2000d70 <INT_Restore>
+ 200078c:	ebfffef4 	bl	2000364 <timer_dequeue>
+ 2000790:	e5d4301c 	ldrb	r3, [r4, #28]
+ 2000794:	eafffff0 	b	200075c <TMR_Start+0x44>
+
+02000798 <TSK_Sleep>:
+ 2000798:	e1a0c00d 	mov	ip, sp
+ 200079c:	e92dd810 	stmdb	sp!, {r4, fp, ip, lr, pc}
+ 20007a0:	e3a03001 	mov	r3, #1	; 0x1
+ 20007a4:	e24dd00c 	sub	sp, sp, #12	; 0xc
+ 20007a8:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 20007ac:	e3a04000 	mov	r4, #0	; 0x0
+ 20007b0:	e1a01801 	mov	r1, r1, lsl #16
+ 20007b4:	e1a0e000 	mov	lr, r0
+ 20007b8:	e5c03008 	strb	r3, [r0, #8]
+ 20007bc:	e3a0c002 	mov	ip, #2	; 0x2
+ 20007c0:	e280001c 	add	r0, r0, #28	; 0x1c
+ 20007c4:	e1a01821 	mov	r1, r1, lsr #16
+ 20007c8:	e1a03004 	mov	r3, r4
+ 20007cc:	e59f2014 	ldr	r2, [pc, #20]	; 20007e8 <.text+0x6d8>
+ 20007d0:	e58dc008 	str	ip, [sp, #8]
+ 20007d4:	e58de000 	str	lr, [sp]
+ 20007d8:	e58d4004 	str	r4, [sp, #4]
+ 20007dc:	ebffffcd 	bl	2000718 <TMR_Start>
+ 20007e0:	e24bd010 	sub	sp, fp, #16	; 0x10
+ 20007e4:	e89da810 	ldmia	sp, {r4, fp, sp, pc}
+ 20007e8:	020008f4 	andeq	r0, r0, #15990784	; 0xf40000
+
+020007ec <uSMARTX_Tick>:
+ 20007ec:	e1a0c00d 	mov	ip, sp
+ 20007f0:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 20007f4:	e59f20a4 	ldr	r2, [pc, #164]	; 20008a0 <.text+0x790>
+ 20007f8:	e59f10a4 	ldr	r1, [pc, #164]	; 20008a4 <.text+0x794>
+ 20007fc:	e5914000 	ldr	r4, [r1]
+ 2000800:	e5923000 	ldr	r3, [r2]
+ 2000804:	e3540000 	cmp	r4, #0	; 0x0
+ 2000808:	e2833001 	add	r3, r3, #1	; 0x1
+ 200080c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000810:	e5823000 	str	r3, [r2]
+ 2000814:	089da830 	ldmeqia	sp, {r4, r5, fp, sp, pc}
+ 2000818:	e1d430ba 	ldrh	r3, [r4, #10]
+ 200081c:	e3530000 	cmp	r3, #0	; 0x0
+ 2000820:	12433001 	subne	r3, r3, #1	; 0x1
+ 2000824:	11c430ba 	strneh	r3, [r4, #10]
+ 2000828:	189da830 	ldmneia	sp, {r4, r5, fp, sp, pc}
+ 200082c:	e1a05001 	mov	r5, r1
+ 2000830:	ea000005 	b	200084c <uSMARTX_Tick+0x60>
+ 2000834:	e5954000 	ldr	r4, [r5]
+ 2000838:	e3540000 	cmp	r4, #0	; 0x0
+ 200083c:	089da830 	ldmeqia	sp, {r4, r5, fp, sp, pc}
+ 2000840:	e1d430ba 	ldrh	r3, [r4, #10]
+ 2000844:	e3530000 	cmp	r3, #0	; 0x0
+ 2000848:	1a000013 	bne	200089c <uSMARTX_Tick+0xb0>
+ 200084c:	e59f0050 	ldr	r0, [pc, #80]	; 20008a4 <.text+0x794>
+ 2000850:	eb000052 	bl	20009a0 <dequeue_top_object>
+ 2000854:	e5d0301c 	ldrb	r3, [r0, #28]
+ 2000858:	e3c33008 	bic	r3, r3, #8	; 0x8
+ 200085c:	e1a04000 	mov	r4, r0
+ 2000860:	e5c0301c 	strb	r3, [r0, #28]
+ 2000864:	e2801014 	add	r1, r0, #20	; 0x14
+ 2000868:	e8910006 	ldmia	r1, {r1, r2}
+ 200086c:	e5d00010 	ldrb	r0, [r0, #16]
+ 2000870:	e1a0e00f 	mov	lr, pc
+ 2000874:	e594f00c 	ldr	pc, [r4, #12]
+ 2000878:	e5d4301c 	ldrb	r3, [r4, #28]
+ 200087c:	e3130001 	tst	r3, #1	; 0x1
+ 2000880:	e1a00004 	mov	r0, r4
+ 2000884:	0affffea 	beq	2000834 <uSMARTX_Tick+0x48>
+ 2000888:	ebffff6e 	bl	2000648 <timer_enqueue>
+ 200088c:	e5954000 	ldr	r4, [r5]
+ 2000890:	e3540000 	cmp	r4, #0	; 0x0
+ 2000894:	1affffe9 	bne	2000840 <uSMARTX_Tick+0x54>
+ 2000898:	e89da830 	ldmia	sp, {r4, r5, fp, sp, pc}
+ 200089c:	e89da830 	ldmia	sp, {r4, r5, fp, sp, pc}
+ 20008a0:	02001254 	andeq	r1, r0, #1073741829	; 0x40000005
+ 20008a4:	02001244 	andeq	r1, r0, #1073741828	; 0x40000004
+
+020008a8 <append_timeout>:
+ 20008a8:	e1a02802 	mov	r2, r2, lsl #16
+ 20008ac:	e3720801 	cmn	r2, #65536	; 0x10000
+ 20008b0:	e280c01c 	add	ip, r0, #28	; 0x1c
+ 20008b4:	e92d4010 	stmdb	sp!, {r4, lr}
+ 20008b8:	e1a02822 	mov	r2, r2, lsr #16
+ 20008bc:	e1a0e000 	mov	lr, r0
+ 20008c0:	e3a04000 	mov	r4, #0	; 0x0
+ 20008c4:	e1a0000c 	mov	r0, ip
+ 20008c8:	08bd8010 	ldmeqia	sp!, {r4, pc}
+ 20008cc:	e5dc301c 	ldrb	r3, [ip, #28]
+ 20008d0:	e3833002 	orr	r3, r3, #2	; 0x2
+ 20008d4:	e5cc301c 	strb	r3, [ip, #28]
+ 20008d8:	e58ce014 	str	lr, [ip, #20]
+ 20008dc:	e58c4018 	str	r4, [ip, #24]
+ 20008e0:	e1cc20b8 	strh	r2, [ip, #8]
+ 20008e4:	e58c100c 	str	r1, [ip, #12]
+ 20008e8:	e5cc4010 	strb	r4, [ip, #16]
+ 20008ec:	e8bd4010 	ldmia	sp!, {r4, lr}
+ 20008f0:	eaffff54 	b	2000648 <timer_enqueue>
+
+020008f4 <tsk_delay_clb>:
+ 20008f4:	e1a0c00d 	mov	ip, sp
+ 20008f8:	e92dd810 	stmdb	sp!, {r4, fp, ip, lr, pc}
+ 20008fc:	e3a03005 	mov	r3, #5	; 0x5
+ 2000900:	e3a04000 	mov	r4, #0	; 0x0
+ 2000904:	e1a00001 	mov	r0, r1
+ 2000908:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 200090c:	e581300c 	str	r3, [r1, #12]
+ 2000910:	e5c14008 	strb	r4, [r1, #8]
+ 2000914:	ebfffecd 	bl	2000450 <priority_enqueue_tsk>
+ 2000918:	e1a00004 	mov	r0, r4
+ 200091c:	e89da810 	ldmia	sp, {r4, fp, sp, pc}
+
+02000920 <get_curr_tsk>:
+}
+
+/* Get current running task tcb */
+tcb_t* get_curr_tsk(void) {
+	return (tcb_t*)pcurr_ctx;	
+}
+ 2000920:	e59f3004 	ldr	r3, [pc, #4]	; 200092c <.text+0x81c>
+ 2000924:	e5930000 	ldr	r0, [r3]
+ 2000928:	e1a0f00e 	mov	pc, lr
+ 200092c:	02001258 	andeq	r1, r0, #-2147483643	; 0x80000005
+
+02000930 <enqueue_top_object>:
+#include <usmartx.h>
+#include <queue.h>
+//------------------------------------------------------------------------------
+void enqueue_top_object(queue_t *pqueue, dll_t *pobject) {
+	if( pqueue->pobject ) {
+ 2000930:	e5903000 	ldr	r3, [r0]
+ 2000934:	e3530000 	cmp	r3, #0	; 0x0
+		pobject->pnxt =  pqueue->pobject;
+ 2000938:	15813000 	strne	r3, [r1]
+		pqueue->pobject->pprv = pobject;		
+ 200093c:	15903000 	ldrne	r3, [r0]
+	}
+	else {
+		pobject->pnxt = 0;
+ 2000940:	05813000 	streq	r3, [r1]
+ 2000944:	15831004 	strne	r1, [r3, #4]
+		pqueue->plast = pobject;
+	}
+	pobject->pprv = 0;
+ 2000948:	e3a03000 	mov	r3, #0	; 0x0
+ 200094c:	05801004 	streq	r1, [r0, #4]
+ 2000950:	e5813004 	str	r3, [r1, #4]
+  	pqueue->pobject = pobject;
+ 2000954:	e5801000 	str	r1, [r0]
+ 2000958:	e1a0f00e 	mov	pc, lr
+
+0200095c <enqueue_middle_object>:
+}
+//------------------------------------------------------------------------------
+// pNxt -> pointer to next object
+// pObject -> pointer to object to be enqueued
+void enqueue_middle_object(dll_t *pnxt, dll_t *pobject) {
+	pnxt->pprv->pnxt = pobject;
+ 200095c:	e5903004 	ldr	r3, [r0, #4]
+	pobject->pprv = pnxt->pprv;
+ 2000960:	e5813004 	str	r3, [r1, #4]
+ 2000964:	e5831000 	str	r1, [r3]
+
+	pnxt->pprv = pobject;
+ 2000968:	e5801004 	str	r1, [r0, #4]
+	pobject->pnxt = pnxt;
+ 200096c:	e5810000 	str	r0, [r1]
+ 2000970:	e1a0f00e 	mov	pc, lr
+
+02000974 <enqueue_bottom_object>:
+}
+//------------------------------------------------------------------------------
+// pQueue -> pointer to queue head
+// pObject -> pointer to object to be enqueued
+void enqueue_bottom_object(queue_t *pqueue, dll_t *pobject) {
+		
+	if( pqueue->plast ) {		
+ 2000974:	e5903004 	ldr	r3, [r0, #4]
+ 2000978:	e3530000 	cmp	r3, #0	; 0x0
+		pqueue->plast->pnxt = pobject;
+ 200097c:	15831000 	strne	r1, [r3]
+	   	pobject->pprv = pqueue->plast;	   	
+ 2000980:	15903004 	ldrne	r3, [r0, #4]
+	}
+	else {
+		pobject->pprv = 0;		//		EnqueueTopObject( pQueue, pObject );
+ 2000984:	05813004 	streq	r3, [r1, #4]
+ 2000988:	15813004 	strne	r3, [r1, #4]
+		pqueue->pobject = pobject;	   
+	}
+	pobject->pnxt = 0;				 
+ 200098c:	e3a03000 	mov	r3, #0	; 0x0
+ 2000990:	05801000 	streq	r1, [r0]
+ 2000994:	e5813000 	str	r3, [r1]
+	pqueue->plast = pobject;				// remember last object	
+ 2000998:	e5801004 	str	r1, [r0, #4]
+ 200099c:	e1a0f00e 	mov	pc, lr
+
+020009a0 <dequeue_top_object>:
+}
+//------------------------------------------------------------------------------
+// pQueue -> pointer to queue head
+// pObject -> returned dequeued object
+dll_t* dequeue_top_object(queue_t *pqueue) {
+    dll_t *pobject;
+	if( pqueue->pobject ) {					//if queue not empty
+ 20009a0:	e5901000 	ldr	r1, [r0]
+ 20009a4:	e3510000 	cmp	r1, #0	; 0x0
+       	pobject = pqueue->pobject;
+		if( pqueue->pobject->pnxt ) {			//if more that one object
+            pqueue->pobject = pqueue->pobject->pnxt;
+			pqueue->pobject->pprv = 0;
+		}
+		else {
+			pqueue->pobject = 0;
+			pqueue->plast = 0;
+		}
+		return pobject;
+	}
+	return 0;
+ 20009a8:	01a00001 	moveq	r0, r1
+ 20009ac:	01a0f00e 	moveq	pc, lr
+ 20009b0:	e5912000 	ldr	r2, [r1]
+ 20009b4:	e3520000 	cmp	r2, #0	; 0x0
+ 20009b8:	15802000 	strne	r2, [r0]
+ 20009bc:	13a03000 	movne	r3, #0	; 0x0
+ 20009c0:	05802004 	streq	r2, [r0, #4]
+ 20009c4:	05802000 	streq	r2, [r0]
+ 20009c8:	e1a00001 	mov	r0, r1
+ 20009cc:	15823004 	strne	r3, [r2, #4]
+ 20009d0:	e1a0f00e 	mov	pc, lr
+
+020009d4 <dequeue_object>:
+}
+//------------------------------------------------------------------------------
+// pQueue -> pointer to queue head
+// pObject -> pointer to object to be dequeued
+void dequeue_object(queue_t *pqueue, dll_t *pobject) {
+  	
+	if( pobject->pprv )                       // if not first object
+ 20009d4:	e5912004 	ldr	r2, [r1, #4]
+ 20009d8:	e3520000 	cmp	r2, #0	; 0x0
+        pobject->pprv->pnxt = pobject->pnxt;     	
+ 20009dc:	15913000 	ldrne	r3, [r1]
+	else {
+		pqueue->pobject = pobject->pnxt;
+ 20009e0:	05913000 	ldreq	r3, [r1]
+ 20009e4:	15823000 	strne	r3, [r2]
+ 20009e8:	05803000 	streq	r3, [r0]
+ 20009ec:	05912004 	ldreq	r2, [r1, #4]
+	}
+
+    if( pobject->pnxt )						// if not last object
+ 20009f0:	e5911000 	ldr	r1, [r1]
+ 20009f4:	e3510000 	cmp	r1, #0	; 0x0
+    	pobject->pnxt->pprv = pobject->pprv;
+ 20009f8:	15812004 	strne	r2, [r1, #4]
+	else 
+		pqueue->plast = pobject->pprv;
+ 20009fc:	05802004 	streq	r2, [r0, #4]
+ 2000a00:	e1a0f00e 	mov	pc, lr
+
+02000a04 <MBX_Init>:
+ *	A mailbox must be initialised before its usage. Calling this function initialises the mailbox.
+ *  \param ph		handle to mailbox
+ *  \attention	 The initialisation function must be called before running the scheduler.
+ */
+void MBX_Init(HANDLE *ph) {
+ 2000a04:	e1a0c00d 	mov	ip, sp
+ 2000a08:	e92dd870 	stmdb	sp!, {r4, r5, r6, fp, ip, lr, pc}
+	uint8 i;
+	uint8 *pdata;
+	mcb_t *pmcb;
+
+	pmcb = (mcb_t*) ph;
+	
+	/* Build a dll list containing nmsg elements and place them in the free list */		
+	for(i = 0; i < pmcb->nmsg; i++)
+ 2000a0c:	e5d02029 	ldrb	r2, [r0, #41]
+ 2000a10:	e3520000 	cmp	r2, #0	; 0x0
+ 2000a14:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000a18:	e1a05000 	mov	r5, r0
+ 2000a1c:	e3a04000 	mov	r4, #0	; 0x0
+ 2000a20:	0a00000a 	beq	2000a50 <MBX_Init+0x4c>
+ 2000a24:	e2806010 	add	r6, r0, #16	; 0x10
+		enqueue_top_object( (queue_t*) &pmcb->free_list, (dll_t*) &pmcb->pmsg[i] );				 
+ 2000a28:	e5953024 	ldr	r3, [r5, #36]
+ 2000a2c:	e0841084 	add	r1, r4, r4, lsl #1
+ 2000a30:	e0831101 	add	r1, r3, r1, lsl #2
+ 2000a34:	e1a00006 	mov	r0, r6
+ 2000a38:	ebffffbc 	bl	2000930 <enqueue_top_object>
+ 2000a3c:	e2843001 	add	r3, r4, #1	; 0x1
+ 2000a40:	e5d52029 	ldrb	r2, [r5, #41]
+ 2000a44:	e20340ff 	and	r4, r3, #255	; 0xff
+ 2000a48:	e1520004 	cmp	r2, r4
+ 2000a4c:	8afffff5 	bhi	2000a28 <MBX_Init+0x24>
+	
+	
+	/* Each msg_t structure contains a pointer, which points to the message buffer. The code below
+	 * initializes this pointer.
+	 */
+	pdata = pmcb->pbuff;
+	for(i = 0; i < pmcb->nmsg; i++) {
+ 2000a50:	e3520000 	cmp	r2, #0	; 0x0
+ 2000a54:	e5950020 	ldr	r0, [r5, #32]
+ 2000a58:	e3a04000 	mov	r4, #0	; 0x0
+ 2000a5c:	089da870 	ldmeqia	sp, {r4, r5, r6, fp, sp, pc}
+ 2000a60:	e595c024 	ldr	ip, [r5, #36]
+		pmcb->pmsg[i].pdata = pdata;
+ 2000a64:	e0843084 	add	r3, r4, r4, lsl #1
+ 2000a68:	e08c3103 	add	r3, ip, r3, lsl #2
+ 2000a6c:	e5830008 	str	r0, [r3, #8]
+ 2000a70:	e2842001 	add	r2, r4, #1	; 0x1
+ 2000a74:	e5d51029 	ldrb	r1, [r5, #41]
+ 2000a78:	e20240ff 	and	r4, r2, #255	; 0xff
+		pdata = pdata + pmcb->len;
+ 2000a7c:	e5d53028 	ldrb	r3, [r5, #40]
+ 2000a80:	e1510004 	cmp	r1, r4
+ 2000a84:	e0800003 	add	r0, r0, r3
+ 2000a88:	8afffff5 	bhi	2000a64 <MBX_Init+0x60>
+ 2000a8c:	e89da870 	ldmia	sp, {r4, r5, r6, fp, sp, pc}
+
+02000a90 <MBX_Post>:
+	}	
+}
+
+/*! \brief Mailbox post function
+ *
+ *	A mailbox can be post from an interrupt ISR or from a task. When posted from a task a timeout value can be 
+ *  specified. \n
+ *	If a mailbox has a empty message container the message is stored in the mailbox and the system call returns
+ *	with SYS_OK. When there is no empty message containers the task is pending and SYS_ERROR is returned. If the caller 
+ *	specifed a timeout value a timer is started and the task is delayed from execution. After the timeout expires
+ *	(no task freed a message container) the task is unblocked and \e SYS_MBX_TOUT is passed to the task's entry 
+ *	parameter. If a task freed a message container the \e SYS_MBX value is passed to the task.
+ *  \param ph		handle to mailbox
+ *  \param pmsg 	pointer caller to message
+ *  \param tout 	timeout value  
+ *	\retval SYS_OK if there was a free message container
+ *	\retval SYS_ERR if all message containers are full
+ */
+STATUS MBX_Post(HANDLE *ph, void *pmsg, uint16 tout) {		
+ 2000a90:	e1a0c00d 	mov	ip, sp
+ 2000a94:	e92dddf0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl, fp, ip, lr, pc}
+ 2000a98:	e1a02802 	mov	r2, r2, lsl #16
+ 2000a9c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000aa0:	e1a07001 	mov	r7, r1
+ 2000aa4:	e1a06000 	mov	r6, r0
+ 2000aa8:	e1a0a822 	mov	sl, r2, lsr #16
+	tcb_t *ptcb;
+	mcb_t *pmcb;
+    msg_t *pmsg_entry;        
+	size_t flags;
+
+	ptcb = get_curr_tsk();
+ 2000aac:	ebffff9b 	bl	2000920 <get_curr_tsk>
+ 2000ab0:	e1a05000 	mov	r5, r0
+	pmcb = (mcb_t*) ph;
+	
+	flags = INT_Disable();
+ 2000ab4:	eb0000a4 	bl	2000d4c <INT_Disable>
+	
+	/* Check if the task was given an entry by the MBX_Pend function. If it was take this entry and not the one
+	 * in the free_list. This is needed beacause a MBX_Pend caused a free container in the free_list. As soon this container
+	 * become avaible we must give it to the first waiting task. Otherwise we could dequeue a task, make it runable, but an other task
+	 * could take its container. So this would be an invalid situation.
+	 */
+	if( !ptcb->pmsg_entry ) {			
+ 2000ab8:	e5951014 	ldr	r1, [r5, #20]
+ 2000abc:	e3510000 	cmp	r1, #0	; 0x0
+		/* Wait for a message entry to become free*/
+    	if( !(pmsg_entry = (msg_t*) dequeue_top_object( (queue_t*) &pmcb->free_list)) ) {
+    		if( tout == NO_WAIT ) {
+    			INT_Restore( flags );
+    	        return SYS_ERROR;
+    		}
+    	    ptcb->pqueue = (queue_t*) &pmcb->fullq;
+    	    ptcb->flags = TSK_MBX_PEND;
+			
+			enqueue_top_object(&pmcb->fullq, (dll_t*) ptcb);
+    	    append_timeout(ptcb, &mbx_tout_clb, tout);
+    	
+    	   	INT_Restore( flags );
+    	    return SYS_ERROR;
+		}
+	}
+	else {
+		/* If the task was given an msg entry operate on that entry. */
+		pmsg_entry = ptcb->pmsg_entry;
+		ptcb->pmsg_entry = 0;
+ 2000ac0:	13a03000 	movne	r3, #0	; 0x0
+ 2000ac4:	e1a08000 	mov	r8, r0
+ 2000ac8:	15853014 	strne	r3, [r5, #20]
+ 2000acc:	e2860010 	add	r0, r6, #16	; 0x10
+ 2000ad0:	11a04001 	movne	r4, r1
+ 2000ad4:	0a000015 	beq	2000b30 <MBX_Post+0xa0>
+	}
+
+	/* Copy the message data into the container */
+	memcpy( pmsg_entry->pdata, pmsg, pmcb->len);
+ 2000ad8:	e5d62028 	ldrb	r2, [r6, #40]
+ 2000adc:	e1a01007 	mov	r1, r7
+ 2000ae0:	e5940008 	ldr	r0, [r4, #8]
+ 2000ae4:	eb00012d 	bl	2000fa0 <memcpy>
+
+	/* Move the message container to the full list. */
+	enqueue_bottom_object( &pmcb->full_list, (dll_t*) pmsg_entry );	
+ 2000ae8:	e1a01004 	mov	r1, r4
+ 2000aec:	e2860018 	add	r0, r6, #24	; 0x18
+ 2000af0:	ebffff9f 	bl	2000974 <enqueue_bottom_object>
+	         
+	/* Check if there was a task waiting for a message. If it was remove its timeout timer.*/
+	if( (ptcb = (tcb_t*) dequeue_top_object( (queue_t*) &pmcb->emptyq)) ) {										
+ 2000af4:	e2860008 	add	r0, r6, #8	; 0x8
+ 2000af8:	ebffffa8 	bl	20009a0 <dequeue_top_object>
+ 2000afc:	e2505000 	subs	r5, r0, #0	; 0x0
+ 2000b00:	0a000006 	beq	2000b20 <MBX_Post+0x90>
+		ptcb->flags	= TSK_READY;
+ 2000b04:	e3a03000 	mov	r3, #0	; 0x0
+		ptcb->event = SYS_MBX;
+ 2000b08:	e3a02003 	mov	r2, #3	; 0x3
+ 2000b0c:	e5c53008 	strb	r3, [r5, #8]
+ 2000b10:	e585200c 	str	r2, [r5, #12]
+		priority_enqueue_tsk( ptcb );
+ 2000b14:	ebfffe4d 	bl	2000450 <priority_enqueue_tsk>
+		remove_timeout( &ptcb->tic );
+ 2000b18:	e285001c 	add	r0, r5, #28	; 0x1c
+ 2000b1c:	ebfffe1e 	bl	200039c <remove_timeout>
+	}
+
+	INT_Restore( flags );        	
+ 2000b20:	e1a00008 	mov	r0, r8
+ 2000b24:	eb000091 	bl	2000d70 <INT_Restore>
+	return SYS_OK;	
+ 2000b28:	e3a00000 	mov	r0, #0	; 0x0
+}
+ 2000b2c:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000b30:	ebffff9a 	bl	20009a0 <dequeue_top_object>
+ 2000b34:	e2504000 	subs	r4, r0, #0	; 0x0
+ 2000b38:	1affffe6 	bne	2000ad8 <MBX_Post+0x48>
+ 2000b3c:	e35a0000 	cmp	sl, #0	; 0x0
+ 2000b40:	e1a00006 	mov	r0, r6
+ 2000b44:	e1a01005 	mov	r1, r5
+ 2000b48:	1a000003 	bne	2000b5c <MBX_Post+0xcc>
+ 2000b4c:	e1a00008 	mov	r0, r8
+ 2000b50:	eb000086 	bl	2000d70 <INT_Restore>
+ 2000b54:	e3a00001 	mov	r0, #1	; 0x1
+ 2000b58:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000b5c:	e3a03003 	mov	r3, #3	; 0x3
+ 2000b60:	e5c53008 	strb	r3, [r5, #8]
+ 2000b64:	e5856018 	str	r6, [r5, #24]
+ 2000b68:	ebffff70 	bl	2000930 <enqueue_top_object>
+ 2000b6c:	e1a00005 	mov	r0, r5
+ 2000b70:	e1a0200a 	mov	r2, sl
+ 2000b74:	e59f1004 	ldr	r1, [pc, #4]	; 2000b80 <.text+0xa70>
+ 2000b78:	ebffff4a 	bl	20008a8 <append_timeout>
+ 2000b7c:	eafffff2 	b	2000b4c <MBX_Post+0xbc>
+ 2000b80:	02000d14 	andeq	r0, r0, #1280	; 0x500
+
+02000b84 <MBX_Pend>:
+/*! \brief Mailbox pend function
+ *
+ *	Only tasks can pend on mailboxes. If a mailbox is not empty the message is returned to the caller and the system call
+ *	returns with SYS_OK. When there is no message the task is pending and SYS_ERROR is returned. If the caller 
+ *	specifed a timeout value a timer is started and the task is delayed from execution. After the timeout expires
+ *	(no task or interrupt posted a message) the task is unblocked and \e SYS_MBX_TOUT is passed to the task's entry 
+ *	parameter. If somebody posted a message the timer is removed and the \e SYS_MBX values is passed to the task.
+ *  \param ph		handle to mailbox
+ *  \param pmsg 	pointer caller where the message will be copied
+ *  \param tout 	timeout value 
+ *	\retval SYS_OK if there was a message in mailbox
+ *	\retval SYS_ERR if there was no messages in mailbox
+ *  \attention MBX_pend can not be called from an ISR.
+ */
+STATUS MBX_Pend(HANDLE *ph, void *pmsg, uint16 tout) {	
+ 2000b84:	e1a0c00d 	mov	ip, sp
+ 2000b88:	e92dddf0 	stmdb	sp!, {r4, r5, r6, r7, r8, sl, fp, ip, lr, pc}
+ 2000b8c:	e1a02802 	mov	r2, r2, lsl #16
+ 2000b90:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000b94:	e1a04001 	mov	r4, r1
+ 2000b98:	e1a0a822 	mov	sl, r2, lsr #16
+ 2000b9c:	e1a07000 	mov	r7, r0
+	tcb_t *ptcb;
+	mcb_t *pmcb;
+    msg_t *pmsg_entry;        
+	size_t flags;
+	
+	ptcb = get_curr_tsk();
+ 2000ba0:	ebffff5e 	bl	2000920 <get_curr_tsk>
+ 2000ba4:	e1a05000 	mov	r5, r0
+	pmcb = (mcb_t*) ph;
+
+	flags = INT_Disable();
+ 2000ba8:	eb000067 	bl	2000d4c <INT_Disable>
+ 2000bac:	e1a08000 	mov	r8, r0
+	
+	/* Check if there is a message already in the mailbox */
+	if( !(pmsg_entry = (msg_t*) dequeue_top_object( (queue_t*) &pmcb->full_list)) ) {
+ 2000bb0:	e2870018 	add	r0, r7, #24	; 0x18
+ 2000bb4:	ebffff79 	bl	20009a0 <dequeue_top_object>
+ 2000bb8:	e2506000 	subs	r6, r0, #0	; 0x0
+		if( tout == NO_WAIT ) {
+    		INT_Restore( flags );
+            return SYS_ERROR;
+    	}
+        ptcb->pqueue = (queue_t*) &pmcb->emptyq;
+        ptcb->flags = TSK_MBX_PEND;
+		
+		enqueue_top_object(&pmcb->emptyq, (dll_t*) ptcb);
+		append_timeout(ptcb, &mbx_tout_clb, tout);
+          
+       	INT_Restore( flags );
+        return SYS_ERROR;
+	}
+	/* Copy message to task */ 
+	memcpy( pmsg, pmsg_entry->pdata, pmcb->len );
+ 2000bbc:	e1a00004 	mov	r0, r4
+ 2000bc0:	0a000013 	beq	2000c14 <MBX_Pend+0x90>
+ 2000bc4:	e5961008 	ldr	r1, [r6, #8]
+ 2000bc8:	e5d72028 	ldrb	r2, [r7, #40]
+ 2000bcc:	eb0000f3 	bl	2000fa0 <memcpy>
+	
+	/* Check if there was a task waiting for an empty entry in the mailbox */
+	if( (ptcb = (tcb_t*) dequeue_top_object( (queue_t*) &pmcb->fullq)) ) {
+ 2000bd0:	e1a00007 	mov	r0, r7
+ 2000bd4:	ebffff71 	bl	20009a0 <dequeue_top_object>
+ 2000bd8:	e2505000 	subs	r5, r0, #0	; 0x0
+		ptcb->flags	= TSK_READY;
+		ptcb->event = SYS_MBX;
+		ptcb->pmsg_entry = pmsg_entry;
+		priority_enqueue_tsk( ptcb );
+		remove_timeout( &ptcb->tic );		
+	}
+	else {
+		enqueue_bottom_object( (queue_t*) &pmcb->free_list, (dll_t*) pmsg_entry );
+ 2000bdc:	e1a01006 	mov	r1, r6
+ 2000be0:	0a000020 	beq	2000c68 <MBX_Pend+0xe4>
+ 2000be4:	e3a03000 	mov	r3, #0	; 0x0
+ 2000be8:	e3a02003 	mov	r2, #3	; 0x3
+ 2000bec:	e5c53008 	strb	r3, [r5, #8]
+ 2000bf0:	e585200c 	str	r2, [r5, #12]
+ 2000bf4:	e5856014 	str	r6, [r5, #20]
+ 2000bf8:	ebfffe14 	bl	2000450 <priority_enqueue_tsk>
+ 2000bfc:	e285001c 	add	r0, r5, #28	; 0x1c
+ 2000c00:	ebfffde5 	bl	200039c <remove_timeout>
+	}
+    INT_Restore( flags );
+ 2000c04:	e1a00008 	mov	r0, r8
+ 2000c08:	eb000058 	bl	2000d70 <INT_Restore>
+    return SYS_OK;
+ 2000c0c:	e3a00000 	mov	r0, #0	; 0x0
+}
+ 2000c10:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000c14:	e2872008 	add	r2, r7, #8	; 0x8
+ 2000c18:	e35a0000 	cmp	sl, #0	; 0x0
+ 2000c1c:	e1a00002 	mov	r0, r2
+ 2000c20:	e1a01005 	mov	r1, r5
+ 2000c24:	1a000003 	bne	2000c38 <MBX_Pend+0xb4>
+ 2000c28:	e1a00008 	mov	r0, r8
+ 2000c2c:	eb00004f 	bl	2000d70 <INT_Restore>
+ 2000c30:	e3a00001 	mov	r0, #1	; 0x1
+ 2000c34:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000c38:	e3a03003 	mov	r3, #3	; 0x3
+ 2000c3c:	e5c53008 	strb	r3, [r5, #8]
+ 2000c40:	e5852018 	str	r2, [r5, #24]
+ 2000c44:	ebffff39 	bl	2000930 <enqueue_top_object>
+ 2000c48:	e1a00005 	mov	r0, r5
+ 2000c4c:	e1a0200a 	mov	r2, sl
+ 2000c50:	e59f1028 	ldr	r1, [pc, #40]	; 2000c80 <.text+0xb70>
+ 2000c54:	ebffff13 	bl	20008a8 <append_timeout>
+ 2000c58:	e1a00008 	mov	r0, r8
+ 2000c5c:	eb000043 	bl	2000d70 <INT_Restore>
+ 2000c60:	e3a00001 	mov	r0, #1	; 0x1
+ 2000c64:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000c68:	e2870010 	add	r0, r7, #16	; 0x10
+ 2000c6c:	ebffff40 	bl	2000974 <enqueue_bottom_object>
+ 2000c70:	e1a00008 	mov	r0, r8
+ 2000c74:	eb00003d 	bl	2000d70 <INT_Restore>
+ 2000c78:	e3a00000 	mov	r0, #0	; 0x0
+ 2000c7c:	e89dadf0 	ldmia	sp, {r4, r5, r6, r7, r8, sl, fp, sp, pc}
+ 2000c80:	02000d14 	andeq	r0, r0, #1280	; 0x500
+
+02000c84 <MBX_Flush>:
+
+/*! \brief Mailbox flush function
+ *
+ *	Flush a mailbox and unblock all pending tasks that were waiting for free message containers. \e SYS_ERROR
+ *	is passed to the task.
+ *  \param ph		handle to mailbox
+ */
+void MBX_Flush(HANDLE *ph) {	
+ 2000c84:	e1a0c00d 	mov	ip, sp
+ 2000c88:	e92dd9f0 	stmdb	sp!, {r4, r5, r6, r7, r8, fp, ip, lr, pc}
+ 2000c8c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000c90:	e1a06000 	mov	r6, r0
+	tcb_t *ptcb;
+	mcb_t *pmcb;
+	msg_t *pmsg_entry;
+    size_t flags;
+	
+	pmcb = (mcb_t*) ph;
+	
+	flags = INT_Disable();
+ 2000c94:	eb00002c 	bl	2000d4c <INT_Disable>
+ 2000c98:	e2867018 	add	r7, r6, #24	; 0x18
+ 2000c9c:	e1a08000 	mov	r8, r0
+	
+	/* Empty all containers in the FullList. If there is a task waiting for an empty container give the dequeued
+	 * container to it. If not put the container in the free list.
+	 */
+	while( (pmsg_entry = (msg_t*) dequeue_top_object( (queue_t*) &pmcb->full_list)) ) {
+		if( (ptcb = (tcb_t*) dequeue_top_object( (queue_t*) &pmcb->fullq)) ) {
+			ptcb->flags	= TSK_READY;
+			ptcb->event = SYS_ERROR;
+			ptcb->pmsg_entry = pmsg_entry;
+			remove_timeout( &ptcb->tic );
+			priority_enqueue_tsk( ptcb );					
+		}
+		else
+			enqueue_bottom_object( (queue_t*) &pmcb->free_list, (dll_t*) pmsg_entry );		
+ 2000ca0:	e1a00007 	mov	r0, r7
+ 2000ca4:	ebffff3d 	bl	20009a0 <dequeue_top_object>
+ 2000ca8:	e2505000 	subs	r5, r0, #0	; 0x0
+ 2000cac:	e1a00006 	mov	r0, r6
+ 2000cb0:	0a000011 	beq	2000cfc <MBX_Flush+0x78>
+ 2000cb4:	ebffff39 	bl	20009a0 <dequeue_top_object>
+ 2000cb8:	e2504000 	subs	r4, r0, #0	; 0x0
+ 2000cbc:	e1a01005 	mov	r1, r5
+ 2000cc0:	e284001c 	add	r0, r4, #28	; 0x1c
+ 2000cc4:	0a00000f 	beq	2000d08 <MBX_Flush+0x84>
+ 2000cc8:	e3a03000 	mov	r3, #0	; 0x0
+ 2000ccc:	e3a02001 	mov	r2, #1	; 0x1
+ 2000cd0:	e5c43008 	strb	r3, [r4, #8]
+ 2000cd4:	e584200c 	str	r2, [r4, #12]
+ 2000cd8:	e5845014 	str	r5, [r4, #20]
+ 2000cdc:	ebfffdae 	bl	200039c <remove_timeout>
+ 2000ce0:	e1a00004 	mov	r0, r4
+ 2000ce4:	ebfffdd9 	bl	2000450 <priority_enqueue_tsk>
+ 2000ce8:	e1a00007 	mov	r0, r7
+ 2000cec:	ebffff2b 	bl	20009a0 <dequeue_top_object>
+ 2000cf0:	e2505000 	subs	r5, r0, #0	; 0x0
+ 2000cf4:	e1a00006 	mov	r0, r6
+ 2000cf8:	1affffed 	bne	2000cb4 <MBX_Flush+0x30>
+	}	
+	INT_Restore( flags ); 
+ 2000cfc:	e1a00008 	mov	r0, r8
+ 2000d00:	e89d69f0 	ldmia	sp, {r4, r5, r6, r7, r8, fp, sp, lr}
+ 2000d04:	ea000019 	b	2000d70 <INT_Restore>
+ 2000d08:	e2860010 	add	r0, r6, #16	; 0x10
+ 2000d0c:	ebffff18 	bl	2000974 <enqueue_bottom_object>
+ 2000d10:	eaffffe2 	b	2000ca0 <MBX_Flush+0x1c>
+
+02000d14 <mbx_tout_clb>:
+}
+//------------------------------------------------------------------------------
+/*						INTERNAL FUNCTIONS		
+ *
+ * These are uSMARTX internal function. They must not be called from a task.
+ */
+/*!	\@}*/ 
+/*! \internal
+ *	\brief Mailbox timeout callback function.
+ *
+ *	If it is called a mailbox timeout has occured. Remove the task from the mailbox queue
+ *	(full/empty) and clear delay flag.
+ *  \param evt		not used
+ *	\param parg1	pointer to tcb which requested a timeout
+ *	\param parg1	not used
+ *	\return SYS_OK
+ */
+STATUS mbx_tout_clb(uint8 evt, void *parg1, void *parg2) {
+ 2000d14:	e1a0c00d 	mov	ip, sp
+ 2000d18:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+	tcb_t *ptcb = (tcb_t*) parg1;
+	ptcb->event = SYS_MBX_TOUT;
+ 2000d1c:	e3a03006 	mov	r3, #6	; 0x6
+	ptcb->flags	= TSK_READY;	
+ 2000d20:	e3a05000 	mov	r5, #0	; 0x0
+ 2000d24:	e1a04001 	mov	r4, r1
+	dequeue_object( ptcb->pqueue, (dll_t*) ptcb);
+ 2000d28:	e5910018 	ldr	r0, [r1, #24]
+ 2000d2c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000d30:	e581300c 	str	r3, [r1, #12]
+ 2000d34:	e5c15008 	strb	r5, [r1, #8]
+ 2000d38:	ebffff25 	bl	20009d4 <dequeue_object>
+	priority_enqueue_tsk( ptcb );
+ 2000d3c:	e1a00004 	mov	r0, r4
+ 2000d40:	ebfffdc2 	bl	2000450 <priority_enqueue_tsk>
+	return SYS_OK;
+}
+ 2000d44:	e1a00005 	mov	r0, r5
+ 2000d48:	e89da830 	ldmia	sp, {r4, r5, fp, sp, pc}
+
+02000d4c <INT_Disable>:
+@   
+	.global INT_Disable
+	.func INT_Disable
+INT_Disable:	
+	mrs 	r1, cpsr		@ get current program status register
+ 2000d4c:	e10f1000 	mrs	r1, CPSR
+	orr 	r0, r1, #0x80	@ set I bit to disable interrupts
+ 2000d50:	e3810080 	orr	r0, r1, #128	; 0x80
+	msr		cpsr_c, r0		@ write back cpsr
+ 2000d54:	e121f000 	msr	CPSR_c, r0
+	and		r0, r1, #0x80	@ mask out the I bit (original cpsr) and return it via r0	
+ 2000d58:	e2010080 	and	r0, r1, #128	; 0x80
+	bx		lr				@ return in thumb mode
+ 2000d5c:	e12fff1e 	bx	lr
+
+02000d60 <INT_Enable>:
+	.endfunc
+	
+@/*!	\brief Globaly enable interrupts
+@ *
+@ *	Calling this function will globaly enable interrupts. 
+@ */	
+	.global INT_Enable
+	.func INT_Enable
+INT_Enable:    
+	GET_CPSR(r1)			@ get current cpsr
+ 2000d60:	e10f1000 	mrs	r1, CPSR
+	bic		r1, r1, #0x80	@ clear the I bit
+ 2000d64:	e3c11080 	bic	r1, r1, #128	; 0x80
+	SET_CPSR(r1)			@ write back cpsr
+ 2000d68:	e121f001 	msr	CPSR_c, r1
+	bx		lr				@ return in thumb mode
+ 2000d6c:	e12fff1e 	bx	lr
+
+02000d70 <INT_Restore>:
+	.endfunc
+
+@/*!	\brief Globaly restore interrupts
+@ *
+@ *	Calling this function will restore the interrupts state as were before calling the disable function.
+@ *	\param flags interrupts state before disabling them
+@ */
+	.global INT_Restore
+	.func INT_Restore	
+INT_Restore:
+	ands	r0,r0,#0x80
+ 2000d70:	e2100080 	ands	r0, r0, #128	; 0x80
+	beq		INT_Enable
+ 2000d74:	0afffff9 	beq	2000d60 <INT_Enable>
+	bx		lr				 @return in thumb mode
+ 2000d78:	e12fff1e 	bx	lr
+
+02000d7c <BUF_Put>:
+ *	\param pdata pointer to data to write in
+ *	\retval SYS_OK	data was stored into the buffer
+ *	\retval SYS_ERROR	there was no enough free space
+ */
+STATUS BUF_Put(HANDLE *ph, void *pdata) {
+ 2000d7c:	e1a0c00d 	mov	ip, sp
+ 2000d80:	e92dd9f0 	stmdb	sp!, {r4, r5, r6, r7, r8, fp, ip, lr, pc}
+ 2000d84:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000d88:	e1a05000 	mov	r5, r0
+ 2000d8c:	e1a06001 	mov	r6, r1
+	size_t flags;
+	void *p;
+	uint8 bexetrg = 0;
+	bcb_t *pbcb = (bcb_t*) ph;
+	
+	flags = INT_Disable();
+ 2000d90:	ebffffed 	bl	2000d4c <INT_Disable>
+	
+	p = pbcb->pin;
+ 2000d94:	e5954000 	ldr	r4, [r5]
+	p += pbcb->len;
+ 2000d98:	e5d52014 	ldrb	r2, [r5, #20]
+	if( p >= pbcb->pbot )
+ 2000d9c:	e595300c 	ldr	r3, [r5, #12]
+ 2000da0:	e1a01004 	mov	r1, r4
+ 2000da4:	e0844002 	add	r4, r4, r2
+ 2000da8:	e1530004 	cmp	r3, r4
+		p = pbcb->ptop;
+ 2000dac:	95954008 	ldrls	r4, [r5, #8]
+	
+	if( p == pbcb->pout ) {
+ 2000db0:	e5953004 	ldr	r3, [r5, #4]
+ 2000db4:	e1530004 	cmp	r3, r4
+ 2000db8:	e1a08000 	mov	r8, r0
+ 2000dbc:	e3a07000 	mov	r7, #0	; 0x0
+ 2000dc0:	0a00001f 	beq	2000e44 <BUF_Put+0xc8>
+		INT_Restore( flags );
+		return SYS_ERROR;
+	}
+
+	memcpy( pbcb->pin, pdata, pbcb->len);	
+ 2000dc4:	e1a00001 	mov	r0, r1
+ 2000dc8:	e1a01006 	mov	r1, r6
+ 2000dcc:	eb000073 	bl	2000fa0 <memcpy>
+	pbcb->pin = p;	
+	pbcb->n++;
+ 2000dd0:	e1d531b0 	ldrh	r3, [r5, #16]
+ 2000dd4:	e2833001 	add	r3, r3, #1	; 0x1
+ 2000dd8:	e1c531b0 	strh	r3, [r5, #16]
+	
+	/* Check if we reached the trigger level. If yes fire the trigger function only once. Set the variable to execute
+	 * the trigger function. This is needed as we will execute it in the BUF_Put context.
+	 */
+	if( pbcb->n >= pbcb->trg && pbcb->btrgfxn ) {
+ 2000ddc:	e1d521b2 	ldrh	r2, [r5, #18]
+ 2000de0:	e1d531b0 	ldrh	r3, [r5, #16]
+ 2000de4:	e1530002 	cmp	r3, r2
+ 2000de8:	e5854000 	str	r4, [r5]
+ 2000dec:	2a000005 	bcs	2000e08 <BUF_Put+0x8c>
+		pbcb->btrgfxn = 0;
+		bexetrg = 1;
+	}
+		
+	INT_Restore( flags );
+ 2000df0:	e1a00008 	mov	r0, r8
+ 2000df4:	ebffffdd 	bl	2000d70 <INT_Restore>
+					
+	if( bexetrg )
+ 2000df8:	e3570000 	cmp	r7, #0	; 0x0
+ 2000dfc:	1a000009 	bne	2000e28 <BUF_Put+0xac>
+		pbcb->ptrgfxn(0, pbcb, 0);	
+			
+	return SYS_OK;
+ 2000e00:	e3a00000 	mov	r0, #0	; 0x0
+}
+ 2000e04:	e89da9f0 	ldmia	sp, {r4, r5, r6, r7, r8, fp, sp, pc}
+ 2000e08:	e5d53015 	ldrb	r3, [r5, #21]
+ 2000e0c:	e3530000 	cmp	r3, #0	; 0x0
+ 2000e10:	15c57015 	strneb	r7, [r5, #21]
+ 2000e14:	e1a00008 	mov	r0, r8
+ 2000e18:	13a07001 	movne	r7, #1	; 0x1
+ 2000e1c:	ebffffd3 	bl	2000d70 <INT_Restore>
+ 2000e20:	e3570000 	cmp	r7, #0	; 0x0
+ 2000e24:	0afffff5 	beq	2000e00 <BUF_Put+0x84>
+ 2000e28:	e3a00000 	mov	r0, #0	; 0x0
+ 2000e2c:	e1a01005 	mov	r1, r5
+ 2000e30:	e1a02000 	mov	r2, r0
+ 2000e34:	e1a0e00f 	mov	lr, pc
+ 2000e38:	e595f018 	ldr	pc, [r5, #24]
+ 2000e3c:	e3a00000 	mov	r0, #0	; 0x0
+ 2000e40:	e89da9f0 	ldmia	sp, {r4, r5, r6, r7, r8, fp, sp, pc}
+ 2000e44:	ebffffc9 	bl	2000d70 <INT_Restore>
+ 2000e48:	e3a00001 	mov	r0, #1	; 0x1
+ 2000e4c:	e89da9f0 	ldmia	sp, {r4, r5, r6, r7, r8, fp, sp, pc}
+
+02000e50 <BUF_Get>:
+//----------------------------------------------------------------------------
+/*!	\brief Get data into from buffer
+ *
+ *	If there is some data in the buffer this function retrieves it. Each read access on the
+ *	buffer also reset the associated timeout callback function timeout. 
+ *
+ *  \param ph	handle to buffer
+ *	\param pdata pointer to where the data will be written
+ *	\retval SYS_OK data was retrived from buffer
+ *	\retval SYS_ERROR there was no data in buffer
+ */
+STATUS BUF_Get(HANDLE *ph, void *pdata) {
+ 2000e50:	e1a0c00d 	mov	ip, sp
+ 2000e54:	e92dd870 	stmdb	sp!, {r4, r5, r6, fp, ip, lr, pc}
+ 2000e58:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000e5c:	e1a04000 	mov	r4, r0
+ 2000e60:	e1a05001 	mov	r5, r1
+	size_t flags;
+	void *p;
+	bcb_t *pbcb = (bcb_t*) ph;
+	
+	flags = INT_Disable();
+ 2000e64:	ebffffb8 	bl	2000d4c <INT_Disable>
+
+	if( pbcb->pin != pbcb->pout ) {
+ 2000e68:	e5942004 	ldr	r2, [r4, #4]
+ 2000e6c:	e5943000 	ldr	r3, [r4]
+ 2000e70:	e1530002 	cmp	r3, r2
+ 2000e74:	e1a06000 	mov	r6, r0
+		memcpy(pdata, pbcb->pout, pbcb->len);
+ 2000e78:	e1a01002 	mov	r1, r2
+ 2000e7c:	0a000019 	beq	2000ee8 <BUF_Get+0x98>
+ 2000e80:	e5d42014 	ldrb	r2, [r4, #20]
+ 2000e84:	e1a00005 	mov	r0, r5
+ 2000e88:	eb000044 	bl	2000fa0 <memcpy>
+		
+		/* If the buffer gets empty remove the pending timer and retrigger trg callback function,
+		 * otherwise restart timer.
+		 */
+		if( !--pbcb->n ) {
+ 2000e8c:	e1d431b0 	ldrh	r3, [r4, #16]
+ 2000e90:	e2433001 	sub	r3, r3, #1	; 0x1
+ 2000e94:	e1b02803 	movs	r2, r3, lsl #16
+ 2000e98:	e1c431b0 	strh	r3, [r4, #16]
+ 2000e9c:	0a00000c 	beq	2000ed4 <BUF_Get+0x84>
+			TMR_Stop(pbcb->ptic);
+			pbcb->btrgfxn = 1;
+		}
+		else {
+			TMR_ReStart(pbcb->ptic);	
+ 2000ea0:	e594001c 	ldr	r0, [r4, #28]
+ 2000ea4:	ebfffe0a 	bl	20006d4 <TMR_ReStart>
+		}
+    	
+		p =  pbcb->pout + pbcb->len;	 
+ 2000ea8:	e5943004 	ldr	r3, [r4, #4]
+ 2000eac:	e5d42014 	ldrb	r2, [r4, #20]
+		if( p >= pbcb->pbot )
+ 2000eb0:	e594100c 	ldr	r1, [r4, #12]
+ 2000eb4:	e0833002 	add	r3, r3, r2
+ 2000eb8:	e1510003 	cmp	r1, r3
+			p = pbcb->ptop;
+ 2000ebc:	95943008 	ldrls	r3, [r4, #8]
+		pbcb->pout = p;
+		    	
+		INT_Restore( flags );
+ 2000ec0:	e1a00006 	mov	r0, r6
+ 2000ec4:	e5843004 	str	r3, [r4, #4]
+ 2000ec8:	ebffffa8 	bl	2000d70 <INT_Restore>
+		return SYS_OK;
+ 2000ecc:	e3a00000 	mov	r0, #0	; 0x0
+ 2000ed0:	e89da870 	ldmia	sp, {r4, r5, r6, fp, sp, pc}
+ 2000ed4:	e594001c 	ldr	r0, [r4, #28]
+ 2000ed8:	ebfffd49 	bl	2000404 <TMR_Stop>
+ 2000edc:	e3a03001 	mov	r3, #1	; 0x1
+ 2000ee0:	e5c43015 	strb	r3, [r4, #21]
+ 2000ee4:	eaffffef 	b	2000ea8 <BUF_Get+0x58>
+	}
+	INT_Restore( flags );
+ 2000ee8:	ebffffa0 	bl	2000d70 <INT_Restore>
+	return SYS_ERROR;
+ 2000eec:	e3a00001 	mov	r0, #1	; 0x1
+}
+ 2000ef0:	e89da870 	ldmia	sp, {r4, r5, r6, fp, sp, pc}
+
+02000ef4 <BUF_Flush>:
+//----------------------------------------------------------------------------
+/*!	\brief Empty buffer
+ * 
+ *  \param ph	handle to buffer 
+ */
+void BUF_Flush(HANDLE *ph) {
+ 2000ef4:	e1a0c00d 	mov	ip, sp
+ 2000ef8:	e92dd830 	stmdb	sp!, {r4, r5, fp, ip, lr, pc}
+ 2000efc:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000f00:	e1a04000 	mov	r4, r0
+	size_t flags;
+	bcb_t *pbcb = (bcb_t*) ph;
+	
+	flags = INT_Disable();	
+ 2000f04:	ebffff90 	bl	2000d4c <INT_Disable>
+	pbcb->n = 0;
+	pbcb->btrgfxn = 1;
+	pbcb->pin = pbcb->pout = pbcb->ptop;
+ 2000f08:	e5942008 	ldr	r2, [r4, #8]
+ 2000f0c:	e3a03001 	mov	r3, #1	; 0x1
+ 2000f10:	e5c43015 	strb	r3, [r4, #21]
+ 2000f14:	e3a03000 	mov	r3, #0	; 0x0
+ 2000f18:	e1a05000 	mov	r5, r0
+ 2000f1c:	e5842000 	str	r2, [r4]
+	TMR_Stop(pbcb->ptic);
+ 2000f20:	e594001c 	ldr	r0, [r4, #28]
+ 2000f24:	e1c431b0 	strh	r3, [r4, #16]
+ 2000f28:	e5842004 	str	r2, [r4, #4]
+ 2000f2c:	ebfffd34 	bl	2000404 <TMR_Stop>
+	INT_Restore( flags );
+ 2000f30:	e1a00005 	mov	r0, r5
+ 2000f34:	e89d6830 	ldmia	sp, {r4, r5, fp, sp, lr}
+ 2000f38:	eaffff8c 	b	2000d70 <INT_Restore>
+
+02000f3c <BUF_Querry>:
+}
+//----------------------------------------------------------------------------
+/*!	\brief Querry buffer
+ * 
+ *  \param ph	handle to buffer 
+ */
+uint16 BUF_Querry(HANDLE *ph) {
+	bcb_t *pbcb = (bcb_t*) pbcb;
+	return pbcb->n;
+}
+ 2000f3c:	e1d301b0 	ldrh	r0, [r3, #16]
+ 2000f40:	e1a0f00e 	mov	pc, lr
+
+02000f44 <BUF_AppendToutFxn>:
+//----------------------------------------------------------------------------
+/*!	\brief Set buffer timeout
+ * 
+ *	By default the buffer structure has no timeout callback function associated. This function
+ *	appends a timeout callback function that will be fired if the fifo contains data that is older
+ *	that the timeout period. The handle to the buffer structure is passed thrue the parg1 argument
+ *	of the callback function. Each read access on the buffer re-triggers the timer. 
+ *	Note that the callback funcion is executed from the uSMARTX_Tick() context.
+ *
+ *  \param ph	handle to buffer 
+ *	\param timeout timeout in system ticks
+ *	\param pfxn address of the callback function
+ */
+void BUF_AppendToutFxn(HANDLE *ph, uint16 timeout, STATUS (*pfxn)(uint8 evt, void *parg1, void *parg2)) {
+ 2000f44:	e1a0c00d 	mov	ip, sp
+ 2000f48:	e92dd810 	stmdb	sp!, {r4, fp, ip, lr, pc}
+ 2000f4c:	e24cb004 	sub	fp, ip, #4	; 0x4
+ 2000f50:	e24dd00c 	sub	sp, sp, #12	; 0xc
+	bcb_t *pbcb = (bcb_t*) ph;	
+/*	pbcb->tout = timeout;
+	pbcb->ptoufxn = pfxn;*/
+	
+	TMR_Start(pbcb->ptic, timeout, pfxn, 0, pbcb, 0, TMR_PERIODIC);	
+ 2000f54:	e3a04000 	mov	r4, #0	; 0x0
+ 2000f58:	e1a01801 	mov	r1, r1, lsl #16
+ 2000f5c:	e1a0e000 	mov	lr, r0
+ 2000f60:	e3a0c001 	mov	ip, #1	; 0x1
+ 2000f64:	e590001c 	ldr	r0, [r0, #28]
+ 2000f68:	e1a01821 	mov	r1, r1, lsr #16
+ 2000f6c:	e1a03004 	mov	r3, r4
+ 2000f70:	e58de000 	str	lr, [sp]
+ 2000f74:	e98d1010 	stmib	sp, {r4, ip}
+ 2000f78:	ebfffde6 	bl	2000718 <TMR_Start>
+ 2000f7c:	e24bd010 	sub	sp, fp, #16	; 0x10
+ 2000f80:	e89da810 	ldmia	sp, {r4, fp, sp, pc}
+
+02000f84 <BUF_AppendTrgFxn>:
+}
+//----------------------------------------------------------------------------
+/*!	\brief Set buffer trigger level
+ * 
+ *	By default the buffer structure has no trigger callback function associated. This function
+ *	appends the trigger callback function with a defined trigger level. The function is executed
+ *	only once and is re-triggered when the buffer is completely emptied out (also BUF_Flush()).
+ *	The handle to the buffer structure is passed to the function via the parg1 argument.
+ *
+ *  \param ph handle to buffer 
+ *	\param trigger trigger level
+ *	\param pfxn address of the callback function
+ */
+void BUF_AppendTrgFxn(HANDLE *ph, uint16 trigger, STATUS (*pfxn)(uint8 evt, void *parg1, void *parg2)) {
+	bcb_t *pbcb = (bcb_t*) ph;
+	pbcb->trg = trigger;
+	pbcb->ptrgfxn = pfxn;
+	pbcb->btrgfxn = 1;
+ 2000f84:	e3a03001 	mov	r3, #1	; 0x1
+ 2000f88:	e5c03015 	strb	r3, [r0, #21]
+ 2000f8c:	e1c011b2 	strh	r1, [r0, #18]
+ 2000f90:	e5802018 	str	r2, [r0, #24]
+ 2000f94:	e1a0f00e 	mov	pc, lr
+
+02000f98 <buff_dummy_clb>:
+}
+/*!	@}*/
+//------------------------------------------------------------------------------
+/*						INTERNAL FUNCTIONS		
+ *
+ * These are uSMARTX internal function. They must not be called from a task.
+ */
+/*! \internal
+ *	\brief Dummy callback funcion
+ *
+ *	If there is no trigger or timeout callback function this function is executed.
+ *
+ *  \param evt		not used
+ *	\param parg1	not used
+ *	\param parg1	not used
+ *	\return SYS_OK
+ */
+STATUS buff_dummy_clb(uint8 evt, void *parg1, void *parg2) {
+	return SYS_OK;	
+}
+ 2000f98:	e3a00000 	mov	r0, #0	; 0x0
+ 2000f9c:	e1a0f00e 	mov	pc, lr
+
+02000fa0 <memcpy>:
+ 2000fa0:	e352000f 	cmp	r2, #15	; 0xf
+ 2000fa4:	e1a0c002 	mov	ip, r2
+ 2000fa8:	e52de004 	str	lr, [sp, #-4]!
+ 2000fac:	e1a02000 	mov	r2, r0
+ 2000fb0:	9a000016 	bls	2001010 <memcpy+0x70>
+ 2000fb4:	e1813000 	orr	r3, r1, r0
+ 2000fb8:	e3130003 	tst	r3, #3	; 0x3
+ 2000fbc:	1a000013 	bne	2001010 <memcpy+0x70>
+ 2000fc0:	e1a0e000 	mov	lr, r0
+ 2000fc4:	e4913004 	ldr	r3, [r1], #4
+ 2000fc8:	e48e3004 	str	r3, [lr], #4
+ 2000fcc:	e4912004 	ldr	r2, [r1], #4
+ 2000fd0:	e48e2004 	str	r2, [lr], #4
+ 2000fd4:	e4913004 	ldr	r3, [r1], #4
+ 2000fd8:	e48e3004 	str	r3, [lr], #4
+ 2000fdc:	e24cc010 	sub	ip, ip, #16	; 0x10
+ 2000fe0:	e4913004 	ldr	r3, [r1], #4
+ 2000fe4:	e35c000f 	cmp	ip, #15	; 0xf
+ 2000fe8:	e48e3004 	str	r3, [lr], #4
+ 2000fec:	8afffff4 	bhi	2000fc4 <memcpy+0x24>
+ 2000ff0:	e35c0003 	cmp	ip, #3	; 0x3
+ 2000ff4:	9a000004 	bls	200100c <memcpy+0x6c>
+ 2000ff8:	e4913004 	ldr	r3, [r1], #4
+ 2000ffc:	e24cc004 	sub	ip, ip, #4	; 0x4
+ 2001000:	e35c0003 	cmp	ip, #3	; 0x3
+ 2001004:	e48e3004 	str	r3, [lr], #4
+ 2001008:	8afffffa 	bhi	2000ff8 <memcpy+0x58>
+ 200100c:	e1a0200e 	mov	r2, lr
+ 2001010:	e25cc001 	subs	ip, ip, #1	; 0x1
+ 2001014:	349df004 	ldrcc	pc, [sp], #4
+ 2001018:	e24cc001 	sub	ip, ip, #1	; 0x1
+ 200101c:	e4d13001 	ldrb	r3, [r1], #1
+ 2001020:	e37c0001 	cmn	ip, #1	; 0x1
+ 2001024:	e4c23001 	strb	r3, [r2], #1
+ 2001028:	1afffffa 	bne	2001018 <memcpy+0x78>
+ 200102c:	e49df004 	ldr	pc, [sp], #4
+ 2001030:	00333231 	eoreqs	r3, r3, r1, lsr r2
+ 2001034:	00363534 	eoreqs	r3, r6, r4, lsr r5
+ 2001038:	00393837 	eoreqs	r3, r9, r7, lsr r8
+ 200103c:	00636261 	rsbeq	r6, r3, r1, ror #4
+ 2001040:	00666564 	rsbeq	r6, r6, r4, ror #10
+ 2001044:	00313233 	eoreqs	r3, r1, r3, lsr r2

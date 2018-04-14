@@ -1,0 +1,76 @@
+Code and information has been taken from quite a few places
+and i'll try to list them all here.
+
+Firstly, the boot code and makefiles are based on code from
+GeekOS v0.0.1c, and since so much code has been included from
+GeekOS I have included the copyright notice, see "COPYING-GEEKOS".
+The scripts are taken directly from GeekOS, and so are the assembly
+language include files (include/*.s). GeekOS can be found at
+http://geekos.sourceforge.net/.
+
+The assembly code in <asm.h> is taken from Linux v0.01. If you
+dont already know, linux is at http://www.kernel.org/. Version 0.01
+of the kernel is archived at
+ftp://ftp.kernel.org/pub/linux/kernel/Historic/.
+
+Some of the video memory code and definitions have been taken
+from GeekOS, with changes to fit the linux-style assembly
+definitions mentioned above. Most of the other video memory
+code has been written using GeekOS as a guide.
+
+The routine to display messages in the boot and setup code was
+taken from the JOSH operating system tutorial. Also, the code to
+wait for a keypress before starting the kernel was taken from the
+shell for JOSH. Currently, this is at http://www.ansanest.com/josh/.
+
+Other information was found at the following places, but no code was
+taken (note: some of this is miscallaneous information on things like
+floppy drives and elf file formats, but it all seemed useful to me):
+
+Clicker32 project - http://clicker32.sourceforge.net/
+Phrack magazine article - http://www.phrack.org/show.php?p=52&a=17
+Linux Gazette articles - http://www.linuxgazette.com/issue82/raghu.html
+                         http://www.linuxgazette.com/issue77/krishnakumar.html
+                         http://www.linuxgazette.com/issue84/dashti.html
+                         http://www.linuxgazette.com/issue84/hawk.html
+                         http://www.linuxgazette.com/issue85/mahoney.html
+                         http://www.linuxgazette.com/issue79/krishnakumar.html
+Intel Pentium(r) Manuals - http://developer.intel.com/design/pentium/manuals/
+Mobius operating system - http://www.themoebius.org.uk/tutes/   (old website)
+                          http://mobius.sourceforge.net/
+Debs - http://debs.future.easyspace.com/Programming/OS/index.html
+       http://debs.future.easyspace.com/Programming/Hardware/FDC/floppy.html
+Unknown - http://web.salleurl.edu/~josepmr/Docs/an029.pdf
+
+Some tools which I found very useful:
+NASM assembler - http://nasm.sourceforge.net/
+RawWrite for Windows - http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm
+Cygwin environment - http://cygwin.com/
+
+-------------------------------------------------------------------------
+For version demo4:
+
+ The floppy disk driver stuff is taken from linux v0.11, stored in the same place as v0.01.
+ 
+Not much else has been taken from anywhere for this release.
+
+-------------------------------------------------------------------------
+For version demo5:
+
+ Nothing - although the device model is based on the UN*X philosophy that everything is a file.
+
+-------------------------------------------------------------------------
+demo6:
+
+ Some ideas taken from GeekOS, but all the new code is my own.
+ 
+--------------------------------------------------------------------------
+cos-0.0.1-pre1
+
+ Firstly, thanks go to all members of alt.os.development
+ 
+ Also, I would like to thank some people for the code I have included:
+	BGET - John Walker
+	psnprintf - Alex Holkner
+	GeekOS - David Hovemeyer
+ and of course, the people of the Free Software Foundation and Linux (especially Linus).

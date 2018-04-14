@@ -1,0 +1,28 @@
+/* H8-3048 Mode 3/6 Linker command file ROM Version */
+ENTRY(_start)
+OUTPUT_FORMAT(coff-h8300)
+OUTPUT_ARCH(h8300h)
+MEMORY
+{
+    rom  : ORIGIN = 0x0000000, LENGTH = 128K
+	eram : ORIGIN = 0x0480000, LENGTH = 1024K
+    iram : ORIGIN = 0x0FFEF10, LENGTH = 4K
+}
+SECTIONS
+{
+  .vectors 0x0000000 : { *(.vects); } > rom
+  .text    0x0000100 : { _text = .; *(.text) *(.rodata); } > rom
+  .strings .         : { *(.strings); } > rom
+  .mdata   .         : { _mdata = .; } > rom
+  .checks  0x0407FFC : { *(.checks); } > rom
+  .buffs   0x0480000 (NOLOAD) : { _buffs = .; *(.buffs); _end = .; } > eram
+  .data    0x0FFEF10 : AT(ADDR(.mdata))
+                          { _data = .; *(.data) _edata = .; } > iram
+  .bss               : { _bss = .; *(.bss) *(COMMON); _ebss = .; } > iram
+  .stack   0x0FFFC50 (NOLOAD) : { _stack = .; *(.stack); } > iram
+}
+
+/*Vector Table 0x000000-0x0000FF (Internal Flash) MONITOR */
+/*User Program 0x000100-0x01FFFF (Internal Flash) MONITOR */
+/*External RAM 0x0400000-0x04FFFFF BUFFERS                */
+/*Internal RAM 0x0FFEF10-0x0FFFF0F VARS AND STACK         */

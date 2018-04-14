@@ -1,0 +1,156 @@
+Archive member included because of file (symbol)
+
+../lib\libusmartx.a(usmartx.o)
+                              test.o (TSK_Self)
+../lib\libusmartx.a(mailbox.o)
+                              test.o (MBX_Init)
+../lib\libusmartx.a(queue.o)  ../lib\libusmartx.a(usmartx.o) (enqueue_top_object)
+../lib\libusmartx.a(hal.o)    ../lib\libusmartx.a(usmartx.o) (INT_Disable)
+C:/PROGRA~1/H8/GNUH8V~1/h8300-coff/bin/../lib/gcc/h8300-coff/3.4-GNUH8_v0501/../../../../h8300-coff/lib/h8300h\libc.a(memcpy.o)
+                              ../lib\libusmartx.a(mailbox.o) (memcpy)
+
+Allocating common symbols
+Common symbol       size              file
+
+g_ticks             0x4               ../lib\libusmartx.a(usmartx.o)
+g_timerq            0x8               ../lib\libusmartx.a(usmartx.o)
+TSK1_tcb            0x40              test.o
+pcurr_ctx           0x4               ../lib\libusmartx.a(usmartx.o)
+DEMO_TMR            0x20              test.o
+mcb_buff_EVENT_MSG  0x5               test.o
+TSK2_tcb            0x40              test.o
+mcb_msg_EVENT_MSG   0x3c              test.o
+TSK3_tcb            0x40              test.o
+g_taskq             0x8               ../lib\libusmartx.a(usmartx.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x00000000         0x00020000
+eram             0x00480000         0x00100000
+iram             0x00ffef10         0x00001000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD test.o
+LOAD start.o
+LOAD vects.o
+LOAD ../lib\libusmartx.a
+LOAD C:/PROGRA~1/H8/GNUH8V~1/h8300-coff/bin/../lib/gcc/h8300-coff/3.4-GNUH8_v0501/h8300h\libgcc.a
+LOAD C:/PROGRA~1/H8/GNUH8V~1/h8300-coff/bin/../lib/gcc/h8300-coff/3.4-GNUH8_v0501/../../../../h8300-coff/lib/h8300h\libc.a
+LOAD C:/PROGRA~1/H8/GNUH8V~1/h8300-coff/bin/../lib/gcc/h8300-coff/3.4-GNUH8_v0501/h8300h\libgcc.a
+
+.vectors        0x00000000       0xf4
+ *(.vects)
+ .vects         0x00000000       0xf4 vects.o
+                0x00000000                HardwareVectors
+
+.text           0x00000100      0xc0c
+                0x00000100                _text = .
+ *(.text)
+ .text          0x00000100       0xd6 test.o
+                0x00000100                TSK1
+                0x0000013c                TSK3
+                0x00000156                TimeoutHandler
+                0x00000178                main
+                0x0000011a                TSK2
+ .text          0x000001d6       0x50 start.o
+                0x000001d6                start
+                0x00000222                exit
+ .text          0x00000226      0x5b6 ../lib\libusmartx.a(usmartx.o)
+                0x000005fc                TMR_Start
+                0x0000028c                TSK_Suspend
+                0x0000023a                timer_dequeue
+                0x000007a6                tsk_delay_clb
+                0x000003e6                uSMARTX_Scheduler
+                0x00000270                remove_timeout
+                0x00000314                TMR_GetTicks
+                0x00000226                TSK_Self
+                0x000006cc                uSMARTX_Tick
+                0x00000756                append_timeout
+                0x000005be                TMR_ReStart
+                0x00000328                priority_enqueue_tsk
+                0x00000690                TSK_Sleep
+                0x000004c2                uSMARTX_Init
+                0x000002dc                TMR_Stop
+                0x000007c8                get_curr_tsk
+                0x0000054c                timer_enqueue
+                0x00000384                TSK_Resume
+ .text          0x000007dc      0x39e ../lib\libusmartx.a(mailbox.o)
+                0x00000b44                mbx_tout_clb
+                0x00000876                MBX_Post
+                0x00000990                MBX_Pend
+                0x000007dc                MBX_Init
+                0x00000a9a                MBX_Flush
+ .text          0x00000b7a      0x12a ../lib\libusmartx.a(queue.o)
+                0x00000bb2                enqueue_middle_object
+                0x00000c14                dequeue_top_object
+                0x00000b7a                enqueue_top_object
+                0x00000bd8                enqueue_bottom_object
+                0x00000c4a                dequeue_object
+                0x00000c8a                querry_queue
+ .text          0x00000ca4       0x3c ../lib\libusmartx.a(hal.o)
+                0x00000cbc                INT_Enable
+                0x00000ca4                INT_Disable
+                0x00000cca                INT_Restore
+ .text          0x00000ce0       0x2c C:/PROGRA~1/H8/GNUH8V~1/h8300-coff/bin/../lib/gcc/h8300-coff/3.4-GNUH8_v0501/../../../../h8300-coff/lib/h8300h\libc.a(memcpy.o)
+                0x00000ce0                memcpy
+ *(.rodata)
+
+.strings
+ *(.strings)
+
+.mdata          0x00000d0c        0x0
+                0x00000d0c                _mdata = .
+
+.checks
+ *(.checks)
+
+.buffs          0x00480000        0x0
+                0x00480000                _buffs = .
+ *(.buffs)
+                0x00480000                _end = .
+
+.data           0x00ffef10       0x7c load address 0x00000d0c
+                0x00ffef10                _data = .
+ *(.data)
+ .data          0x00ffef10       0x7c test.o
+                0x00ffef60                EVENT_MSG
+                0x00ffef10                tsk_tbl
+                0x00ffef8c                _edata = .
+
+.bss            0x00ffef90      0x160
+                0x00ffef90                _bss = .
+ *(.bss)
+ .bss           0x00ffef90        0x2 test.o
+ *(COMMON)
+ *fill*         0x00ffef92        0xe 00
+ COMMON         0x00ffefa0      0x130 test.o
+                                  0x0 (size before relaxing)
+                0x00ffefa0                TSK1_tcb
+                0x00ffefe0                DEMO_TMR
+                0x00fff000                mcb_buff_EVENT_MSG
+                0x00fff010                TSK2_tcb
+                0x00fff050                mcb_msg_EVENT_MSG
+                0x00fff090                TSK3_tcb
+ COMMON         0x00fff0d0       0x20 ../lib\libusmartx.a(usmartx.o)
+                                  0x0 (size before relaxing)
+                0x00fff0d0                g_ticks
+                0x00fff0d8                g_timerq
+                0x00fff0e0                pcurr_ctx
+                0x00fff0e8                g_taskq
+                0x00fff0f0                _ebss = .
+
+.stack          0x00fffc50        0x0
+                0x00fffc50                _stack = .
+ *(.stack)
+OUTPUT(test.out coff-h8300)
+
+.comment        0x00000000       0xa8
+ .comment       0x00000000       0x1c test.o
+ .comment       0x0000001c       0x1c vects.o
+ .comment       0x00000038       0x1c ../lib\libusmartx.a(usmartx.o)
+ .comment       0x00000054       0x1c ../lib\libusmartx.a(mailbox.o)
+ .comment       0x00000070       0x1c ../lib\libusmartx.a(queue.o)
+ .comment       0x0000008c       0x1c ../lib\libusmartx.a(hal.o)

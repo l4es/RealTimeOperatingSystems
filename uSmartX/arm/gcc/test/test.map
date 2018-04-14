@@ -1,0 +1,433 @@
+Archive member included because of file (symbol)
+
+../lib//libusmartx.a(usmartx.o)
+                              ../../test/test.o (TSK_Self)
+../lib//libusmartx.a(queue.o)
+                              ../lib//libusmartx.a(usmartx.o) (enqueue_top_object)
+../lib//libusmartx.a(mailbox.o)
+                              ../../test/test.o (MBX_Init)
+../lib//libusmartx.a(hal_gnu.o)
+                              ../lib//libusmartx.a(usmartx.o) (INT_Disable)
+../lib//libusmartx.a(cycbuff.o)
+                              ../../test/test.o (BUF_Put)
+/ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+                              ../lib//libusmartx.a(mailbox.o) (memcpy)
+
+Allocating common symbols
+Common symbol       size              file
+
+g_timerq            0x8               ../lib//libusmartx.a(usmartx.o)
+mcb_buff_EVENT_MSG  0x5               ../../test/test.o
+g_taskq             0x8               ../lib//libusmartx.a(usmartx.o)
+TSK2_tcb            0x44              ../../test/test.o
+TSK1_tcb            0x44              ../../test/test.o
+g_ticks             0x4               ../lib//libusmartx.a(usmartx.o)
+DEMO_TMR            0x20              ../../test/test.o
+mcb_msg_EVENT_MSG   0x3c              ../../test/test.o
+bcb_buff_BUF        0xc               ../../test/test.o
+pcurr_ctx           0x4               ../lib//libusmartx.a(usmartx.o)
+TSK3_tcb            0x44              ../../test/test.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x00000000         0x00080000         xr
+SRAM             0x00000000         0x00001000         xrw
+XSRAM            0x02000000         0x00080000         xrw
+SDRAM            0x00800000         0x04000000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ../../test/test.o
+LOAD crt0.o
+LOAD ../lib//libusmartx.a
+LOAD /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/libgcc.a
+LOAD /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a
+LOAD /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/libgcc.a
+                0x00000100                STACK_SIZE = 0x100
+
+.startup        0x02000000      0x110
+ *crt0.o(.text)
+ .text          0x02000000      0x110 crt0.o
+                0x020000e0                reset
+                0x02000000                _boot
+                0x02000050                _mainCRTStartup
+                0x020000e0                abort
+                0x02000050                _start
+                0x020000e4                _tmr0_irq_handler
+                0x020000e0                _reset
+                0x020000e0                exit
+                0x02000050                start
+                0x02000110                . = ALIGN (0x4)
+                0x02000110                _estartup = .
+
+.text           0x02000110      0xf38
+                0x02000110                _stext_load = LOADADDR (.text)
+ *(EXCLUDE_FILE(*crt0.o) .text)
+ .text          0x02000110      0x244 ../../test/test.o
+                0x02000110                TSK1
+                0x020001e0                main
+                0x020001b0                TimeoutHandler
+                0x0200017c                TSK3
+                0x02000144                TSK2
+ .text          0x02000354      0x5dc ../lib//libusmartx.a(usmartx.o)
+                0x02000920                get_curr_tsk
+                0x020005ac                uSMARTX_Init
+                0x02000648                timer_enqueue
+                0x020007ec                uSMARTX_Tick
+                0x02000718                TMR_Start
+                0x020006d4                TMR_ReStart
+                0x020004a8                TSK_Resume
+                0x0200039c                remove_timeout
+                0x020004e0                uSMARTX_Scheduler
+                0x020008f4                tsk_delay_clb
+                0x02000450                priority_enqueue_tsk
+                0x02000440                TMR_GetTicks
+                0x020008a8                append_timeout
+                0x02000354                TSK_Self
+                0x02000404                TMR_Stop
+                0x02000364                timer_dequeue
+                0x020003b4                TSK_Suspend
+                0x02000798                TSK_Sleep
+ .text          0x02000930       0xd4 ../lib//libusmartx.a(queue.o)
+                0x02000930                enqueue_top_object
+                0x0200095c                enqueue_middle_object
+                0x02000974                enqueue_bottom_object
+                0x020009d4                dequeue_object
+                0x020009a0                dequeue_top_object
+ .text          0x02000a04      0x348 ../lib//libusmartx.a(mailbox.o)
+                0x02000b84                MBX_Pend
+                0x02000c84                MBX_Flush
+                0x02000d14                mbx_tout_clb
+                0x02000a04                MBX_Init
+                0x02000a90                MBX_Post
+ .text          0x02000d4c       0x30 ../lib//libusmartx.a(hal_gnu.o)
+                0x02000d70                INT_Restore
+                0x02000d60                INT_Enable
+                0x02000d4c                INT_Disable
+ .text          0x02000d7c      0x224 ../lib//libusmartx.a(cycbuff.o)
+                0x02000f84                BUF_AppendTrgFxn
+                0x02000f44                BUF_AppendToutFxn
+                0x02000ef4                BUF_Flush
+                0x02000e50                BUF_Get
+                0x02000f98                buff_dummy_clb
+                0x02000d7c                BUF_Put
+                0x02000f3c                BUF_Querry
+ .text          0x02000fa0       0x90 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+                0x02000fa0                memcpy
+ *(.rodata)
+ .rodata        0x02001030       0x18 ../../test/test.o
+ *(.rodata*)
+ *(.glue_7)
+ *(.glue_7t)
+                0x02001048                . = ALIGN (0x4)
+                0x02001048                _etext_load = (LOADADDR (.text) + SIZEOF (.text))
+                0x02001048                __etext = .
+                0x02001048                PROVIDE (etext, .)
+
+.data           0x02001048       0xbc
+                0x02001048                _data = .
+ *(.data)
+ .data          0x02001048       0xbc ../../test/test.o
+                0x02001074                bcb_tic_BUF
+                0x02001048                EVENT_MSG
+                0x02001094                BUF
+                0x020010b4                tsk_tbl
+                0x02001104                . = ALIGN (0x4)
+                0x02001104                _edata = .
+                0x02001104                PROVIDE (edata, .)
+
+.bss            0x02001104      0x158
+                0x02001104                __bss_start = .
+                0x02001104                __bss_start__ = .
+ *(.bss)
+ .bss           0x02001104        0x1 ../../test/test.o
+ *(COMMON)
+ *fill*         0x02001105        0x3 00
+ COMMON         0x02001108      0x13c ../../test/test.o
+                                  0x0 (size before relaxing)
+                0x02001108                mcb_buff_EVENT_MSG
+                0x02001110                TSK2_tcb
+                0x02001154                TSK1_tcb
+                0x02001198                DEMO_TMR
+                0x020011b8                mcb_msg_EVENT_MSG
+                0x020011f4                bcb_buff_BUF
+                0x02001200                TSK3_tcb
+ COMMON         0x02001244       0x18 ../lib//libusmartx.a(usmartx.o)
+                                  0x0 (size before relaxing)
+                0x02001244                g_timerq
+                0x0200124c                g_taskq
+                0x02001254                g_ticks
+                0x02001258                pcurr_ctx
+                0x0200125c                . = ALIGN (0x4)
+                0x0200125c                . = ALIGN (0x4)
+                0x0200125c                __bss_end__ = .
+                0x0200125c                PROVIDE (__bss_end, .)
+
+.stack          0x02001400      0x100
+                0x02001500                . = (. + STACK_SIZE)
+ *fill*         0x02001400      0x100 00
+                0x02001500                PROVIDE (_stack, .)
+                0x02001500                _end = .
+                0x02001500                PROVIDE (end, .)
+
+.stab           0x00000000      0x420
+ *(.stab)
+ .stab          0x00000000      0x324 crt0.o
+ .stab          0x00000324       0xfc ../lib//libusmartx.a(hal_gnu.o)
+                                0x108 (size before relaxing)
+
+.stabstr        0x00000000       0xf2
+ *(.stabstr)
+ .stabstr       0x00000000       0xf2 crt0.o
+                                  0x0 (size before relaxing)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x6c
+ *(.comment)
+ .comment       0x00000000       0x12 ../../test/test.o
+ .comment       0x00000012       0x12 ../lib//libusmartx.a(usmartx.o)
+ .comment       0x00000024       0x12 ../lib//libusmartx.a(queue.o)
+ .comment       0x00000036       0x12 ../lib//libusmartx.a(mailbox.o)
+ .comment       0x00000048       0x12 ../lib//libusmartx.a(cycbuff.o)
+ .comment       0x0000005a       0x12 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0xc0
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 ../../test/test.o
+ .debug_aranges
+                0x00000020       0x20 ../lib//libusmartx.a(usmartx.o)
+ .debug_aranges
+                0x00000040       0x20 ../lib//libusmartx.a(queue.o)
+ .debug_aranges
+                0x00000060       0x20 ../lib//libusmartx.a(mailbox.o)
+ .debug_aranges
+                0x00000080       0x20 ../lib//libusmartx.a(cycbuff.o)
+ .debug_aranges
+                0x000000a0       0x20 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_pubnames
+                0x00000000      0x3e7
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0xed ../../test/test.o
+ .debug_pubnames
+                0x000000ed      0x179 ../lib//libusmartx.a(usmartx.o)
+ .debug_pubnames
+                0x00000266       0x87 ../lib//libusmartx.a(queue.o)
+ .debug_pubnames
+                0x000002ed       0x58 ../lib//libusmartx.a(mailbox.o)
+ .debug_pubnames
+                0x00000345       0x85 ../lib//libusmartx.a(cycbuff.o)
+ .debug_pubnames
+                0x000003ca       0x1d /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_info     0x00000000     0x1d79
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x854 ../../test/test.o
+ .debug_info    0x00000854      0x845 ../lib//libusmartx.a(usmartx.o)
+ .debug_info    0x00001099      0x1d0 ../lib//libusmartx.a(queue.o)
+ .debug_info    0x00001269      0x5a6 ../lib//libusmartx.a(mailbox.o)
+ .debug_info    0x0000180f      0x46e ../lib//libusmartx.a(cycbuff.o)
+ .debug_info    0x00001c7d       0xfc /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_abbrev   0x00000000      0x68b
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x103 ../../test/test.o
+ .debug_abbrev  0x00000103      0x1cb ../lib//libusmartx.a(usmartx.o)
+ .debug_abbrev  0x000002ce       0xbf ../lib//libusmartx.a(queue.o)
+ .debug_abbrev  0x0000038d      0x139 ../lib//libusmartx.a(mailbox.o)
+ .debug_abbrev  0x000004c6      0x12c ../lib//libusmartx.a(cycbuff.o)
+ .debug_abbrev  0x000005f2       0x99 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_line     0x00000000      0x604
+ *(.debug_line)
+ .debug_line    0x00000000       0x82 ../../test/test.o
+ .debug_line    0x00000082      0x1dc ../lib//libusmartx.a(usmartx.o)
+ .debug_line    0x0000025e       0x8c ../lib//libusmartx.a(queue.o)
+ .debug_line    0x000002ea      0x14b ../lib//libusmartx.a(mailbox.o)
+ .debug_line    0x00000435      0x10a ../lib//libusmartx.a(cycbuff.o)
+ .debug_line    0x0000053f       0xc5 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_frame    0x00000000      0x4e4
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xb0 ../../test/test.o
+ .debug_frame   0x000000b0      0x204 ../lib//libusmartx.a(usmartx.o)
+ .debug_frame   0x000002b4       0x60 ../lib//libusmartx.a(queue.o)
+ .debug_frame   0x00000314       0xd8 ../lib//libusmartx.a(mailbox.o)
+ .debug_frame   0x000003ec       0xd0 ../lib//libusmartx.a(cycbuff.o)
+ .debug_frame   0x000004bc       0x28 /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+
+.debug_str      0x00000000      0x57f
+ *(.debug_str)
+ .debug_str     0x00000000       0x1b ../../test/test.o
+ .debug_str     0x0000001b      0x2f6 ../lib//libusmartx.a(usmartx.o)
+                                0x323 (size before relaxing)
+ .debug_str     0x00000311       0x76 ../lib//libusmartx.a(queue.o)
+                                0x134 (size before relaxing)
+ .debug_str     0x00000387       0xb6 ../lib//libusmartx.a(mailbox.o)
+                                0x27d (size before relaxing)
+ .debug_str     0x0000043d       0xa8 ../lib//libusmartx.a(cycbuff.o)
+                                0x219 (size before relaxing)
+ .debug_str     0x000004e5       0x9a /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+                                 0xcd (size before relaxing)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+OUTPUT(test.elf elf32-littlearm)
+
+Cross Reference Table
+
+Symbol                                            File
+BUF                                               ../../test/test.o
+BUF_AppendToutFxn                                 ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+BUF_AppendTrgFxn                                  ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+BUF_Flush                                         ../lib//libusmartx.a(cycbuff.o)
+BUF_Get                                           ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+BUF_Put                                           ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+BUF_Querry                                        ../lib//libusmartx.a(cycbuff.o)
+DEMO_TMR                                          ../../test/test.o
+EVENT_MSG                                         ../../test/test.o
+INT_Disable                                       ../lib//libusmartx.a(hal_gnu.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+INT_Enable                                        ../lib//libusmartx.a(hal_gnu.o)
+INT_Restore                                       ../lib//libusmartx.a(hal_gnu.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+MBX_Flush                                         ../lib//libusmartx.a(mailbox.o)
+MBX_Init                                          ../lib//libusmartx.a(mailbox.o)
+                                                  ../../test/test.o
+MBX_Pend                                          ../lib//libusmartx.a(mailbox.o)
+                                                  ../../test/test.o
+MBX_Post                                          ../lib//libusmartx.a(mailbox.o)
+TMR_GetTicks                                      ../lib//libusmartx.a(usmartx.o)
+TMR_ReStart                                       ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+TMR_Start                                         ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+TMR_Stop                                          ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+TSK1                                              ../../test/test.o
+TSK1_tcb                                          ../../test/test.o
+TSK2                                              ../../test/test.o
+TSK2_tcb                                          ../../test/test.o
+TSK3                                              ../../test/test.o
+TSK3_tcb                                          ../../test/test.o
+TSK_Resume                                        ../lib//libusmartx.a(usmartx.o)
+TSK_Self                                          ../lib//libusmartx.a(usmartx.o)
+                                                  ../../test/test.o
+TSK_Sleep                                         ../lib//libusmartx.a(usmartx.o)
+                                                  ../../test/test.o
+TSK_Suspend                                       ../lib//libusmartx.a(usmartx.o)
+TimeoutHandler                                    ../../test/test.o
+__bss_end__                                       crt0.o
+__bss_start                                       crt0.o
+_boot                                             crt0.o
+_data                                             crt0.o
+_edata                                            crt0.o
+_etext                                            crt0.o
+_mainCRTStartup                                   crt0.o
+_reset                                            crt0.o
+_stack                                            crt0.o
+_start                                            crt0.o
+_tmr0_irq_handler                                 crt0.o
+abort                                             crt0.o
+append_timeout                                    ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+bcb_buff_BUF                                      ../../test/test.o
+bcb_tic_BUF                                       ../../test/test.o
+buff_dummy_clb                                    ../lib//libusmartx.a(cycbuff.o)
+                                                  ../../test/test.o
+dequeue_object                                    ../lib//libusmartx.a(queue.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+dequeue_top_object                                ../lib//libusmartx.a(queue.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+enqueue_bottom_object                             ../lib//libusmartx.a(queue.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+enqueue_middle_object                             ../lib//libusmartx.a(queue.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+enqueue_top_object                                ../lib//libusmartx.a(queue.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+                                                  ../lib//libusmartx.a(usmartx.o)
+exit                                              crt0.o
+g_taskq                                           ../lib//libusmartx.a(usmartx.o)
+g_ticks                                           ../lib//libusmartx.a(usmartx.o)
+g_timerq                                          ../lib//libusmartx.a(usmartx.o)
+get_curr_tsk                                      ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+main                                              ../../test/test.o
+                                                  crt0.o
+mbx_tout_clb                                      ../lib//libusmartx.a(mailbox.o)
+mcb_buff_EVENT_MSG                                ../../test/test.o
+mcb_msg_EVENT_MSG                                 ../../test/test.o
+memcpy                                            /ecos-d/gnuarm/bin/../lib/gcc/arm-elf/3.4.1/../../../../arm-elf/lib/libc.a(memcpy.o)
+                                                  ../lib//libusmartx.a(cycbuff.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+pcurr_ctx                                         ../lib//libusmartx.a(usmartx.o)
+priority_enqueue_tsk                              ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+remove_timeout                                    ../lib//libusmartx.a(usmartx.o)
+                                                  ../lib//libusmartx.a(mailbox.o)
+reset                                             crt0.o
+start                                             crt0.o
+timer_dequeue                                     ../lib//libusmartx.a(usmartx.o)
+timer_enqueue                                     ../lib//libusmartx.a(usmartx.o)
+tsk_delay_clb                                     ../lib//libusmartx.a(usmartx.o)
+tsk_tbl                                           ../../test/test.o
+uSMARTX_Init                                      ../lib//libusmartx.a(usmartx.o)
+                                                  ../../test/test.o
+uSMARTX_Scheduler                                 ../lib//libusmartx.a(usmartx.o)
+                                                  ../../test/test.o
+uSMARTX_Tick                                      ../lib//libusmartx.a(usmartx.o)
+                                                  ../../test/test.o
