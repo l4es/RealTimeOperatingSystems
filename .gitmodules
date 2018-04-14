@@ -55,3 +55,18 @@
 [submodule "Freenivi/meta-freenivi-sdk"]
 	path = Freenivi/meta-freenivi-sdk
 	url = git@github.com:Openwide-Ingenierie/meta-freenivi-sdk.git
+[submodule "scmRTOS"]
+	path = scmRTOS
+	url = git@github.com:scmrtos/scmrtos.git
+[submodule "StateOS"]
+	path = StateOS
+	url = git@github.com:stateos/StateOS.git
+[submodule "IntrOS"]
+	path = IntrOS
+	url = git@github.com:stateos/IntrOS.git
+[submodule "Mark3OS"]
+	path = Mark3OS
+	url = git@github.com:moslevin/Mark3.git
+[submodule "picoOS"]
+	path = picoOS
+	url = git@github.com:AriZuu/picoos.git
