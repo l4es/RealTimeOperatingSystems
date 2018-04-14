@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (C) 2007-2012 by krasnop@bellsouth.net (Alexei Krasnopolski)
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<project name="AO RTOS" default="link" basedir=".">
+
+  <property name="compiler" value="watcom"/>
+  <!--property name="compiler" value="watcom" OR value="gcc"/-->
+  <property file="${basedir}/build-lnx-${compiler}.properties"/>
+  <condition property="switch" value="-i=">
+    <equals arg1="${compiler}" arg2="watcom"/>
+  </condition>
+  <condition property="switch" value="-I ">
+    <equals arg1="${compiler}" arg2="gcc"/>
+  </condition>
+  <property name="includePaths" 
+    value="${switch}${basedir}/Porting/Ix386/pc/Include 
+ ${switch}${basedir}/Application/${appDir}/Include
+ ${switch}${basedir}/HSM/Include 
+ ${switch}${basedir}/FSM/Include
+ ${switch}${basedir}/Kernel/Include"/>
+
+<!-- Creates the floppy included initial loader and AO-RTOS application for Ix386 target (protected 32 bit mode) -->
+  <target name="prepare" depends="init">
+    <echo>OS = ${os.name}</echo>
+    <echo>Building application from path: Application/${appDir}</echo>
+    <mkdir dir="${targetDir}"/>
+    <mkdir dir="${listingDir}"/>
+  </target>
+
+  <target name="init">
+<!-- Creates the time stamp -->
+    <tstamp>
+      <format property="datestamp" pattern="yyyyMMddHHmm" />
+    </tstamp>
+    <delete dir="${targetDir}"/>
+    <delete dir="${listingDir}"/>
+<!--
+    <delete>
+      <fileset dir="${targetDir}">
+        <include name="*.*"/>
+      </fileset>
+    </delete>
+-->
+  </target>
+
+<!-- Creates the floppy included initial loader and AO-RTOS application 
+     for Ix386 target (protected 32 bit mode). 
+     
+     When you write on floppy - make sure you have rights to write 
+     to /dev/fd0. To set proper rights go to /dev/fd0 as 
+     a root user and issue command from terminal:
+     # chmod 660 /dev/fd0
+     
+     If you can not find /dev/fd0 then type command:
+     # modprobe floppy
+     
+     You can put the commands to /etc/rc.local to set up floppy after each OS boot.
+     -->
+
+  <target name="floppy" depends="link">
+    <exec dir="${targetDir}" executable="dd">
+      <arg line="if=LoadBin.bin of=/dev/fd0 bs=512 conv=notrunc"/>
+    </exec>
+    <exec dir="${targetDir}" executable="dd">
+      <arg line="if=application.load of=/dev/fd0 bs=512 seek=36"/>
+    </exec>
+  </target>
+
+<!-- Creates AO RTOS application -->
+	<target name="link" depends="link.gcc, link.watcom" />
+  <target name="link.gcc" depends="compile" if="linker.gcc">
+    <echo>LD builds executable file...</echo>
+    <exec dir="${targetDir}" executable="ld">
+      <arg line="${linker.flags.ld} -o ${targetDir}/application.elf cstart.o pmstarter.o 
+               application.o os_cpu.o pc.o kernel.o hsm.o ${libCpp}/crtbegin.o ${libCpp}/crtend.o"/>
+    </exec>
+    <exec dir="${targetDir}" executable="objcopy">
+    	<arg line="-I elf32-i386 -O binary -S application.elf application.load"/>
+    </exec>
+  </target>
+
+  <target name="link.watcom" depends="compile" if="linker.watcom">
+    <echo>OS = ${os.name}</echo>
+    <echo>WLINK builds executable file...</echo>
+    <exec dir="${targetDir}" executable="wlink" >
+      <arg line="name application.load file 
+        {cstart.obj pmstarter.obj os_cpu.o pc.obj kernel.obj hsm.obj application.obj 
+        	${WATCOM_LIB}/plib3r(stabact.cpp) ${WATCOM_LIB}/plib3r(stabactv.cpp) ${WATCOM_LIB}/plib3r(ctorarst.cpp)} 
+        ${linker.flags.wlink}"/>
+    </exec>
+  </target>
+
+  <target name="compile" depends="prepare">
+    <ant dir="Kernel">
+      <property name="projDir" value="${basedir}"/>
+      <property name="includePaths" value="${includePaths}"/>
+    </ant>
+    
+    <ant dir="HSM">
+      <property name="projDir" value="${basedir}"/>
+      <property name="includePaths" value="${includePaths}"/>
+    </ant>
+    
+    <ant dir="Porting/Ix386">
+      <property name="projDir" value="${basedir}"/>
+      <property name="includePaths" value="${includePaths}"/>
+    </ant>
+    
+    <ant dir="Application">
+      <property name="appDir" value="${appDir}"/>
+      <property name="projDir" value="${basedir}"/>
+      <property name="includePaths" value="${includePaths}"/>
+    </ant>
+  </target>
+    
+</project>

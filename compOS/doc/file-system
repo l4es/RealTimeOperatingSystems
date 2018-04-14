@@ -1,0 +1,33 @@
+My idea for the first COS file system is just to write something really
+simple which can be used for testing.
+
+<START OF DISK>
+Superblock - Specifies disk/partition size, virtual block size
+			and pointer to root directory.
+	
+Block table - Simple bitmap showing which blocks are free/used/bad.
+
+At other locations we will have
+
+Directory block - stores file names, types, sizes and other meta data.
+			In later versions of the file system most of this
+			data will be moved to inodes or the like.
+			Also stores a pointer to a 'file' block for each file.
+
+'File' block - This will just store the addresses of the blocks used
+			to store the file data.
+
+Data block - Self-explanatory.
+
+Notes:
+We use a virtual block size so files can be allocated blocks of a
+different size to the size of disk blocks. All low-level reading and
+writing will still be done in disk blocks but a layer on top of the disk
+driver will hide this from the file-system driver which will be able to
+specify its own block size.
+
+The file type will be stored separately from the file name as a 32-bit
+integer. In later versions a table of file types will also be stored.
+
+No support for device nodes or other weird stuff, nor permissions or
+users YET. Expect these soon after the initial file system has been tested.

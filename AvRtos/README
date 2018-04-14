@@ -1,0 +1,37 @@
+
+AvRtos Version 2.0.3
+
+     - Adding event groups as task synchronization element. 
+
+AvRtos Version 2.0.2
+
+     - Changed name of task creation function
+
+AvRtos Version 2.0.1
+
+     - Adding mutex as task synchronization element.
+     - Now the needed task synchronization objects can be configured by defines
+       in AvRtosConfig.h file.
+
+AvRtos Version 2.0.0
+
+     - Adding support for some ARM platforms
+       Therefore the structure of the source tree was reorganized.
+       Currently ARM7TDMI, ARM-Cortex-M3, ARM-Cortex-M4 will be additionaly supported.
+
+AvRtos Version 1.1.0
+
+     - For a better hardware abstraction all hardware dependent functions and
+       macros was exported to AvRtosHw.c and AvRtosHw.h.
+     - Now all API functions for setting and getting semaphores and queues can
+       be called from interrupt service routines. 
+
+AvRtos Version 1.0.1
+
+     - Changed data type of queue control block to uint8_t for an optimized data access.
+     - Changed code comments for doxygen output.
+     - Fixed some spelling mistakes.       
+
+AvRtos Version 1.0.0
+
+     - Initial revision

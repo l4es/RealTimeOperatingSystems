@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <!--
+     Copyright (C) 2010 by krasnop@bellsouth.net (Alexei Krasnopolski)
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+  -->
+
+<project name="AO RTOS" default="all" basedir=".">
+  
+  <property file="${projDir}/build.properties"/>
+  <property name="pcDir"         value="${basedir}/pc"/>
+
+  <target name="all" depends="pc.gcc, pc.watcom, nasm, wasm" />
+  
+  <target name="pc.gcc" if="compiler.gcc">
+    <echo>GCC compiles PC depended sources for x386 port...</echo>
+    <exec dir="${pcDir}" executable="${compiler.exec}">
+      <arg line="${compile.flags.gcc} pc.cpp ${includePaths} -o ${targetDir}/pc.o"/>
+    </exec>
+    <exec dir="${basedir}" executable="${compiler.exec}">
+      <arg line="${compile.flags.gcc} startup.cpp -o ${targetDir}/cstart.o"/>
+    </exec>
+    <exec dir="${pcDir}" executable="${compiler.exec}">
+      <arg line="${compile.flags.gcc} PMStarter.cpp ${includePaths} -o ${targetDir}/pmstarter.o"/>
+    </exec>
+  	<property name="os_cpu" value="os_cpu_gcc.asm"/>
+  </target>
+
+  <target name="nasm" if="assembler.nasm">
+    <echo>YASM/NASM compiles initial loader for x386 port...</echo>
+    <exec dir="${pcDir}/asm/nasm" executable="${assembler.exec}">
+      <arg line="-o ${targetDir}/LoadBin.bin -l ${listingDir}/InitLoader_LST.txt -f bin -s InitLoader.asm"/>
+    </exec>
+    <echo>YASM/NASM compiles low level modules for x386 port...</echo>
+    <exec dir="${basedir}/asm/nasm" executable="${assembler.exec}">
+      <arg line="-o ${targetDir}/os_cpu.o -l ${listingDir}/os_cpu_LST.txt -f elf -s ${os_cpu}"/>
+    </exec>
+  </target>
+
+  <target name="pc.watcom" if="compiler.watcom">
+    <echo>WATCOM compiles PC depended sources for x386 port...</echo>
+    <exec dir="${pcDir}" executable="${compiler.exec}">
+      <arg line="pc.cpp ${includePaths} -fo=${targetDir}/pc.obj ${compile.flags.watcom}"/>
+    </exec>
+    <exec dir="${basedir}" executable="${compiler.exec}">
+      <arg line="startup.cpp -fo=${targetDir}/cstart.obj ${compile.flags.watcom}"/>
+    </exec>
+    <exec dir="${pcDir}" executable="${compiler.exec}">
+      <arg line="PMStarter.cpp ${includePaths} -fo=${targetDir}/pmstarter.obj ${compile.flags.watcom}"/>
+    </exec>
+  	<property name="os_cpu" value="os_cpu_watcom.asm"/>
+  </target>
+
+  <target name="wasm" if="assembler.wasm">
+    <echo>WASM assembles initial loader for x386 port...</echo>
+    <exec dir="${pcDir}/asm/wasm" executable="${assembler.exec}">
+      <arg line="InitLoader.asm -fo=${targetDir}/LoadBin.obj -3ps -mf"/>
+    </exec>
+    <echo>WASM assembles low level modules for x386 port...</echo>
+    <exec dir="${basedir}/asm/wasm" executable="${assembler.exec}">
+      <arg line="${os_cpu} -fo=${targetDir}/os_cpu.obj -3ps -mf"/>
+    </exec>
+  </target>
+
+</project>

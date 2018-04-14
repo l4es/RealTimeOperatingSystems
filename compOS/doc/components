@@ -1,0 +1,32 @@
+Okay, these are my ideas so far on components and interfaces in COS
+
+Firstly, code will be separated into 2 types of executables/libraries.
+We will have "flat" binaries and "component" binaries, both in ELF format.
+
+Flat binaries are pretty much the usual. Components are what this OS is all
+about. A component has a publicly visible "interface" and its implementation
+is generally hidden from the caller. The interface will be a list of function
+pointers which should *only* be accessed by a system function called something
+like "invoke()". Invoke might call the pointers directly, spawn a new thread
+or process for the call, pass the call to a running instance of the component
+or even send a message over a network to an instance running on a server.
+
+This has all been done/seen before. What I propose is to use these components
+much more widely, including in the kernel. A direct call (synchronous) should
+be very fast, with none of the overhead often associated with component usage.
+
+On top of this, the caller should not have to worry about linkage.
+
+--
+
+Nextly, my ideas on modules. A module is a binary providing one or more
+components. These will be very flexible in that a module can be loaded into
+the kernel or into userspace as needed, either as requested by the caller
+(load into kernel something that can run in userspace in order to speed it up)
+or by a setting in the module file (driver that must run in kernel mode).
+
+--
+
+Another idea is "transition code". This is code that requests a move to kernel
+mode and moves from ring-3 to ring-0 (or equivalent). Once the critical part
+of the code has finished it can be dropped back to ring-3.
