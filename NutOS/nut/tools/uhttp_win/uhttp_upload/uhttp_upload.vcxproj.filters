@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="htdocs">
+      <UniqueIdentifier>{4dd8b18f-f15b-4624-b00b-630a819c0a5b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\app\uhttpd_upload\httpd_upload.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\app\uhttpd_upload\htdocs\index.html">
+      <Filter>htdocs</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,19 @@
+<html>
+<head>
+<title>SSI Samples</title>
+</head>
+<body>
+<table border="1" frame="void" width="640" cellpadding="20">
+  <tr>
+    <!--#include virtual="/menu.inc" -->
+    <td style="vertical-align:top">
+      <h1>Date and time</h1>
+      <table cellspacing="10" width="100%">
+        <tr><td width="50%">DATE_LOCAL</td><td><!--#echo var="DATE_LOCAL" --></td></tr>
+        <tr><td>DATE_GMT</td><td><!--#echo var="DATE_GMT" --></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

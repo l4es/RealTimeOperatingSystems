@@ -1,0 +1,209 @@
+## Upload Configuration for OpenOCD
+## ================================
+## When properly configured, you can conveniently use
+##  make clean all burn
+## to build, upload and run the binary.
+##
+## If your target hardware is supported, you only need
+## to specify the programming adapter. Everything else
+## will be automatically set near the end of this file.
+
+
+## Choose the programming adapter
+## ------------------------------
+## A file with this name and extension .cfg must exist in
+## the OpenOCD interface directory.
+
+## Use this with Turtelizer 2
+# BURNDONGLE = turtelizer2
+
+## Hubert Hoegl's original USB to JTAG
+# BURNDONGLE = openocd-usb
+
+
+## Choose the executable
+## ---------------------
+## Your OpenOCD executable may have a different name.
+BURN=openocd
+
+## Directory containing OpenOCD configuration files.
+BURNCONFDIR=$(top_srcdir)/tools/turtelizer2
+
+
+## Choose the target board
+## -----------------------
+## A file with this name and extension .cfg must exist in
+## the OpenOCD board directory.
+
+# BURNBOARD = myboard
+
+
+## Choose the target CPU
+## ---------------------
+## Typically this is specified in the board configuration.
+
+# BURNTARGET = sam7x256
+
+
+## Choose the command sequence
+## ---------------------------
+##
+
+## Terminates configuration stage. Use with all targets.
+BURNCMDS  = -c init
+
+## Example for an explicit command sequence.
+# BURNCMDS=-c init -c "reset init" -c "load_image $IMGFILE 0" -c "verify_image $IMGFILE 0" -c "resume 0" -c shutdown
+
+## Example for command line chaining.
+# BURNCMDS += -f $(top_srcdir)/tools/flash/flash.script
+# BURNCMDS += -c "reset init"
+# BURNCMDS += -c "halt"
+# BURNCMDS += -c "arm7_9 dcc_downloads enable"
+# BURNCMDS += -c "flash write_image erase $(ITARG) 0x00100000 bin"
+# BURNCMDS += -c "reset run"
+# BURNCMDS += -f $(top_srcdir)/tools/flash/flash-exit.script
+
+
+## Try to determine everything automatically
+## -----------------------------------------
+##
+ifeq ($(PLATFORM), AT91SAM7X_EK)
+BURNBOARD = at91sam7x-ek
+BURNCMDS += -c "reset halt"
+BURNCMDS += -c "flash write_image erase $(ITARG) 0x100000 bin"
+# BURNCMDS += -c "verify_image $(ITARG) 0x100000 bin"
+BURNCMDS += -c "at91sam7 gpnvm 2 set"
+BURNCMDS += -c "reset"
+endif
+
+ifeq ($(PLATFORM), AT91SAM9260_EK)
+BURNBOARD = atmel_at91sam9260-ek
+BURNCMDS += -c "reset init"
+BURNCMDS += -c "load_image $(ITARG) 0x20000000"
+BURNCMDS += -c "verify_image $(ITARG) 0x20000000"
+BURNCMDS += -c "resume 0x20000000"
+endif
+
+ifeq ($(PLATFORM), ELEKTOR_IR1)
+BURNBOARD = eir
+# Initialize clocks and SDRAM.
+BURNCMDS += -c "reset init"
+ifeq ($(LDNAME), at91sam7se512_xram)
+# Load image into external SDRAM.
+BURNCMDS += -c "load_image $(ITARG) 0x20000000"
+# Verify image in external SDRAM.
+BURNCMDS += -c "verify_image $(ITARG) 0x20000000"
+# Start image in external SDRAM.
+BURNCMDS += -c "resume 0x20000000"
+endif
+ifeq ($(LDNAME), at91sam7se512_rom)
+BURNCMDS += -c "flash write_image erase $(ITARG) 0x100000 bin"
+BURNCMDS += -c "verify_image $(ITARG) 0x100000 bin"
+BURNCMDS += -c "at91sam7 gpnvm 2 set"
+BURNCMDS += -c "reset run"
+endif
+endif
+
+ifeq ($(PLATFORM), ETHERNUT3)
+BURNBOARD = ethernut3
+# Enable chip selects and remap memory.
+BURNCMDS += -c "reset init"
+ifeq ($(LDNAME), at91x40_rom)
+# Write to external NOR flash.
+BURNCMDS += -c "flash write_image erase $(ITARG) 0x10000000 bin"
+BURNCMDS += -c "verify_image $(ITARG) 0x10000000 bin"
+BURNCMDS += -c "reset run"
+else
+# Write to internal SRAM.
+BURNCMDS += -c "arm core_state arm"
+BURNCMDS += -c "load_image $(ITARG) 0"
+BURNCMDS += -c "verify_image $(ITARG) 0"
+BURNCMDS += -c "resume 0"
+endif
+endif
+
+ifeq ($(PLATFORM), ETHERNUT5)
+BURNBOARD = ethernut5
+# Initialize clocks and SDRAM.
+BURNCMDS += -c "reset init"
+ifeq ($(LDNAME), at91sam9xe512_ram)
+# Load image into external SDRAM.
+BURNCMDS += -c "load_image $(ITARG) 0x20000000"
+BURNCMDS += -c "verify_image $(ITARG) 0x20000000"
+BURNCMDS += -c "resume 0x20000000"
+endif
+# Programming AT91SAM9XE internal flash is not supported by OpenOCD.
+ifeq ($(LDNAME), at91sam9xe512_iram)
+# Load image into internal SRAM.
+BURNCMDS += -c "mww 0xFFFFEF00 0x00000003"
+BURNCMDS += -c "load_image $(ITARG) 0x00000000"
+BURNCMDS += -c "verify_image $(ITARG) 0x00000000"
+BURNCMDS += -c "resume 0x00000000"
+endif
+endif
+
+ifeq ($(PLATFORM), AT91SAM9G45_EK)
+BURNBOARD = at91sam9g45-ek
+BURNCMDS += -c "reset init"
+# Load image into external SDRAM.
+BURNCMDS += -c "load_image $(ITARG) 0x00300000"
+BURNCMDS += -c "verify_image $(ITARG) 0x00300000"
+BURNCMDS += -c "resume 0x00300000"
+endif
+
+ifeq ($(PLATFORM), AT91SAM9M10_EK)
+BURNBOARD = at91sam9m10-ek
+BURNCMDS += -c "reset init"
+# Load image into external SDRAM.
+BURNCMDS += -c "load_image $(ITARG) 0x20000000"
+BURNCMDS += -c "verify_image $(ITARG) 0x20000000"
+BURNCMDS += -c "resume 0x20000000"
+endif
+
+ifeq ($(PLATFORM), FLECX1)
+BURNBOARD = flecx
+# It is not fully clear how to program the LPC1768 flash.
+# The following sequence was found by trial and error.
+BURNCMDS += -c "reset init"
+BURNCMDS += -c halt
+BURNCMDS += -c wait_halt
+BURNCMDS += -c "flash write_image erase $(ITARG) 0 bin"
+# BURNCMDS += -c "verify_image $(ITARG) 0 bin"
+BURNCMDS += -c halt
+BURNCMDS += -c wait_halt
+BURNCMDS += -c "reset run"
+endif
+
+ifeq ($(PLATFORM), SAM7ETH)
+BURNBOARD = sam7eth
+BURNCMDS += -c "reset halt"
+BURNCMDS += -c "flash write_image erase $(ITARG) 0x100000 bin"
+BURNCMDS += -c reset
+endif
+
+## Terminate OpenOCD. Use with all targets.
+BURNCMDS += -c shutdown
+
+
+# No change required
+# ------------------
+# Anything below this line will typically work out of the box.
+#
+ifndef BURNDONGLE
+# Force the user to specify a valid dongle.
+BURN      = 
+BURNFLAGS = @echo Cannot burn, please edit nut/app/Makeburn.arm-ocd
+else
+BURNCONFIG += -c "source [find interface/$(BURNDONGLE).cfg]"
+endif
+ifneq ($(BURNBOARD),)
+BURNCONFIG += -c "source [find board/$(BURNBOARD).cfg]"
+endif
+ifneq ($(BURNTARGET),)
+BURNCONFIG += -c "source [find target/$(BURNTARGET).cfg]"
+endif
+
+ifndef BURNFLAGS
+BURNFLAGS = -s $(BURNCONFDIR) $(BURNCONFIG) $(BURNCMDS)
+endif

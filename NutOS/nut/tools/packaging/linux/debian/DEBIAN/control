@@ -1,0 +1,8 @@
+Package: ethernut
+Version: 5.0.5-1
+Architecture: i386
+Maintainer: egnite GmbH <info@egnite.de>
+Section: otherosfs
+Priority: optional
+Description: Ethernut Open Source software and hardware project
+

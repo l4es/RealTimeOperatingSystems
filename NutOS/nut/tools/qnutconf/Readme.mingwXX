@@ -1,0 +1,9 @@
+OpenSuse Leap 42.3
+mingwXX-libqt5-qtbase
+mingwXX-libqt5-qtbase-devel
+mingwXX-angleproject
+mingwXX-angleproject-devel
+
+OpenSuse Leap 42.2
+mingwXX-libqt5-qtbase
+mingw32-cross-libqt5-qmake

@@ -1,0 +1,1537 @@
+Below a list of major changes, additions, improvements is listed. Starting with 
+the switch from CVS to SVN, where the old Changelog ended (09.03.2009)
+
+The list is far from complete as most smaller changes, especially to the build 
+system as well as lots of small fixes to make broken code compile again and to 
+supress compiler warnings are not listed. Also documentation changes etc. are 
+not listed here.
+
+This change summary can not get you rid of looking into the sources if you are 
+in doubt and want to understand what in detail was changed.
+
+Every Release since 4.9.1 is listed below and the changes are classified into 
+"Added", "Changed" and "Fixed" where "Changed" means general changes and improvements,
+"Added" means newly added code or functionaliry and "Fixed" means bugfixes on
+existing code.
+
+Each line shows the revision number of the change in the first column. Very 
+important changes are marked with an exclamation mark. Most changes are classified
+with a short hint of the affected subsystem in fron of the changelog entry.
+ 
+
+
+
+
+Please update later:
+Ethernut Version x.x.x    Released xx.xx.xxxx
+=============================================
+
+Added:
+
+! r4356: TCP / UDP Sockets: Implemented local port randomisation for 
+         UDP and TCP sockets according to our latest discussion on the mailing 
+         list.
+         Each time a new socket is created the local port number in incremented 
+         by a more or less randomized value between 1 and 15 (the lowest 4 bit 
+         of NutGetMillis() | 1). The highest two bits are always set to 1.
+         This way a port range of 49152 to 65535 is used according to the IANA 
+         suggestions for ephemeral port usage.
+         From the security point of view this kind of local port randomisation 
+         still gives verry predictable results, but it is still better than just 
+         incrementing and should help us to avoid problems as described in 
+         http://lists.egnite.de/pipermail/en-nut-discussion/2005-November/005290.html
+
+- r4360: STM32 CAN: Define a NUTCANBUS CAN bus handling approach and implement for 
+         STM3
+
+- r4363 : LPC176x / LPC177x_8x GPIO: Added GPIO interrupt support for both: 
+          lpc176x and lpc177x_8x CPUs
+          Only Port0 and Port2 pins can generate interrupts.
+          Unlike the AT91 GPIO implementation the LPCs support configuring the 
+          I/O pins to generate IRQs on rising edge, falling edge or both edges.
+
+          So a new function "GpioIrqSetMode()" was added, which accepts one of 
+          the following modes:
+
+          - NUT_IRQMODE_RISINGEDGE
+          - NUT_IRQMODE_FALLINGEDGE
+          - NUT_IRQMODE_BOTHEDGE
+          - NUT_IRQMODE_NONE
+
+- r4366: CM3: Use the cycle counter for MicroDelay()
+
+- r4368: LPC176x / LPC177x_8x GPIO: Added GpioIrqStatus() to query if the IRQ 
+         is enabled or not
+
+- r4374: One-Wire-Bus: Define a One-Wire Bus interface and implement via 
+         Bitbang and (special connected) uart
+
+- r4375: Sample applications: Add missing owibus example Makefile, clean up 
+         hard codes values from the example and report bad setup
+
+
+Changes:
+
+- r4353: Nutconf improvements: Fix nutconf GTK tree alignment problem
+
+- r4354: STM32: Clarify STM32F1 APB1 clock setting
+
+- r4355: STM32 GPIO: Make medium speed the default
+
+- r4365: STM32 CAN: Adapt the setting for newer devices
+
+- r4371: CM3: CM3: Check in a recent core_cm3.h from 
+         http://mbed.org/projects/libraries/svn/mbed/trunk that provides 
+         DWT related symbols
+
+- r4376: CM4: Add V3.01 core_cm4.h containing DWT defines and associated 
+         file from http://rt-thread.googlecode.com/svn/trunk/
+
+- r4383: CM3 NutMicroDelay(): Clean room implementation of Uwes Microseconds 
+         delay function for Cortex CPUs, as the initial implementation was 
+         derived from GPLed code.
+
+- r4389 - r4392 Crurom: Several improvements:
+         Avoid trailing comma in data array. Taken from TLS trunk.
+         Reduce size and enhance readability of crurom output.
+         Replace crurom error numbers with standard error messages.
+
+Fixes:
+
+- r4370: LPC176x / LPC177x_8x GPIO: Clear pending GPIO IRQs when registering 
+         the irq handler Fixed bug when setting GPIO IRQ Mode to 
+         NUT_IRQMODE_NONE
+
+- r4378: uHTTPD: Fix uHTTP mediatype for JavaScript.
+
+- r4382: Lisa Board: Replaced NutDelay() by an own delay loop, as NutDelay()s 
+         timebase is not yet initialised. This could result in endless delay 
+         loops.
+
+
+
+
+
+Ethernut Version 5.0.5    Released 2012-07-07
+=============================================
+
+Added:
+
+- r4216: LPC17xx Debug: Re-implement the LPC debug driver. Previously this 
+         had been locally hacked into the FLECX board support.
+         This driver was replaced later 
+
+- r4248: Lisa Board: Added LISA board support
+
+- r4265: PHY: Added support for LAN8720A PHY rev. 1
+
+- r4272: STM32 USART: Enable Uart5 for STM32F4
+
+- r4283: LPC17xx Debug UART: Implemented common debug uart driver for lpc17xx 
+         and CPU specific driver stubs for lpc177x_8x (uart0 - uart3)
+
+- r4291: LPC17xx Debug UART: Added devDebug2 and devDebug3 for LPC17xx CPUs
+
+- r4292: LPC17xx EMAC: Added lpc17xx Ethernet driver.
+
+- r4296  LPC17xx EMAC: Some fixes.
+         Now the emac driver works in most cases. There are still some issues 
+         with packets beeing send out which carry the wrong CRC
+         (later turned out to be an alignment problem with the IP checksum 
+         calculation)
+         All other problems turned out to be a compiler problem or compiler bug
+         with my arm-eCross-eabi toolchain (GCC 4.5.2) with optimisation level
+        -Os
+
+- r4297: Sample application: uHTTPD Ajax: Add sample to demonstrate Ajax.
+
+- r4307: Sample application pingnet: 
+         The new application sample pingnet to demonstrate IP protocol 
+         extensions. The program will regularly send echo requests to all nodes
+         in a local network and print out any status change on the serial port.
+
+- r4319: AVR Debug UART: Add read capability to AVR debug device.
+
+- r4339: STM32 DMA: Start STM32 F2/F4 DMA work, tested with USART6
+
+
+Changes:
+
+- r4199: AVR Nutinit: For AVR, the idle routine containd a possibility to 
+         toggle a PORT pin with each entry of the idle routine. This doesn't 
+         allow to see how long the CPU is idle. Export IDLE_HEARTBEAT_XXX 
+         configuration values to allow usage in a board .conf file and toggles 
+         the port pin on entry and exit of the idle function.
+
+- r4211: AVR32 SPI Bus: AVR32 make SPIBUS0 & SPIBUS1 8- & 16-bit transfer and 
+         read
+
+- r4212: FLECX1 board: Remove debug device hack for FLECX1 board.
+
+- r4219: CM3 Nutinit: Implement Idle Heartbeat Indication for CM3
+
+- r4222: STM32 USART: Allow to invert the RS485 signals on STM32
+
+- r4223: STM32 USART: Evaluate Oversampling when reading baudrate
+
+- r4225: STM32 USART: Use bit-banding access, where sensible
+
+- r4242: STM32 DMA: STM32L1 DMA is (nearly) same as STM32F1 DMA. Enable for 
+         STM32L1
+
+- r4247: STM32 USART: Call DMA_Init when needed and don't send DMA block twice
+
+- r4250 - 4254: Merged several patches from nut-4_10-branch:
+         Fix alignment warning when compiling with GCC 4.7 in gorp/hashes/md5.        
+         Enable ADC functions for SAM7S, SAM7SE and SAM9.
+         Add PDC definitions for AT91 ADC.         
+         Use periodic interval timer as system timer on Ethernut 5. Enable 
+         PIT section in the Configurator and fix a fatal typo in the SAM9XE 
+         header file. Add missing timer/counter definitions for AT91SAM9XE and 
+         TC register offsets.
+
+- r4282: LPC17xx USART: Code cleanup for LPC17xx USART driver
+         Move function prototypes from header to c files. The header will also
+         be used by the debug uart driver
+
+         Don't use CM3REG macro any longer and replaced it with the common 
+         pointer style register access
+
+- r4299: LPC17xx EMAC: Increased ethernet rx and tx buffers,
+         Removed debug code
+
+- r4300: LPC17xx EMAC: Reduced RX thread size again to 512 byte
+
+- r4314: LPC17xx EMAC: Removed dead code, replaced some NutDelay by NutSleep
+         Fixed NutRegisterPhy to also return 0 if the PHY was just registered
+         before
+
+- r4317: Qnutconf: Several improvements. See SVN Changelog for details
+
+- r4320: ARM Linker scripts, SSC SPI: Implement more specific memory sections 
+         to allow placing code and data in internal or external RAM.
+         Required to place PDC buffers in internal RAM. Currently tested with 
+         SSC based SPI bus driver on AT91SAM7SE512 with code running in flash.
+
+- r4342 - r4345: Nutconf: Several improvements. See SVN changelog for details
+
+- r4347: STM32 GPIO: Rewrite STM32F2 gpio register access for shorter compiler 
+         code
+
+- r4349: STM32 GPIO: Handle the speed setting for STM32 GPIO
+
+Fixed:
+
+- r4200: VLSI Codec: Due to a few typos in vs10xx.c the compilation fails 
+         under some specific configuration.
+
+         I set up a configuration file for my Ethernut2.1b/MediaNut 1.1 
+         hardware. Compiling the build tree failed with that configuration.
+
+         1. These typos in vs10xx.c are obvious because the macro names 
+         from the configuration file (dev.nut) do not match the #defines in 
+         the code.
+         2. The last compilation error is triggered by a typo for a function 
+         call (xVsRegWrite instead of VsRegWrite).
+
+- r4203: AT25DF: Apply patch #3532471.
+         As of r4195, at25df.c doesn't build when __HARVARD_ARCH__ is defined 
+         as an implementation of SpiAt25PageWrite_P() is missing. This patch 
+         fixes this by adding a stub as it's f.e. done in spi_blkio_at45d.c.
+
+- r4204: AVR AHDLC: Apply patch #3532478.
+         This patch fixes some bugs and a limit hit when using the AVR AHDLC 
+         for "real" HDLC, at least the bug fixes should also apply when using 
+         it together with PPP though:
+
+         - When allocating the RX buffer and checking the RX count account for 
+           the fact that we also receive and place up to two FLAGs there.
+         - According to ISO/IEC 13239:2002 4.6.1, the minimum valid "payload" 
+           size is 2 bytes (i.e. 32 bits between FLAGs) when using the 16-bit 
+           FCS. Even when using a RFC 1662 PPP header instead of an HDLC one, 
+           the minimum valid "payload" size is 3 bytes.
+         - Don't hardcode the MRUs but instead base it on the MTU of the link driver.
+
+- r4205: AVR AHDLC: Apply patch #3532479.
+         As of r4195, the prototypes in ahdlcavr.h are out of sync with 
+         ahdlcavr.c. This patch removes stray ones and fixes the one for 
+         AhdlcOutput().
+
+! r4206: IP Protocol: Discard broadcasts to other networks and remove 
+         NUTIPCONF_ICMP_ARPMETHOD. The former fixes bug #3511170.
+
+- r4207: Nutdisc: Fix link error of nutdisc with wxWidgets 2.9.
+
+- r4217: ARM: Fix memory access functions with barriers. When writing, the 
+         barrier should come first to make sure, that all previous statements 
+         had been executed before write access.
+
+- r4220: AVR Nutinit: In avr nutinit, rename the heartbeat variable to play 
+         with the configurator settings
+
+- r4270: STM32 USART: STM32 Usart6 is on same clock as Usart1
+
+- r4275: STM32 USART: Correct Uart4/5 Pin (re)Mapping)
+
+! r4298: IP Protocol: defined NUT_LEGACY_IPCSUM as new IP checksum calculation 
+         seem to be broken for certain situations.
+         I'm currently testing on Cortex M3 (lpc177x_8x) where the checksum is 
+         wrong in some situations. Might again be an alignment problem?
+         For the meantime we should use the old algorithm again.
+
+- r4301: CM3: Changed NUTMEM_ALIGNMENT to 4 for Cortex CPUs as discussed today
+
+- r4315: LPC17xx EMAC: Fixed reset procedure when the emac is in insane state
+
+- r4318: SPI MMC: Fix a bug which leaves MMC write incomplete. File system may 
+         become corrupted when card is removed after a last write. In SPI mode 
+         an additional 8 clocks are required after transactions.
+
+- r4335: USART Devices: If modesetting fails, keep the old dcb_modeflags value
+
+! r4346: IP Protocol: Fixed a bug with DHCP which was introduced with r4206. 
+         Some DHCP servers answer with a unicast DHCP_OFFER which was not 
+         recognised with the old code.
+         The implementation of NutIpInput() discarded unicast packets as long 
+         as the local interface was not yet configured.
+         According to RFC1542, chapter 3.1.1 DHCP implementations should allow
+         getting unicast DHCP_OFFERs.
+         So I modified NutIpInput() to allow receiving unicast packets even if 
+         the local interface is not yet configured.
+
+
+
+
+
+
+Ethernut Version 5.0.4    Released 2012-02-21
+=============================================
+
+Added:
+
+- r3897: Linux Packaging: Add Debian package control file and desktop entries.
+
+- r4036: AVR32: Add experimental UC3L family support.
+
+!! r4163: (Re)integrated Cortex M3 port from branches/dev_cm3_integration, 
+         the integration branch for branches/devnut_m3n
+
+         Beside the Cortex M3 implementations this branch included several severe 
+         changes to different peripherals. Which are listed below:
+
+         - Introduced generalised PHY api which is now used by most ethernet 
+           drivers
+
+         - Introduced TWI Bus API, which is not used by most TWI clients. The new 
+           TWI Bus api is still compatible to the old style API as old API is 
+           implemented by macro substitution with default TWI Bus.
+           This affects all architectures
+
+         - RTC: Changed RTC API, RTC struct is now given to all routines. 
+           Should not change the users API
+
+         See the SVN log from branches/dev_cm3_integration and branches/devnut_m3n 
+         to get a full list of changes and to see the development history of the
+         Cortex M3 port
+
+- r4184: Added memory test library
+
+
+Changes:
+
+- r3991: AT91 MCI: Make slot A or B on AT91 MCI configurable.
+
+! r3997: IP Protocol: Make new attempt to optimize TCP checksum calculation for 
+         32-bit CPUs.
+
+- r4027: AT91 SSC SPI: Significantly enhance SPI over SSC driver for the AT91 
+         platform:
+         Configurable rate and word size, use PDC mode for transfers.
+         Fix early transmit termination bug.
+
+! r4028: Networking / Buffers: Significantly increase network transfer rate for 
+         32-bit systems by adding 2 dummy bytes in front of the NETBUF.
+         Because of the 14 byte Ethernet header in front, the 2 extra bytes will 
+         now keep the IP packet 32-bit aligned.
+         Without alignment, mainly the memcpy function was very slow.
+
+! r4029: PHAT FS / MMC: Significantly improve MMC/SD-Card driver and PHAT file 
+         system. Write performance had been increased by implementing 
+         multisector writes.
+         Reduced FAT32 mounting time, using the code that was posted by 
+         Malte Marwedel in the mailing list in Jan. 2010.
+         Additional locking seems to fix sporadic file system corruption.
+         Removed Ole's dummy buffer hack for the EIR board. In a new approach 
+         we will try to set the MOSI line high during block reads, so we can 
+         remove the dummy buffer for all platforms.
+
+- r4042: Build environment: Added automake support for qnutdisc
+
+- r4053: Ethernut 5: Enable Ethernut 5 data cache, using extendable runtime 
+         initialization.
+
+- r4195: Sample application: Move hardware specific nutpiper application 
+         from directory app to hwtest
+
+
+
+Fixed:
+
+- r3898: EIR board: Fix unreliable reset of the NIC on the EIR board during 
+         power-up. This fixes sporadic failures in the Ethernet driver 
+         registration.
+
+- r4054: DM9000: Fixed initialisation: Wait until MAC address has been set in 
+         DM9000 driver. Do not wait for 10ms only.
+
+- r4057: uHTTPD: Fix memory hole in basic auth module.
+
+- r4157: TCP/IP Statemachine, DHCP: Increased stack sizes for AVR32
+
+- r4192: ksk_lpc1788_sk SDRAM: Fixed I/O pin configuration of SDRAM lines
+
+- r4193: CM3 LPC177x_8x EMC: correctly and automatically calculate bit shifting
+         of sdram mode register adresses for different sdram sizes and memory 
+         mapping modes
+
+
+- r4196: CM3 LPC177x_8x GPIO: Fixed GPIO pin config / port config
+         Port P0-7 .. P0-9 pins (W-Mode pins) are a little bit special and need 
+         bit 7 always be set for normal operation
+         Fixed bug in mask handling of GPIO Port Config
+
+- r4197: AT91 TWI: Fix RTC hangup on AT91SAM9XE CPU.
+
+
+
+
+
+
+Ethernut Version 5.0.3    Released 2012-02-21
+=============================================
+
+Added:
+
+- r3883: UHTTPD: Add new, portable uHTTP (micro-HTTP) library. Currently 
+         works on Nut/OS (GCC) and Windows (MSC).
+
+- r3884: AT91 SSC SPI: Add interrupt handler to SSC-SPI driver. PDC implemented
+         too, but we experienced problems here and disabled it (in an ugly way, 
+         len > 9999).
+
+- r3885: VLSI Codec: Add support for VS1063 audio codec.
+
+- r3886: FS on AT45: Add basic block I/O driver for AT45 dataflash. Now 
+         multiple filesystems are possible on a single device. Tested with 
+         uFlash and raw filesystem.
+
+- r3889: Add support for SAM7ETH module.
+
+
+Changes:
+
+- r3893: DM9000 / DHCP: Start the network driver even if no valid MAC address 
+         had been configured.
+
+
+Fixed:
+
+- r3881: SMTP: Fix SMTP Bug, 
+         see http://lists.egnite.de/pipermail/en-nut-discussion/2011-December/013250.html
+
+- r3887: AT91 SMSC PHY: Fix bug in AT91 SMSC PHY mode page size.
+
+
+
+
+
+
+Ethernut Version 5.0.2    Released 2012-02-14
+=============================================
+
+Added:
+
+- r3860: Board init: Add missing AVR board initializations.
+
+Changes:
+
+- r3820: Nutconf: Replace hand-crafted tree control by new wxWidgets' 
+         standard dataview. Most functions seem to work on Windows. On Linux 
+         it compiles fine, but the tree doesn't propagate any events. Probably
+         we have a large number of memory holes too. All this and more should 
+         be fixed later. At least we have a version without crashes and compile
+         errors, which works with the latest wxWidgets version 3.9.3.
+
+- r3841: Build environment: Modified Build environment to use Autotools for 
+         Nut/OS tool building:
+
+
+Fixed:
+
+- r3864: Installer: Update NSIS installation to reflect new tool source 
+         structure.
+
+
+
+
+
+
+Ethernut Version 5.0.1    Released 2012-01-24
+=============================================
+
+Added:
+
+- r3583: Makefiles / ARM: Add Makefiles for generating thumb code.
+
+- r3587: AT91 DBGU: Added input capability for AT91 debug device 
+         and specify DEV_CONSOLE default for console device with input.
+
+- r3589: Sample applications: Add simplified HTTP sample.
+
+- r3618: OS / Porting: Add imaginary 'Zero' CPU and 'Zero-EK' board as a 
+         template for porting Nut/OS to different platforms.
+
+- r3656: FLEXC board / LPC CM3: Add basic support for FLECX board, based 
+         on LPC1758 Cortex-M3 CPU. Note, that this early release support 
+         no other devices than DEV_DEBUG.
+
+- r3665: qnutdisc: Added Qt based nutdisc tool.
+
+- r3668: AT91 SSC SPI: Add new SPI bus driver for AT91SAM7SE, which uses 
+         SSC hardware.
+
+- r3695: SHT21 / MMC745x: Added driver for Sensirion SHT21 temperature and 
+         humidity sensor. Added driver for Freescale MMC745x velocity sensor 
+         series.
+
+
+Changes:
+
+- r3586: Nut Discoverer: Update Nut Discoverer to version 3, which 
+         mainly fixes broadcast problems on hosts with multiple Ethernet 
+         interfaces.
+
+- r3597: Sample applications: Move hardware-specific samples to a new 
+         directory hwtest. The Configurator shall later pick the right 
+         apps for the right platform.
+
+- r3633: Compiler / Makefiles: Update all remaining ARM board configuration 
+         files for the latest toolchain. Switches from arm-elf to 
+         arm-none-eabi and enables POSIX style unsetenv().
+
+- r3634: DM9000 EIR: Replace architecture dependant Ethernet driver by 
+         independant one for Elektor Internet Radio.
+          
+- r3635: DM9000 EIR: Move Elektor Internet Radio specific initialization 
+         to new NutBoardInit module.
+
+- r3636: DM9000 EIR: Move Ethernut 3 NIC definitions to board specific header 
+         file.
+
+! r3639: DM9000: Apply Michael Fischer's multicast extension to platform 
+         independent DM9000 driver
+
+- r3669: VLSI Codec: Add optimized audio codec read function and a new audio 
+         ioctl to write to controller memory.
+
+! r3679: IP Protocol: Replace IP checksum calculation with cleaner code, 
+         following RFC 1071.
+
+! r3680: TCP/IP Sockets: Make the code working in the way the comment explains 
+         it. It will now always send out maximum sized segments until a flush 
+         occurs. This may decrease performance in some situations. IMHO, the 
+         code should first work as intended before optimizing it further.
+
+- r3683: Copyright notices: Unify copyright notices in the network code, taking
+         into account, that DEC's copyright fits with BSDL and that all 
+         relevant Liqourice code had been already replaced in the past.
+
+
+Fixed:
+
+- r3595: AT45DB: Fix problem with AT45DB serial Flash detection. Several 
+         boards failed to configure the network device, because the 
+         configuration couldn't be read reliable from the DataFlash. Tested 
+         on AT91SAM9260-EK.
+
+- r3601: AT91 MCI: Fix and enhance AT91 MCI driver. Use open drain for MMC 
+         only. Calculate proper transfer rate. Fix error handling. Add 1ms 
+         delays in discovery loops.
+         Add workaround for AT91SAM9260-EK, where R42 connects SPI and MCI 
+         clocks. Configure MCI0_PIN_SHARING and SPIBUS0_PIN_SHARING for this 
+         board.
+
+- r3602: ARM Boards / EMAC: Restore initial configuration of the reset 
+         controller after Morphoq and SAM9260-EK board initialization.
+
+- r3607: AT91 SPI: Make sure that SPI chip select line is set to GPIO. 
+         Code taken from AVR32 driver. Fixes Ethernut 5 configuration 
+         problem when started from U-Boot.
+
+- r3621: AVR32 IRQ handling: Use better macro to detect if the External 
+         Interrupt Controller has a specific IRQ line
+
+- r3632: AT91 Linker scripts: Add new linker scripts and runtime initialization
+         to support code loaded into external RAM of the AT91SAM7SE32/256/512. 
+         The previous solution supported the AT91SAM7SE512 only and failed to 
+         created usable pure binary images. It has been marked deprecated and 
+         should be removed later.
+
+! r3637: DHCP: Increase DHCP thread stack from 384 to 512 bytes. Fixes stack 
+         overflow on EIR board.
+         Set same stack size for the platform independent DM9000 driver that 
+         had been used in the platform dependent one.
+
+- r3687: Register access macros: Replace last usage of outp() and inp() with 
+         outb() and inb() resp. outp() and inp() are no longer supported.
+
+! r3782: IP Protocol: IP checksum modification of r3679 patch looks nice, 
+         but may introduce alignment problems. Go back to original algorithm.
+
+
+
+
+
+
+Start developing next major release 5     Released 2011-06-29
+=============================================================
+
+Added:
+
+- r3249: AT91 SPI_MMC: Add support for AT91SAM7S and SE whole family, not just 
+         S256 and SE512
+
+- r3252: Xloader7: Added Xloader 7: This is my bootloader to use with AT91SAM7S 
+         series. Using DBGU, UART0 or UART1 you can upload code using XMODEM-CRC, 
+         XMODEM-1k or YMODEM. Bootloader use 2048 bytes.
+         In Nutconf Tool->GCC setting->Linker script use at91sam7s64_bootrom or
+         at91sam7s256_bootrom to produce compatible code with this bootloader.
+
+- r3259: AT91 PWMC: Added PWMC interrupt handler for AT91SAM7S and SE
+
+- r3260: AT91 WDT: Added API watchdog support for AT91SAM7S, SE and X. 
+         Enable watchdog in NutConf with value=0 to leave watchdog untouched. 
+         You can use NutWatchDogStart() to configure it and 
+         NutWatchDogRestart() to reset. By default (unconfigured) the watchdog 
+         time-out occur after 16 second.
+
+- r3264: HTTPD: Add mime type image/bmp
+
+- r3301: Toolchains / Makefiles: Added Makedefs, Makerules, Makevars for 
+         arm-eCross-eabi toolchain
+
+- r3305: Added support for eNet-sam7X. Fixed compile warning for not supported 
+         boards
+
+- r3314: Added eNet-sam7X.conf, Added Makefiles for arm-eCross-gcc(dbg)
+
+- r3363: HTTPD: Add mime type for svg
+
+- r3377: AT91SAM9 DBGU: Add Dbgu support
+
+- r3381: AT91 MC: Add second flash bank definitions for AT91 memory controller.
+
+- r3408: eNet-sam7X Board: Added network and rtc support for eNet-sam7X board
+
+- r3414: Sample Applications: Added new application sample to manually edit 
+         the network configuration.
+
+- r3417: AT91SAM9G45 TWI: Add missing TWI pin definitions for AT91SAM9G45.
+
+- r3430: AT91SAM7X-EK: Add board specific initialization for AT91SAM7X-EK.
+
+! r3444: IP Protocol: Add multicast support. 
+
+- r3447: SPI Bus MMC driver: Added SPI bus MMC driver glue logic code with 
+         GPIO based card detect and write protect 
+
+! r3448: IP Protocol / IGMP: Added more multicast and igmp support.
+
+- r3452: XML Parser: Support self closing tags in XML parser.
+
+- r3461: HTTP UPNP: Added very simple httpd example with DHCP and UPnP support.
+
+- r3463: eNet-sam7X MMC: Added MMC support for eNet-sam7X
+
+- r3477: eNet-sam7X: Added board init file
+
+- r3479: Bootloader: Added bootloader support for the AT91SAM7X256 and 
+         AT91SAM7X512 CPUs. The bootloader should occupy the first three 
+         flash sectors (48K), Application code is linked to an offset of 
+         0x0000C000 
+
+- r3481: Bootloader: Added simple TFTP bootloader for AT91SAM7X platform. 
+         This bootloader is implemented as Nut/OS application
+         Tested on 
+           - eNet-sam7x
+           - olimex sam7-ex256
+           - Atmel at91sam7x-ek
+
+- r3482: LANC111: Added multicast support.
+         But in the moment only the "add" functionality is supported, "del" comes 
+         later. 
+
+         Hack alert, I could not found a working algorithm to determine the 
+         correct bit in the muticast table. Therefore all bits was set.
+
+- r3487: HTTPD: Added GZIP support. The new functionality can be enabled
+         by setting the define HTTPD_SUPPORT_GZIP to 1. Files must be stored 
+         gzipped
+
+
+Changes:
+
+! r3261: ARM / Makefiles: EABI binary support.
+
+         Use NutConf in Tool->GCC binary format to choose between old arm-elf-gcc 
+         or arm-none-eabi-gcc. Tested with Code Sourcery and WinARM. Tested also 
+         AVR compiling to make sure all is OK.
+
+- r3295: AT91 SPI: Enabled PDC mode for SPI on AT91 platform 
+
+- r3296: AT91 SPI: Removed warning for double buffered PDC transfers on AT91 
+         plattform. Tested on eNet-sam7X device
+
+- r3298: AT91 ADC: Do not use modulo operation in ring-buffer, instead use 
+         binary &. Increases performance by cost of flexebility of buffersize. 
+         Buffersize must be a power of 2
+
+         Fix data types (use stdint data types)
+
+         Modified ADCEnableChannel(). Only enable end of conversion interrupt 
+         for the highest numbered enabled channel. ==> We just get one 
+         interrupt if the whole conversione complete. Modified ADCInterrupt 
+         accordingly
+          
+         Fixed channel disabling
+
+! r3326: SPI MMC: Defined globel dummy_tx_buffer that is set to 0xFF once at 
+         SpiMmcInit(). This buffer is read only, but may not declared "const" 
+         as it has to always stay in ram to allow usage of DMA transfers.
+
+- r3327: AT91 SPIbus: Added option to heuristicaly use polling mode instead 
+         of PDC mode for short SPI transfers on AT91 platform 
+         (currently less than 4 bytes if enabled) 
+
+- rxxxx: Qnutconf: Several enhancements and fixes.
+
+- r3346: PPP Client Demo: Almost complete new version of the PPP sample uses 
+         a real Internet provider via GPRS and runs on Ethernet for targets 
+         without PPP support.
+
+- r3347: PPP Client Demo: Enable AHDLC in pppc sample. I disabled this to test 
+         the Ethernet handling and later forgot to enable it again.
+
+- r3348: AVR AHDLC, LPC Layer: Optimize code in AVR AHDLC driver and enable 
+         use of ACCM in LPC layer. Tested on AVR only.
+
+- r3390: AT91 9260 Init: Apply several changes to the AT9260 initialization. 
+         It is assumed, that the second stage boot loader will initialize most 
+         of the hardware, specifically clocks and SDRAM.
+
+- r3411: Ethernut 5: Update Ethernut 5 board initialization to power management 
+         firmware version 2.0
+
+- r3412: Ethernut 5: Support Ethernut 5 Rev-F only. Remove previous revisions.
+
+- r3413: Ethernut 5: Use EABI for Ethernut 5. Correct memory size, its 128 
+         MBytes.
+
+- r3419: Most board configurations: Optionally enable the use of hard-coded 
+         network configuration. Nice for porting new targets and applications 
+         with special configuration procedures.
+
+- r3425: Makefiles: Make linking with libm optional. Other compilers may have 
+         floating point support automatically included.
+         Exclude building Lua sample from ICCAVR builds. Still no chance to make 
+         this work. Additionally exclude basemon for non-AVR platforms when 
+         running make install.
+
+! r3449: Source tree organisation: Restructure nut\arch\arm\dev, added atmel 
+! r3450  folder and move all at91 CPU files into this folder.
+         Even added a nxp and gba folder.
+
+- r3476: AT91 Emac: Removed phy hardware reset code (bootstraping) which 
+         should be moved to NutBoadInit for all devices. 
+
+         The last phy that was initialised this way was the DM9161. All 
+         other devices just implemented phy reset in the NutBoardInit()
+
+! r3484: IP Protocol / Multicast: Expand general multicast functionality, 
+         added NutNetIfDelMcastAddr support.
+         Now it should be possible to "Add" and "Delete" a multicast address.
+         Join/Leave IGMP will be send too.
+
+- r3485: DM9000 / Multicast: Finalize multicast support for dm9000.
+         Add and delete multicast now supported by the driver.
+
+
+Fixed:
+
+- r3263: STDIO: Fix issue with missing negative sign for floating point numbers 
+         in function _putf.
+
+! r3297: SPI MMC: Always make sure to send out a 0xFF byte on the MOSI line 
+         when just reading data from the card. Some SPI busses just send out 
+         the last byte read from the MISO line if the data register is not 
+         updated after each byte. This results in confusion of the MMC card, 
+         as these bytes might be interpreted as an MMC command.
+         Sending out 0xFF is the sane state.
+
+- r3362: HTTPD: Fix problem with HTTP header line overflow.
+         The chance has been taken to split the large NutHttpProcessRequest() 
+         function into smaller sub-function.
+         The HTTP routines consume a lot of code space, so special care has 
+         been taken not to blow up the code any further. More could be done. 
+         At least, this patch will only add about 100 bytes.
+         Not much had been done for speed optimization, though. We still use 
+         fgetc to read the stream, which is highly inefficient.
+
+- r3385: LANC111: Increase Ethernet receiver thread's stack size. 
+         Should fix spurious crashes.
+
+- r3388: Debugging EIR in RAM: Add Michael Fischer's fixes for debugging the 
+         EIR in RAM: The remapping, SRAM to 0x00000000, must be done by the 
+         debugger script. Relocating of .data section is removed too.
+         Also included flash wait cycle configuration, just in case. I slightly 
+         modified Michael's fix to be able to configure flash wait cycles.
+
+- r3389: AT91SAM7SEX: Initialize both flash banks on AT91 targets. 
+         This fixes the problem, that binaries larger than 256kB fail to run. 
+
+! r3416: TCP/IP Statemachine: Finally fixes bug #3006749, calculating peer MSS. 
+         Previous solution failed on AVR32 because of 32-bit alignment problem.
+         Bug description:
+         I came across a TCP/IP comms issue when a machine connects to Nut/OS 
+         (AVR, any 4.x version) and advertises a MSS of 1024 instead of the 
+         more common 1460 bytes. Suddenly I saw Nut/OS replying a SYNC/ACK 
+         with a MSS of 4 and this was the end of all sensible TCP/IP comms as 
+         from then on segment size was 4 bytes which brakes most applications. 
+         (Most Linux and Windows PCs use a MSS of 1460 but some other embedded 
+         TCP/IP stacks or WAN routers may use a different size.)
+
+- r3422: Bootmon: Fix Bootmon start problem. There has been some trouble with 
+         32-Bit alignment and broken ARP handling.
+
+! r3426: AT91 EFC: Fix bug #3244012. If configured, AT91 devices with more than
+         256k flash will now use the second flash controller to store the 
+         network settings.
+
+- r3431: LUA: Make Lua number type a long. Otherwise pointer casting will fail 
+         with 8-bit AVR.
+
+- r3433: Fix problem with text.startup segment, which is sometimes generated 
+         by newer versions of newlib.
+
+- r3441: eNet-sam7X Boad SPI: Switched config back to spi interrupt mode as pdc 
+         mode made problems when using dataflash and mmc card on the same spi 
+         bus
+
+- r3470: ARM OsTimer: Adjust delay loop calculation for ARM running in RAM. 
+         Previous values result in a deviation of above 25%. The modification 
+         may still give bad results on other platforms, in which case 
+         NUT_DELAYLOOPS must be defined in the configuration.
+
+- r3486: HTTPD: Corrected bug in NextHeaderName, the length must checked too.
+
+
+
+
+
+
+
+Ethernut Version 4.9.10     Released 2010-11-16
+===============================================
+
+Added:
+
+- r2907: Gorp Library: Added linked list routines to the gorp library.
+
+- r2913: Filesystems: Added UFLASH files system
+
+- r2930: Gorp Library: Added persistant, circular buffer routines to gorp 
+         library.
+
+- r2986: NutInit: Added board specific initialization capability. This 
+         avoids further contamination of NutInit with target specific details.
+
+- r2987: Added support for Ethernut 5.0 Rev-E.
+
+- r3001: Ethernut 5: Added SPI bus configuration for Ethernut 5.
+
+- r3002: Added support for Morphoq 1.1, an AT91SAM7XC512 based industrial 
+         board.
+
+- r3009: Added .ramfunc segment to several at90xxx linker scripts
+         This allows to let some code run in the RAM even if all other 
+         code stays in the flash
+
+- r3019: SMTP: SMTP client API added.
+
+- r3140: AT91SAM9G45: Addec Support for AT91SAM9G45. Tested with Atmel 
+         AT91SAM9G45-EKES. Using uboot for bootstrapping DDR-Ram init etc...
+         Booting from NAND-Flash and running out of RAM (go 0x7000000).
+
+- r3156: AVR32 USART: Add USART2 support to AVR32
+
+- r3164: LED: Added inverted LED handling for led.c driver. Important 
+         if you drive brighter leds by a FET. Can be configured by nutconf.
+
+- r3165: Kernel Threads: Added stand-alone thread-stack checking. This 
+         enables in-appliation tread stack checking without the need to 
+         have the bigger nutdebug system running. Can be activated by 
+         nutconf: RTOS Kernel->OS Debug->Thread Stack Checking.
+
+- r3171: Gorp Library: Added XTEA (Extended Tiny Encryption Anlgorythm) 
+         to gorp/crypt section.
+
+Changes:
+
+! r2916: ARM Kernel: The initial implementation of ARM context switching 
+         ignores the compiler's optimizer. Added missing clobbers.
+         Furthermore, r0 is now used as a scratch register, simply because 
+         it looks nicer to me.
+	 The indention of the inline asm now works with the indent tool.
+	 And I used the new asm operand naming, which is available since 
+         GCC 3.1.
+
+- r2933: New Bootmon version 1.2.0
+         Building thumb code by default.
+         Increased timeout loops to make it run in faster thumb mode.
+         Using pseudo random number for DHCP request ID.
+         Default net mask is 255.255.255.0.
+         TFTP settings can be entered by user even if DHCP is used.
+         Enhanced line entry allows to edit the current setting.
+         Many incoming broadcasts will no longer restart the bootloader.
+         Inline assembly 'nop' replaced by _NOP() macro.
+         Function memcmp_() added.
+         Added __may_alias__ attribute to packed structures to allow GCC 
+	 4.4 strict alignment optimization.
+         Dataflash used as non volatile memory by default.
+
+- r2936: Bootmon: Moved the bootmon stack to the beginnin
+
+! r2937: TCP/IP Statemachine: Implement handling of TCP sequence number 
+         wraparound. This patch replaces every ">" or "<" sequence number 
+         comparison with the SeqIsAfter() macro which compares in a 
+         wraparound-safe manner.
+         The IsInLimits() function is also replaced with a SeqIsBetween() 
+         macro.
+
+- r2939: TCP/IP Statemachine: swap htonl() macro to ntohl() where applicable. 
+         Should not change any behavior.
+
+	 The only difference between the two macros is what they suggest to 
+         the coder; "ntoh" stands for "network to host" conversion.
+
+- r2940: FTPD: Applied Malte Marwedel's FTPD enhancements.
+         Adding move command (RNFR, RNTO)
+         (AVR) Moving strings from RAM to flash
+         Add support for list with -la option
+         Checks if file is a real file before accepting a GET
+         Fixing GET if network is busy
+         Fixing "cd foo", "cd ../bar" bug (path should be "/bar" was "//bar")
+         Note: Passive mode is not implemented properly, try to use active 
+         instead
+
+- r2946: Sample Application Caltime: New version 2.1
+
+- r2951: AT91 Debug Uart: Splitted AT91 debug driver. This saves a few hundred
+         bytes on devices without DBGU (selecting either USART0 or USART1) and
+         allows MCUs with DBGU interface to alternatively use an USART.
+	 Debug device now honors configured, interface specifc baud rate 
+         settings.
+
+
+- r2956: AT91 EMAC: Applied patch #2611369.
+         Use EMAC_TX_BUFFERS in the TX initialization buffers to make it 
+         behave correctly if that macro changes.
+         Remove EMAC_CAF from the initialization. This flag sets the EMAC 
+         to Promiscuos mode, and all network packages will be copied into 
+         memory, wasting CPU cycles to process and discard.
+         Make PHY ID configurable, as the TODO comment intended.
+
+! r2957: DHCP: Patch #2903940. Modification to DHCP client code so you can 
+         switch between DHCP and static IP addresses without resetting/power 
+         cycling.
+
+- r2962: AT91 SPI: Applied patch #2982099 to trunk only. 
+         "Enable error return in At91SpiSetRate"
+         Previously the value of "cs" was checked, but an error was never 
+         returned, resulting in dead code.
+         I don't know what unintended effects this patch may have.
+
+- r2994: AT91 MCI: Make MCI available for all AT91 CPUs
+
+- r2995: AT91 EBI: Added missing chip selects and drive options for AT91 
+         EBI interface.
+
+- r2996, 2997: Fixed to AT91 CPU headers.
+
+! r2999: Moved configuration of board initialization function from os to 
+         platform and added it to AVR and AVR32. Added missing 
+         initializaiton before entering main.
+
+! r3000: Nutinit / Ethernut1 init: Moved Ethernut 1 specific initialization 
+         to a new module nut/arch/avr/board/ethernut1.c.
+         This is my first trial to clean up nutinit.c. It works here with a 
+         version 1.3H board, but may have some impact on other Ethernut 1 
+         clones.
+         I also updated ethernut13h.conf, using the order provided by the 
+         latest Configurator. The reserved memory array had been removed, 
+         as it seems to be unused, waisting RAM.
+
+- r3010: LCD Drivers: Unified Character LCD drivers. First part, only 
+         low-level drivers of at91 done. Checked with several HD44780 and 
+         KS0066 displays.
+
+- r3015: Several drivers: Replaced outdated outp/inp by outb/inb.
+
+- r3025: AT91 USART: Make sure, that RTS/CTS handshake lines on Ethernut 
+         3 are controlled by the primary channel only. By default, RTS will 
+         be activated.
+
+! r3071: AVR32: Reworked AVR32 port
+         Added more eval boards, now EVK1100, EVK1101, EVK1104 and EVK1105 
+         will be supported
+
+- r3167: USART sc16is752: Prepared to really start this driver. Modified 
+         for keeping naming conventions.
+
+- r3177: Debugging: Extended heap debugging in threads:
+         NutDumpThreadList() now shows minimal stack left since boot of 
+         a thread if extended stack debugging is enabled.
+
+- r3184: AVR32 USART: Make the USART alternative pin sets configurable using 
+         the nutconf tool.
+
+- r3224: AT91 EMAC: LAN8710 PHY needs the phy_out function in MII mode. 
+         Until we'll have better configuration abilities, I'm using this ugly 
+         hack, sorry.
+
+
+Fixed:
+
+! r2915: TCP/IP Statemachine: Transmit of a bogus packet and memory leak 
+         in low memory situations
+
+
+- r2926: NVMEM AT45d: Fixed SpiAt45dConfigWrite() to use correct config 
+         flash page. Fixed SpiAt45dConfigWrite() to always return -1 
+         in case of an error, even if config space size is larger than one 
+         page
+
+- r2931: AT45dib: Inverted chip select not working (SPI_CSHIGH_AT45D). 
+         Fixed.
+
+- r2953: Bootmon: Fixing a bug, that inverted high and low nibble of 
+         MAC address bytes
+
+- r2960: Gorp Library: MD5: Applied patch #2982035 to trunk: Fixed clearing 
+         of MD5 buffer
+
+- r2963: AT91 SPI: Applied patch from Mark Meade according to Bug #2507201       
+         MODFDIS flag must be set if SPIMF_MFDETECT ist _not_ set
+
+! r2964: Kernel: ostimer: Applied patch to fix bug #2025208.
+         The current implementation of NutGetTickClock exhibits a rounding 
+         issue (currently rounding is only done the special case of 0) and 
+         does not protect for overflow. The rounding issue contributes to 
+         time-outs being a bit too short, in particular when using small 
+         ms values.
+
+! r2966: DHCP: Fixed bug, introduced with r2957: I spoiled patch #2903940. 
+         Now static IP works again
+
+- r2967: AT91 System interrupt: Applied Tim DeBaillie's system interrupt 
+         patch. Changed from edge to level trigger. Handle PIT interrupts last.
+
+- r2980: X12RTC: Corrected x12rtc.c as it breaks up NUTDEBUG on SAM7X boards. 
+         Debugging must be enabled locally. Shouldn't be a problem as it is 
+         deprecated but needed on EIR.
+
+- r2981: Sample Applications: 7segtst: Corrected 7segtst.c demo and spi_7seg.h
+
+! r2982: DHCP: Fixed problems with DHCP-Client if device is carried from 
+         one network to another. dhcpc code forgot about that it got a 
+         valid offer in selection phase and it took minutes to switch the 
+         network to the new configuration or it never did.
+
+- r2990: At91 TWI: Fixed: On some architectures the function 
+         TwIOCtl(TWI_GETSPEED) gives the wrong result
+
+- r3004: AT91 EMAC: Moved PHY hardware reset for AT91SAM9260-EK to a new 
+         board specific initialization file. Also fixes bug #2997727.
+
+- r3022: UFlash FS: UFLASH bugfix. Renaming files not working, if the 
+         file is larger than 1 page.
+
+! r3023: USART devices: When a thread closes a UART, all threads currently 
+         reading from this device are now interrupted.
+
+- r3024: AT91 USART: RS-232 RTS output signal inverted for Ethernut 3. 
+         This fixes bug #3020901.
+
+! r3026: USART devices: De-activate RS-232 RTS line on close.
+
+- r3038: LCD Drivers: Fixed a mix-up of ST7063 and ST7036 LCD drivers. 
+         The ST7063 is currently not supported.
+
+- r3039: AT91: st7036 driver: Selecting the ST7036 driver for ARM boards 
+         works again, but compiling fails because LCD_SHORT_DELAY and 
+         LCD_LONG_DELAY hand been removed.
+
+- r3041: Configuration of SPI lines for ST7036 had been accidentally 
+         removed. Fixed. Finally the old webradio application is working 
+         again on the AT91SAM9260-EK/Calypso boards.
+
+! r3147: TCP/IP Statemachine: Fixed bug #3080997 in nut/net/tcpsm.c with 
+         fix from Zack which was suggested just in 2007!!!
+
+         When the remote is down, NutTcpConnect correctly returns an error 
+         after several retries. However, when repeating the call to 
+         NutTcpConnect a few more times, the function will apparently never 
+         return.
+
+         This has been tested with Ethernut 3.0E and Ethernut 2.1B. While the 
+         latter continuously sends out new ARP request, the ARM based Ethernut
+         3 shows the problem after very few calls to NutTcpConnect. I used the 
+         code from the current trunk and a slightly modified version of
+         http://www.ethernut.de/nutwiki/Receive-only_TCP_Client
+
+         Fixed
+
+! r3152: TCP/IP Statemachine: Bugfix: "Tiny" connections report wrong error.
+
+- r3169: Nutinit / AT91CAN128: Fixed bug #3061792 in nutinit.c. For AT90CAN128 
+         CPUs when compiled without NUTMEM_STACK SP was not relocated and stack 
+         could corrupt initialised data.
+
+! r3170: TCP/IP Statemachine: Fixed bug #3006749 in tcpsm.c; MSS value was byte 
+         swapped twice and hence advertised wrongly.
+
+! r3187: Networking: ARP: Rev-3168 changed the number of ARP retries from 1 to 5, 
+         which is not RFC-conformant. Changed back to 1 agai
+
+- r3213: FTPD: Make sure to have a trailing slash when sending directory names. 
+         In addition I replaced costly sprintf with basic string function.
+
+- r3216: UFLASH FS: Ignore leading slash in UFLASH paths.
+
+- r3217: Gorp Library: Fixing several bugs with persistent circular buffer 
+         overflows. Note, that the PERCI structure has slightly changed. You 
+         need to re-initialize existing buffer files, losing its content.
+         Maximum number of records and the record length are now configurable.
+         Using a specific type for record numbers allows tiny systems to work 
+         with 8-bit values.
+
+
+
+
+
+
+Ethernut Version 4.9.9    Released 2010-03-15
+=============================================
+
+
+Added:
+
+- r2798: AVR ADC: Fixed buffer overflow
+
+- r2818: Added Turtelizer as make burn target. Works nice with OpenOCD 0.3.0.
+
+- r2882 - r2885: Syslog: Partial support for syslog RFC5424 added.
+
+- r2902: SPI Bus MMC Driver: New MMC driver added, which uses the SPI bus 
+         interface.
+
+
+Changes:
+
+- rxxxx: Several changes to the differen sample applications to compile for 
+         targets without Ethernet
+
+- r2821: TCPS sample application: Streamlined the tcps application. Almost 
+         completely re-written. Removed dangerous walks through linked lists 
+         and added more real world functions like system reset, GPIO query 
+         etc. Also removed Harvard architecture specific handling of constant 
+         data.
+
+- rxxxx: A lot of enhancements to qnutconf
+
+- r2831: LUA: Reduce the RAM footprint of Lua
+
+! r2835: TCP/IP Network buffers: New NETBUF cloning avoids unneccessary 
+         memory copies. On Ethernut 3 this change increases the TCP output 
+         rate by 10%.
+
+! r2837, 2838: TCP/IP Statemachine: Added backlog for incoming TCP connects.
+
+
+- r2886: HTTPD SSI: Added support for SSI echo command.
+         Removed superflous free() from ssi file processing.
+
+- r2898: Updated 7-Segment driver to new version.
+         Easy access by printf().
+
+- r2903: SPI NPL driver: Some SPI devices (e.g. MMC) rely on 0xFF sent 
+         over the bus while sending data.
+
+Fixes:
+
+! r2841: Network protocols: Fixed memory hole in UxmlParseStream.
+
+- r2863: AVR32: Fix CPU frequency calculation.
+
+- r2865: AVR32 DBGU: Fix DBG write freeze for AVR32 on the EVK1105
+
+- r2868: AVR USART: Fix bug #2500403 - Wrong register assignment 
+         switching from asynchronous to synchronous USART mode.
+
+- r2880: Eboot: Ethernut 1 boot loader now working again with the 
+         latest GCC, uses EEPROM settings and offers better debug output
+
+- r2897: GPIO Key handler: Fixed a bug not allowing multiple requests 
+         of key-down-time. Added caller-function for key events.
+	 Added runtime reconfiguration of caller function and event
+
+- r2899: PCF9555: Fixed bug in PCA9555 driver. Registers cannot be 
+         accessed in a row but only in pairs. Added support for inverting 
+         ports.
+
+- r2900: NVMEM AT45d: Fixed SpiAt45dConfigWrite() for config space larger 
+         than one page. The function is now able to write multiple pages 
+         and correctly handles a page offset
+
+
+
+
+
+
+Ethernut Version 4.9.8    Released 2009-11-25
+=============================================
+
+
+Added:
+
+- r2767: Added support for EVK1104 board
+
+- r2756: JTAG TAP controller driver added.
+
+- r2778: Added support for AT45D in bootmon bootloader
+
+
+Changes:
+
+- r2744: AVR32 SPI: Newer AVR32 devices provide alternative peripheral pins. 
+         Pin specifications adjusted
+
+- r2745: Allow devices without Ethernet MAC.
+
+- r2748 - 2752: Several improovements to Nutconf
+
+- r2758: LUA: Added carriage return to Lua line ending. This is a hack to 
+         allow the Lua interpreter to run on network connections. Nut/Net 
+         doesn't provide line ending translations. Hope this will not harm 
+         existing applications.
+
+- r2760: AVR CAN: Allow fine-grained Can Filter/Mask settings, 
+         AtCanEnableMsgObj() needs to be exported. A note that more then 
+         RX_MOB MOBs can be set up is added.
+
+- r2768 - 2770, 2780-2782: Several improvements to qnutconf
+
+! r2784: Networking, Name resolving, DNS:
+         Applied long outstanding patch #2705279: Add feature to get all ip 
+         addresses associated with the host
+         more modifications are required anyway.
+
+! r2785: Networking, Name resolving, DNS: 
+         Put DNS configuration in an extra file. This way DHCP will no longer 
+         add the whole DNS stuff.
+
+- r2791: DM9000A: Enable late collision retries on the DM9000A.
+
+
+Fixes:
+
+! r2761: Ethernet drivers: Fixed compiler alignment warning when comparing 
+         the MAC address. I used to new ETHER_IS_UNICAST() macro, which is 
+         a bit more strict. But as we no longer allow to store multicast 
+         MAC adresses in teh configuration, this should be the right way to 
+         handle it.
+
+- r2762: FAT: Fixed another alignment error in the old FAT driver nut/fs/fat.c
+
+! r2771: TCP/IP Statemachine: Fix the problem of incoming TCP packets eating 
+         up all memory. First, the buffer of packets received in advance is 
+         limited. Second, small segments will be collected into one
+
+! r2788: TCP/IP Statemachine: Exclude LSB from retransmission timeout. 
+         Fixes underflow problem.
+
+
+
+
+
+
+Ethernut Version 4.9.7    Released 2009-10-02
+=============================================
+
+
+Added:
+
+- r2701: VLSI Codec: Added encoding. This is not well tested yet.
+         Added ioctl to query capabilities. Untested.
+         Added plugin loader. Not well tested.
+         Allow targets with single GPIO port (AT91R40008).
+         Do not increase SPI rate after clock setup for older chips (VS1011)
+
+- r2706: Added option to use DBGU as USART on SAM7/9 with some limitations:
+         No Chip supported handshake, only GPIO. Only limited data format 
+         (8 databits, 1 Stopbit is fixed by chip)
+
+- r2737: SNMP Protocol: Added capabilities to create SNMP PDUs.
+         Added doxygen groups for SNMP documentation.
+         Fixed SNMP memory holes. 
+
+
+Changes:
+
+- r2699: AT91 Reset: Enable reset function for AT91 targets without 
+         reset controller, using the watchdog.
+
+
+Fixes:
+
+- r2700: AVR GPIO: Bugfix: Output was set to low when configured.
+
+- r2703: Fixed two issues in at91_twi.c
+
+- r2708: Fixed memory leaks in snmpd sample application
+
+
+
+
+
+
+Ethernut Version 4.9.6    Released 2009-09-17
+==============================================
+
+
+Added:
+
+-r 2697: Added support for MMnet01
+
+Changes:
+
+- r2694: AVR USART: Added half duplex flow control mode.
+
+Fixes:
+
+- r2693: AT91 USART: Fixed AT91 UART GPIO hardware handshake.
+         Corrected initial baud rate configuration.
+         Receiver not working. Added Rx enable on receiver start.
+
+
+
+
+
+
+Ethernut Version 4.9.5    Released 2009-09-14
+==============================================
+
+Added:
+
+- r2686: Added AVR32UC3A256.
+
+- r2687: Compiler: Added support for Rowley's CrossWorks 2 for ARM
+
+- r2688: Add qnutconf, the Qt based Nut/OS Configurator
+ 
+
+Changes:
+
+- r2682: USART ARM: Implemented hardware handshake for CPLD logic on 
+         Ethernut 3. Implemented hardware handshake for CPLD logic on 
+         Ethernut 3. Tried to implement GPIO handshake, but not finished 
+         due to missing CTS input.
+         Modem handshake prepared, but still not implemented.
+	 Made AT91 built-in handshake dynamically configurable. Untested.
+
+
+Fixes:
+
+- r2684: EMAC ARM: Changed MAC address compare to fix GCC 4.4 alignment error.
+
+
+
+
+
+Ethernut Version 4.9.4    Released 2009-09-11
+==============================================
+
+
+Added:
+
+- r2649: Added sample application "hopen" and hopen board support for 
+         Elektor hhopen project
+
+- r2650: Added AT24C (I2C EEPROM) to config-memories
+         Added inverted print support ( white on black) to term.c 
+         for displays capable of that feature
+
+- r2651: VLSI Coded: Added sound enhacement features of newer CLSI chips 
+         (parametric bass and treble enhancement)  
+
+- r2661: VLSI Codec: Encoding added, Capabilities enhanced, 
+	 Plug-in support added. Added different clock settings of newest devices.  
+
+- r2663: Morphoq board added.
+
+- r2670: Ethernut 3: Added CPLD support
+
+- r2671: Added support for the AT45DB321D DataFlash.
+
+- r2679: Added inet_mtoa for conversion of MAC address to : splittet and \0 
+         terminated string
+
+
+Changes:
+
+- r2650: PCA9555 GPIO: Aligned PCA9555 functions with standard gpio functions
+
+
+Fixes:
+
+- r2655: DM9000E: Increased DM9000E stack after experiencing stack overflows 
+         on Ethernut 3
+
+- r2660: Corrected VS decoder capabilities.
+
+- r2676: AT24 EEPROM: Several bug fixes: at24cRead never returned 0 for success
+
+
+
+
+
+
+Ethernut Version 4.9.3     Released 2009-08-13
+==============================================
+
+Added:
+
+- r2633: AVR32 EFC: Add AVR32 embedded flash controller support.
+
+- r1634: Added support for VS1002D, VS1003B and VS1033C audio decoders.
+
+
+Fixes:
+
+- r2635: condition.c: Fixed bug 2826991 which caused CPU freezes or buffer 
+         overflow
+
+- r2638: Fixed buffer overflow which might occur when encoding long strings
+
+- r2640: condition.c: More fixes to avoid buffer overflows
+
+
+
+
+
+
+Ethernut Version 4.9.2 beta     Released 2009-06-03
+===================================================
+
+Added:
+
+
+- r2597: Added NSIS packaging script for generating Windows installers
+
+- r2598: Added a LUA script that losely mimics make distcheck on Windows.
+
+- r2607: AT91 USART: UART_SETHDPXMODE and UART_GETHDPXMODE implemented.
+
+- r2608: Added SC16IS752 UART driver
+
+- r2615: Added TWI driver for SC16IS752 dual USART chip
+         Added AT24C Serial EEPROM drive
+         Added Routines for Philips PCA9555 I/O expander
+         Added First template of platform independant DM9000E/A driver
+
+-r 2528: Added application samples: 7segtst, eeprom, ioexpander
+
+
+Changes:
+
+- r2596: Changes in the configurator settings:
+         Added HW_EFC_AT91 config provision to AT91 members with embedded 
+         flash controller. Provision HW_NVMEM renamed to DEV_NVMEM, because 
+         the driver, not the hardware supports this.
+         Moved all non-volatile memory options to the to the target 
+         independant driver. Support for Ethernut 3.1, including SPI bus 
+         controller based on Nut Programmable Logic.
+         More detailed documentation to the non-volatile memory parts in the 
+         configuration scripts
+
+- r2599: Modified Makefile structure to simplify maintenance. AVR build broken
+
+- r2606: AVR / C++: C++ disabled for AVR due to problems with avr-libc eeprom.h.
+
+- r2624: LUA: All standard libraries are now available.
+         I/O library supports TCP connect and accept.
+         Lua default libraries can use integers.
+
+
+Fixes:
+
+- r2600: AT91 TWI: Fixed several bugs in at91_twi.c, work in progress. 
+         TwMasterregRead still fails.
+
+- r2602: AT91 USART: Fixed half dupelx support
+
+- r2618: AVR32: Workaround for Errata 41.5.5.5: "Need two NOPs instruction 
+         after instructions masking interrupts"
+
+- r2620: AT91 TWI: AT91 TWI routines fixed
+
+- r2622: VS1053: Fixed driver to work again out of the box
+
+
+
+
+
+
+Ethernut 4.9.1      Released 2009-04-08
+=======================================
+
+Added:
+
+! r2560: Initial AVR32 port added to trunk
+
+- r2574: Introduced NUT_DEPRECATED macro
+
+
+Fixes:
+
+! r2561: AT91 EMAC: Fixed ethernet phy reset in at91_emac.c to avoid a reset 
+         of the whole system
+
+- r2565: Stack sizes for ImageCraft compiler adjusted
+
+! r2584: AT91 TWI: Fixed at91_twi.c: Interrupt handling and clock calculation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

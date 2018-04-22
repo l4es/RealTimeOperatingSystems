@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="htdocs">
+      <UniqueIdentifier>{2800ba9b-be5e-428b-9288-559e9b1a048c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\app\uhttpd_ssi\httpd_ssi.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\app\uhttpd_ssi\htdocs\application.shtml">
+      <Filter>htdocs</Filter>
+    </None>
+    <None Include="..\..\..\app\uhttpd_ssi\htdocs\datetime.shtml">
+      <Filter>htdocs</Filter>
+    </None>
+    <None Include="..\..\..\app\uhttpd_ssi\htdocs\index.shtml">
+      <Filter>htdocs</Filter>
+    </None>
+    <None Include="..\..\..\app\uhttpd_ssi\htdocs\menu.inc">
+      <Filter>htdocs</Filter>
+    </None>
+    <None Include="..\..\..\app\uhttpd_ssi\htdocs\request.shtml">
+      <Filter>htdocs</Filter>
+    </None>
+  </ItemGroup>
+</Project>

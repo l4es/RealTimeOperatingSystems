@@ -1,0 +1,13 @@
+F1 has fixed remapping, pins are remapped in groups. With a remap 
+command from the configuration file, we unconditionally use 
+the given mapping.
+
+With L1/F2/F4, each pin may be individual remapped. Only for undefined 
+pin we us the placement from a given remap command.
+
+With no explicit remap, use the default placement.
+
+
+In the config file, only the pin number is given. The C file will expand
+the pin number for the known port. If a device uses the same pin number on
+different port, prepend the higher ports with Portindex*100

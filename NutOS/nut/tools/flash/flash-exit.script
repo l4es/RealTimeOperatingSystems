@@ -1,0 +1,9 @@
+sleep 200
+#enable user reset
+mww 0xfffffd08 0xa5000401
+at91sam7 gpnvm 2 set
+sleep 200
+reset halt
+resume
+shutdown
+

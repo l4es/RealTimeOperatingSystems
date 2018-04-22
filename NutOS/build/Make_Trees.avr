@@ -1,0 +1,4 @@
+../nut/tools/nutconf/src/nutconfigure -b ./$1 -c ../nut/conf/$1.conf -l ./$1/lib -r ../nut/conf/repository.nut -s ../nut -mavr-gcc create-buildtree
+cd $1
+../../nut/tools/nutconf/src/nutconfigure -a ./apps -b . -c ../../nut/conf/$1.conf -l ./lib -r ../../nut/conf/repository.nut -s ../../nut -mavr-gcc create-apptree
+cd -

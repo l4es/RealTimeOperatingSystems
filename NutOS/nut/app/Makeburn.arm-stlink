@@ -1,0 +1,4 @@
+# ST Microelectronics ST-Link Programmer
+BURN=$(ProgramFiles)\STMicroelectronics\STM32 ST-LINK Utility\ST-LINK Utility\ST-LINK_CLI.exe
+BURNFLAGS=-c JTAG -P $(TARG) -Rst -Q
+

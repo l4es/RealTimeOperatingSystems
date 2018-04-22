@@ -1,0 +1,16 @@
+== End of line character style ==
+
+Ethernut development takes place on different platforms. If you think about
+contributing, take care not to introduce unwanted changes changes in
+end-of-line characters. If a file has the svn properity eol-style "native",
+checkou out files are automatic handled right. However if you add new files
+to the SVN repository, this properity needs to be set somehow! This can be
+done in two ways:
+
+1. Manual
+When you "svn add" the file, don't forget to set the eol-style properity:
+ svn propset svn:eol-style native <file>
+
+2. Automatic
+You can to set up SVN to automatic set the properities. Have a look at
+ https://mikewest.org/2006/06/working-with-subversion-file-properties

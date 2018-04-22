@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>SSI Samples</title>
+</head>
+<body>
+<table border="1" frame="void" width="640" cellpadding="20">
+  <tr>
+    <!--#include virtual="/menu.inc" -->
+    <td style="vertical-align:top">
+      <h1>Request info</h1>
+      <table cellspacing="10" width="100%">
+        <tr><td width="50%">HTTP_HOST</td><td><!--#echo var="HTTP_HOST" --></td></tr>
+        <tr><td>HTTP_USER_AGENT</td><td><!--#echo var="HTTP_USER_AGENT" --></td></tr>
+        <tr><td>HTTP_REFERER</td><td><!--#echo var="HTTP_REFERER" --></td></tr>
+        <tr><td>REQUEST_URI</td><td><!--#echo var="REQUEST_URI" --></td></tr>
+        <tr><td>REQUEST_METHOD</td><td><!--#echo var="REQUEST_METHOD" --></td></tr>
+        <tr><td>DOCUMENT_ROOT</td><td><!--#echo var="DOCUMENT_ROOT" --></td></tr>
+        <tr><td>DOCUMENT_NAME</td><td><!--#echo var="DOCUMENT_NAME" --></td></tr>
+        <tr><td>HTTP_CONNECTION</td><td><!--#echo var="HTTP_CONNECTION" --></td></tr>
+        <tr><td>HTTP_ACCEPT_ENCODING</td><td><!--#echo var="HTTP_ACCEPT_ENCODING" --></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

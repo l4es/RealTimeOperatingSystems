@@ -1,0 +1,173 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+NUTDISC                 ICON                    "nutdisc.ico"
+WXICON_SMALL_CLOSED_FOLDER ICON                 "folder1.ico"
+WXICON_SMALL_OPEN_FOLDER ICON                   "folder2.ico"
+WXICON_SMALL_FILE       ICON                    "file1.ico"
+WXICON_SMALL_COMPUTER   ICON                    "computer.ico"
+WXICON_SMALL_DRIVE      ICON                    "drive.ico"
+WXICON_SMALL_CDROM      ICON                    "cdrom.ico"
+WXICON_SMALL_FLOPPY     ICON                    "floppy.ico"
+WXICON_SMALL_REMOVEABLE ICON                    "removble.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+WXWINDOWMENU MENU 
+BEGIN
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&Cascade",                    4002
+        MENUITEM "Tile &Horizontally",          4001
+        MENUITEM "Tile &Vertically",            4005
+        MENUITEM "",                            65535
+        MENUITEM "&Arrange Icons",              4003
+        MENUITEM "&Next",                       4004
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+WXCURSOR_HAND           CURSOR                  "hand.cur"
+WXCURSOR_BULLSEYE       CURSOR                  "bullseye.cur"
+WXCURSOR_PENCIL         CURSOR                  "pencil.cur"
+WXCURSOR_MAGNIFIER      CURSOR                  "magnif1.cur"
+WXCURSOR_ROLLER         CURSOR                  "roller.cur"
+WXCURSOR_PBRUSH         CURSOR                  "pbrush.cur"
+WXCURSOR_PLEFT          CURSOR                  "pntleft.cur"
+WXCURSOR_PRIGHT         CURSOR                  "pntright.cur"
+WXCURSOR_BLANK          CURSOR                  "blank.cur"
+WXCURSOR_RIGHT_ARROW    CURSOR                  "rightarr.cur"
+WXCURSOR_CROSS          CURSOR                  "cross.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+CSQUERY                 BITMAP                  "csquery.bmp"
+WXBITMAP_STD_COLOURS    BITMAP                  "colours.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST             "wx.manifest"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,0,0,1
+ PRODUCTVERSION 3,0,0,1
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040704b0"
+        BEGIN
+            VALUE "FileDescription", "Discovers Nut/OS Nodes in a local network"
+            VALUE "FileVersion", "3, 0, 0, 1"
+            VALUE "InternalName", "nutdisc"
+            VALUE "LegalCopyright", "Copyright © 2005-2011 by egnite GmbH"
+            VALUE "OriginalFilename", "nutdisc.exe"
+            VALUE "ProductName", "Nut/OS Discoverer"
+            VALUE "ProductVersion", "3, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x407, 1200
+    END
+END
+
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

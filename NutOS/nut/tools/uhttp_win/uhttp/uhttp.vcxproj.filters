@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\pro\uhttp\envinit.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\envreg.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\envvars.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mediatypes.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mtinit.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mtreg.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\responses.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\uhttpd.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\utils.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_auth_basic.c">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_cgi_func.c">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_redir.c">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_ssi.c">
+      <Filter>modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pro\uhttp\os\win\streamio.c">
+      <Filter>os\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\pro\uhttp\os\win\rfctime.c">
+      <Filter>os\win</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="modules">
+      <UniqueIdentifier>{0b3be06b-a352-4596-a7f7-740d26891869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os">
+      <UniqueIdentifier>{8d866c60-4f65-4425-bd95-ff32fc6e4ca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{35bed473-a3b2-4681-bd47-9891443744aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pro">
+      <UniqueIdentifier>{b057145e-ef3c-4f0a-aab1-f8751fb52e1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pro\uhttp">
+      <UniqueIdentifier>{5908e816-eb96-4913-960b-8b19a85047e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pro\uhttp\modules">
+      <UniqueIdentifier>{abb91997-45d7-4b61-968c-27e3507bc7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pro\uhttp\os">
+      <UniqueIdentifier>{3fa2e7a7-6d12-485b-9738-7bcb6772f29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\pro\uhttp\os\win">
+      <UniqueIdentifier>{9df71b4f-2b18-4858-a0fe-4a4d717a8e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="os\win">
+      <UniqueIdentifier>{a9ed8314-5b4b-48c4-a7a6-61c0cbb760b1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\pro\uhttp\compiler.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\envvars.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\mediatypes.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\streamio.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\uhttpd.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\utils.h">
+      <Filter>include\pro\uhttp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_auth_basic.h">
+      <Filter>include\pro\uhttp\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_cgi_func.h">
+      <Filter>include\pro\uhttp\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_redir.h">
+      <Filter>include\pro\uhttp\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_ssi.h">
+      <Filter>include\pro\uhttp\modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\os\win\compiler.h">
+      <Filter>include\pro\uhttp\os\win</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pro\uhttp\os\win\streamio.h">
+      <Filter>include\pro\uhttp\os\win</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+Properities of the different RAM regions
+========================================
+
+ICODE: Instruction fetches 0 .. 0x1fffffff
+DCODE: Data/Debug  fetches 0 .. 0x1fffffff
+S-Bus: Access 0x20000000 .. 0xdfffffff, 0xe0100000 .. 0xffffffff
+
+With physical remap RAM0 at 0x20000000 may be access at 0 and
+then DCODE access applies. Without remap, S-Bus access applies.
+
+Name     I/D Access  DMA Access Cache coherency   Alias  Hints
+RAM0     ok          ok         ok                DTCM
+RAM1/L4  ok          ok         NA
+RAM1     no          ok         no
+RAM2     no          ok         no
+CCM/F3   ok          no         NA
+CCM/F4   only D acc. no         NA                       only Data
+
+Some links
+http://cliffle.com/article/2015/06/11/matrix/

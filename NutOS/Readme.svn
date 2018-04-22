@@ -1,0 +1,7 @@
+When checking out a clean tree from SVN in the base directory run
+./reconf
+./autogen.sh
+Add to ./autogen.sh
+--enable-html-docs to enable build of the HTML docs.
+--enable-nutconf-gui to enable the build of the WX-based configurator GUI.
+--enable-nutdisc to enable building the WX-base NutOs Discoverer.

@@ -1,0 +1,10 @@
+#target remote localhost:3333
+soft_reset_halt
+wait halt
+
+#arm7_9 dcc_downloads enable
+sleep 10
+flash probe 0
+flash protect 0 0 15 off
+sleep 10
+# flash write_image erase rttwl_comm_test.bin 0x00100000 bin

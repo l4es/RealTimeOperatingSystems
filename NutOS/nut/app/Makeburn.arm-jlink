@@ -1,0 +1,10 @@
+# jlink flash for STM32F107VC
+#JFLASH_PRO="$(ProgramFiles)/SEGGER/JLink_V494g/Samples/JFlash/ProjectFiles/ST/STM32F107VC.jflash"
+#BURNFLAGS=-openprj$(JFLASH_PRO) -open$(TARG) -auto -startapp -exit
+#BURN="$(ProgramFiles)/SEGGER/JLink_V494g/JFlash.exe"
+
+# jlink flash auto detect
+BURNFLAGS=-open$(TARG) -auto -startapp -exit
+BURN="$(ProgramFiles)/SEGGER/JLink_V494g/JFlash.exe"
+
+

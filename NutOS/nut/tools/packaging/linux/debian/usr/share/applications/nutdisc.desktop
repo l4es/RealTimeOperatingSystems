@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Discoverer
+Exec=nutdisc
+Terminal=false
+Icon=/usr/local/share/doc/ethernut/nut/tools/nutdisc/src/bitmaps/nutdisc.xpm
+Comment=Nut/OS Configurator
+Categories=Development;
+

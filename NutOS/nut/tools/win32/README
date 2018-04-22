@@ -1,0 +1,2 @@
+Win32 binaries of Nut/OS tools will be copied to this directory 
+during 'make install'.

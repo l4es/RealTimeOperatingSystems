@@ -1,0 +1,16 @@
+<html>
+<head>
+<title>File Upload</title>
+</head>
+<body>
+<h1>Upload Sample</h1>
+<p>Upload PNG image</p>
+<form action="upload.cgi" method="post" enctype="multipart/form-data">
+  <table cellspacing="10" width="100%">
+    <tr><td><input type="file" size="64" name="image"></td></tr>
+    <tr><td><input type="submit" name="upload" value="Send" onClick="return confirm('Are you sure?');"></td></tr>
+  </table>
+</form>
+<img src="image.png" />
+</body>
+</html>

@@ -1,0 +1,12 @@
+[Files]
+..\..\app\nutpiper\scanner.c
+..\..\app\nutpiper\display.c
+..\..\app\nutpiper\nutpiper.c
+..\..\app\nutpiper\player.c
+..\..\app\nutpiper\config.c
+[Headers]
+..\..\app\nutpiper\scanner.h
+..\..\app\nutpiper\display.h
+..\..\app\nutpiper\player.h
+..\..\app\nutpiper\config.h
+[Documents]

@@ -1,0 +1,6 @@
+This directory contains prepared project files for Ethernut 2 with 
+ICCAVR Version 7. They can be used to compile the samples within the 
+source tree. However, since Nut/OS 3.9 the recommended method is
+to use the Configurator to create a new sample directory outside
+the source tree. The Configurator will create modified project files
+with corrected include and library paths.

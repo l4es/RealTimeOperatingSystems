@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D4CC358F-E88D-42ED-AF2F-D4C72BCDCA1A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>uhttp</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>HTTP_PLATFORM_STREAMS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;..\..\..\include\pro;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>HTTP_PLATFORM_STREAMS;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\pro\uhttp\envinit.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\envreg.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\envvars.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mediatypes.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_auth_basic.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_cgi_func.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_redir.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\modules\mod_ssi.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mtinit.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\mtreg.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\os\win\rfctime.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\os\win\streamio.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\responses.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\uhttpd.c" />
+    <ClCompile Include="..\..\..\pro\uhttp\utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\pro\uhttp\compiler.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\envvars.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\mediatypes.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_auth_basic.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_cgi_func.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_redir.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\modules\mod_ssi.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\os\win\compiler.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\os\win\streamio.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\streamio.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\uhttpd.h" />
+    <ClInclude Include="..\..\..\include\pro\uhttp\utils.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

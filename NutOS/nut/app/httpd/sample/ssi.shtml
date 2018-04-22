@@ -1,0 +1,21 @@
+<html>
+<head />
+<body>
+<h1>Server side include demo.</h1>
+
+<h3>How to include static content</h3>
+----- Included part start -----<br>
+<!-- #include virtual="/include.inc" -->
+----- Included part end   -----<br>
+
+<h3>How to include dynamic content</h3>
+----- Included CGI -----<br>
+<!-- #exec cgi="/cgi-bin/ssi-demo.cgi" -->
+----- Included part end   -----<br>
+
+<h3>How to include dynamic content from parameters</h3>
+----- Included CGI -----<br>
+<!-- #exec cgi="/cgi-bin/ssi-demo.cgi?$QUERY_STRING" -->
+----- Included part end   -----<br>
+</body>
+</html>

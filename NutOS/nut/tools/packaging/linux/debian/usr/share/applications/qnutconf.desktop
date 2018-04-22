@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Configurator
+Exec=qnutconf
+Terminal=false
+Icon=/usr/local/share/doc/ethernut/nut/tools/qnutconf/src/images/application.xpm
+Comment=Nut/OS Configurator
+Categories=Development;
+
