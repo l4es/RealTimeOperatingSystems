@@ -103,3 +103,6 @@
 [submodule "Demos/STM32_FreeRTOS_nWatch"]
 	path = Demos/STM32_FreeRTOS_nWatch
 	url = https://github.com/klonyyy/nWatch.git
+[submodule "Demos/STM32_DistoRTOS_Examples"]
+	path = Demos/STM32_DistoRTOS_Examples
+	url = https://github.com/DISTORTEC/distortosExamples.git
