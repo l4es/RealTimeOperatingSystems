@@ -76,3 +76,30 @@
 [submodule "tneo"]
 	path = tneo
 	url = https://github.com/dimonomid/tneo.git
+[submodule "Demos/LPC2148_FreeRTOS_Copter"]
+	path = Demos/LPC2148_FreeRTOS_Copter
+	url = https://github.com/t413/os_copter.git
+[submodule "Demos/STM32_FreeRTOS_CarTracker"]
+	path = Demos/STM32_FreeRTOS_CarTracker
+	url = https://github.com/x893/CarTracker.git
+[submodule "Demos/LPC1769_FreeOSEK"]
+	path = Demos/LPC1769_FreeOSEK
+	url = https://github.com/ciaa/FreeOSEK_LPC1769.git
+[submodule "Demos/STM32_FreeRTOS_nWatchv2"]
+	path = Demos/STM32_FreeRTOS_nWatchv2
+	url = https://github.com/klonyyy/nWatchv2.git
+[submodule "Demos/STM32F4_Chibios_lwIP_PPPoS"]
+	path = Demos/STM32F4_Chibios_lwIP_PPPoS
+	url = https://github.com/wizhippo/stm32f4-chibios-lwip-pppos.git
+[submodule "Demos/STM32F4_StateOS_Template"]
+	path = Demos/STM32F4_StateOS_Template
+	url = https://github.com/stateos/StateOS-STM32F4Discovery.git
+[submodule "Demos/STM32F4_IntrOS_Template"]
+	path = Demos/STM32F4_IntrOS_Template
+	url = https://github.com/stateos/IntrOS-STM32F4Discovery.git
+[submodule "Demos/STM32F7_FreeRTOS_RobotArm"]
+	path = Demos/STM32F7_FreeRTOS_RobotArm
+	url = https://github.com/greenfox-academy/totoro-totorobot-robotarm.git
+[submodule "Demos/STM32_FreeRTOS_nWatch"]
+	path = Demos/STM32_FreeRTOS_nWatch
+	url = https://github.com/klonyyy/nWatch.git

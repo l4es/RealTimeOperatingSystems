@@ -1,0 +1,87 @@
+OSEK OSEK {
+
+OS	ExampleOS {
+    STATUS = EXTENDED;
+    ERRORHOOK = TRUE;
+    PRETASKHOOK = FALSE;
+	POSTTASKHOOK = FALSE;
+	STARTUPHOOK = FALSE;
+	SHUTDOWNHOOK = FALSE;
+	USERESSCHEDULER = FALSE;
+	MEMMAP = FALSE;
+};
+
+APPMODE = AppMode1;
+
+/* IPC usaged events */
+EVENT = evAlarmSPIMasterTransmit;
+EVENT = evIPCDataReceived;
+
+/* IPC usage task */
+TASK TaskIPC {
+    PRIORITY = 7;
+    ACTIVATION = 1;
+    AUTOSTART = TRUE {
+        APPMODE = AppMode1;
+    }
+    STACK = 512;
+    TYPE = EXTENDED;
+    SCHEDULE = FULL;
+    EVENT = evIPCDataReceived;
+    EVENT = evAlarmSPIMasterTransmit;
+}
+
+/* Demo application usage task */
+TASK TaskDemo {
+    PRIORITY = 2;
+    ACTIVATION = 1;
+    AUTOSTART = TRUE {
+        APPMODE = AppMode1;
+    }
+    STACK = 512;
+    TYPE = EXTENDED;
+    SCHEDULE = FULL;
+}
+
+TASK TaskIdle {
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    AUTOSTART = TRUE {
+        APPMODE = AppMode1;
+    }
+    STACK = 512;
+    TYPE = EXTENDED;
+    SCHEDULE = FULL;
+}
+
+/* IPC Master transfer periodic alarm */
+ALARM AlarmSPIMasterTransmit {
+    COUNTER = HardwareCounter;
+    ACTION = SETEVENT {
+      TASK = TaskIPC;
+      EVENT = evAlarmSPIMasterTransmit;
+    };
+}
+
+ISR EXTI0_Handler {
+    CATEGORY  = 2;
+    PRIORITY  = 1;
+	INTERRUPT = EXTI0;
+    STACKSIZE = 512;
+};
+
+ISR DMA2_Stream2_Handler {
+    CATEGORY  = 2;
+    PRIORITY  = 1;
+	INTERRUPT = DMA2_Stream2;
+    STACKSIZE = 512;
+};
+
+COUNTER HardwareCounter {
+   MAXALLOWEDVALUE = 60000000;
+   TICKSPERBASE = 1;
+   MINCYCLE = 1;
+   TYPE = HARDWARE;
+};
+
+};
