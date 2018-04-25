@@ -73,3 +73,6 @@
 [submodule "nOS-examples"]
 	path = nOS-examples
 	url = git@github.com:jimtremblay/nOS-examples.git
+[submodule "tneo"]
+	path = tneo
+	url = https://github.com/dimonomid/tneo.git
