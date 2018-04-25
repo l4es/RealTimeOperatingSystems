@@ -106,3 +106,6 @@
 [submodule "Demos/STM32_DistoRTOS_Examples"]
 	path = Demos/STM32_DistoRTOS_Examples
 	url = https://github.com/DISTORTEC/distortosExamples.git
+[submodule "Embox"]
+	path = Embox
+	url = https://github.com/embox/embox.git
