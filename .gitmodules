@@ -109,3 +109,6 @@
 [submodule "Embox"]
 	path = Embox
 	url = https://github.com/embox/embox.git
+[submodule "Demos/NucleoF401-BRTOS"]
+	path = Demos/NucleoF401-BRTOS
+	url = https://github.com/miguelmoreto/NucleoF401-COIDE-BRTOS.git
