@@ -6,7 +6,7 @@
 	url = https://github.com/jameswalmsley/RaspberryPi-FreeRTOS.git
 [submodule "ESP-Open-RTOS"]
 	path = ESP-Open-RTOS
-	url = git@github.com:SuperHouse/esp-open-rtos.git
+	url = https://github.com/SuperHouse/esp-open-rtos.git
 [submodule "FreeRTOS-Addons"]
 	path = FreeRTOS-Addons
 	url = https://github.com/michaelbecker/freertos-addons.git
@@ -15,64 +15,64 @@
 	url = https://github.com/istarc/stm32.git
 [submodule "Zephyr"]
 	path = Zephyr
-	url = git@github.com:zephyrproject-rtos/zephyr.git
+	url = https://github.com/zephyrproject-rtos/zephyr.git
 [submodule "Miosix/kernel"]
 	path = Miosix/kernel
-	url = git@github.com:fedetft/miosix-kernel.git
+	url = https://github.com/fedetft/miosix-kernel.git
 [submodule "Miosix/gui"]
 	path = Miosix/gui
-	url = git@github.com:fedetft/mxgui.git
+	url = https://github.com/fedetft/mxgui.git
 [submodule "Miosix/usb"]
 	path = Miosix/usb
-	url = git@github.com:fedetft/mxusb.git
+	url = https://github.com/fedetft/mxusb.git
 [submodule "Miosix/serial-port"]
 	path = Miosix/serial-port
-	url = git@github.com:fedetft/serial-port.git
+	url = https://github.com/fedetft/serial-port.git
 [submodule "OSJ5"]
 	path = OSJ5
-	url = git@github.com:jaw0/osj5.git
+	url = https://github.com/jaw0/osj5.git
 [submodule "nOS"]
 	path = nOS
-	url = git@github.com:jimtremblay/nOS.git
+	url = https://github.com/jimtremblay/nOS.git
 [submodule "amazon-freertos"]
 	path = Amazon-FreeRTOS
-	url = git@github.com:aws/amazon-freertos.git
+	url = https://github.com/aws/amazon-freertos.git
 [submodule "DistoRTOS"]
 	path = DistoRTOS
-	url = git@github.com:DISTORTEC/distortos.git
+	url = https://github.com/DISTORTEC/distortos.git
 [submodule "F4OS"]
 	path = F4OS
-	url = git@github.com:prattmic/F4OS.git
+	url = https://github.com/prattmic/F4OS.git
 [submodule "TrampolineRTOS/trampoline"]
 	path = TrampolineRTOS/trampoline
-	url = git@github.com:TrampolineRTOS/trampoline.git
+	url = https://github.com/TrampolineRTOS/trampoline.git
 [submodule "Freenivi/freenivi-os"]
 	path = Freenivi/freenivi-os
-	url = git@github.com:Openwide-Ingenierie/freenivi-os.git
+	url = https://github.com/Openwide-Ingenierie/freenivi-os.git
 [submodule "Freenivi/meta-freenivi"]
 	path = Freenivi/meta-freenivi
-	url = git@github.com:Openwide-Ingenierie/meta-freenivi.git
+	url = https://github.com/Openwide-Ingenierie/meta-freenivi.git
 [submodule "Freenivi/meta-freenivi-sdk"]
 	path = Freenivi/meta-freenivi-sdk
-	url = git@github.com:Openwide-Ingenierie/meta-freenivi-sdk.git
+	url = https://github.com/Openwide-Ingenierie/meta-freenivi-sdk.git
 [submodule "scmRTOS"]
 	path = scmRTOS
-	url = git@github.com:scmrtos/scmrtos.git
+	url = https://github.com/scmrtos/scmrtos.git
 [submodule "StateOS"]
 	path = StateOS
-	url = git@github.com:stateos/StateOS.git
+	url = https://github.com/stateos/StateOS.git
 [submodule "IntrOS"]
 	path = IntrOS
-	url = git@github.com:stateos/IntrOS.git
+	url = https://github.com/stateos/IntrOS.git
 [submodule "Mark3OS"]
 	path = Mark3OS
-	url = git@github.com:moslevin/Mark3.git
+	url = https://github.com/moslevin/Mark3.git
 [submodule "picoOS"]
 	path = picoOS
-	url = git@github.com:AriZuu/picoos.git
+	url = https://github.com/AriZuu/picoos.git
 [submodule "nOS-examples"]
 	path = nOS-examples
-	url = git@github.com:jimtremblay/nOS-examples.git
+	url = https://github.com/jimtremblay/nOS-examples.git
 [submodule "tneo"]
 	path = tneo
 	url = https://github.com/dimonomid/tneo.git
