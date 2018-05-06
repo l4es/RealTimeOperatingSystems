@@ -115,3 +115,6 @@
 [submodule "Demos/STM32F4-Nuttx"]
 	path = Demos/STM32F4_Nuttx
 	url = https://github.com/robbie-cao/nuttx-stm32f4.git
+[submodule "VxWorks-Like-Kernel"]
+	path = VxWorks-Like-Kernel
+	url = https://github.com/wenruimeng/vxworks-like-kernel.git
