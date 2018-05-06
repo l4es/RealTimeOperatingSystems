@@ -118,3 +118,18 @@
 [submodule "VxWorks-Like-Kernel"]
 	path = VxWorks-Like-Kernel
 	url = https://github.com/wenruimeng/vxworks-like-kernel.git
+[submodule "Tock/tock"]
+	path = Tock/tock
+	url = https://github.com/tock/tock.git
+[submodule "Tock/tock-bootloader"]
+	path = Tock/tock-bootloader
+	url = https://github.com/tock/tock-bootloader.git
+[submodule "Tock/tockloader"]
+	path = Tock/tockloader
+	url = https://github.com/tock/tockloader.git
+[submodule "Demos/STM32_TockOS"]
+	path = Demos/STM32_TockOS
+	url = https://github.com/tock/tock-stm32.git
+[submodule "Demos/K66_TockOS"]
+	path = Demos/K66_TockOS
+	url = https://github.com/tock/tock-teensy.git
