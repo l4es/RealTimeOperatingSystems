@@ -113,5 +113,5 @@
 	path = Demos/NucleoF401-BRTOS
 	url = https://github.com/miguelmoreto/NucleoF401-COIDE-BRTOS.git
 [submodule "Demos/STM32F4-Nuttx"]
-	path = Demos/STM32F4-Nuttx
+	path = Demos/STM32F4_Nuttx
 	url = https://github.com/robbie-cao/nuttx-stm32f4.git
