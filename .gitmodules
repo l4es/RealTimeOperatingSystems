@@ -133,3 +133,6 @@
 [submodule "Demos/K66_TockOS"]
 	path = Demos/K66_TockOS
 	url = https://github.com/tock/tock-teensy.git
+[submodule "bkernel"]
+	path = bkernel
+	url = https://github.com/rasendubi/bkernel.git
