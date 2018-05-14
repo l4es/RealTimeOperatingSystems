@@ -136,3 +136,6 @@
 [submodule "bkernel"]
 	path = bkernel
 	url = https://github.com/rasendubi/bkernel.git
+[submodule "cmus"]
+	path = cmus
+	url = https://github.com/cmus/cmus.git
