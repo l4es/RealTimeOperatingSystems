@@ -139,3 +139,9 @@
 [submodule "cmus"]
 	path = cmus
 	url = https://github.com/cmus/cmus.git
+[submodule "xinu"]
+	path = xinu
+	url = https://github.com/xinu-os/xinu.git
+[submodule "zircon"]
+	path = zircon
+	url = https://github.com/fuchsia-mirror/zircon.git
