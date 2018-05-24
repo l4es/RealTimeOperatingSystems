@@ -145,3 +145,6 @@
 [submodule "zircon"]
 	path = zircon
 	url = https://github.com/fuchsia-mirror/zircon.git
+[submodule "cosix"]
+	path = cosix
+	url = https://github.com/sgielen/cosix.git
