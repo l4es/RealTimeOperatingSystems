@@ -148,3 +148,12 @@
 [submodule "cosix"]
 	path = cosix
 	url = https://github.com/sgielen/cosix.git
+[submodule "RT-Thread/rt-thread"]
+	path = RT-Thread/rt-thread
+	url = https://github.com/RT-Thread/rt-thread.git
+[submodule "RT-Thread/rtthread-apps"]
+	path = RT-Thread/rtthread-apps
+	url = https://github.com/RT-Thread/rtthread-apps.git
+[submodule "RT-Thread/IoT_Camera"]
+	path = RT-Thread/IoT_Camera
+	url = https://github.com/RT-Thread/IoT_Camera.git
