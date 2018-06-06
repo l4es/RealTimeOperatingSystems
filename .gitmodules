@@ -157,3 +157,6 @@
 [submodule "RT-Thread/IoT_Camera"]
 	path = RT-Thread/IoT_Camera
 	url = https://github.com/RT-Thread/IoT_Camera.git
+[submodule "erika3"]
+	path = erika3
+	url = https://github.com/evidence/erika3.git
