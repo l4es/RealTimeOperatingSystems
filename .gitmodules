@@ -160,3 +160,9 @@
 [submodule "erika3"]
 	path = erika3
 	url = https://github.com/evidence/erika3.git
+[submodule "Demos/STM32_RT-Thread_Radio"]
+	path = Demos/STM32_RT-Thread_Radio
+	url = https://github.com/jiezhi320/stm32-radio.git
+[submodule "Demos/STM32F4_RT-Thread_Realboard"]
+	path = Demos/STM32F4_RT-Thread_Realboard
+	url = https://github.com/RT-Thread/realboard-stm32f4.git
